@@ -1,34 +1,12 @@
 {
     "services": {
-        "accounts": {
-            "apiName": "accounts",
-            "host": "http://localhost",
-            "post": 5001,
-            "url": "http://localhost:5001/"
-        },
-        "invoices": {
-            "apiName": "invoices",
-            "host": "http://localhost",
-            "post": 5002,
-            "url": "http://localhost:5002/"
-        },
-        "products": {
-            "apiName": "products",
-            "host": "http://localhost",
-            "post": 5003,
-            "url": "http://localhost:5003/"
-        },
-        "testapi": {
-            "apiName": "testapi",
-            "host": "http://localhost",
-            "post": 3001,
-            "url": "http://localhost:3001/"
-        },
-        "registrytest": {
-            "apiName": "registrytest",
-            "host": "http://localhost",
-            "post": 3002,
-            "url": "http://localhost:3002/"
-        }
+        "accounts": {"apiName": "accounts", "protocol": "http", "host": "localhost", "port": 5001, "url": "http://localhost:5001/"},
+        "invoices": {"apiName": "invoices", "protocol": "http", "host": "localhost", "port": 5002, "url": "http://localhost:5002/"},
+        "products": {"apiName": "products", "protocol": "http", "host": "localhost", "port": 5003, "url": "http://localhost:5003/"},
+        "fakeapi": {"apiName": "fakeapi", "protocol": "http", "host": "localhost", "port": 3002, "url": "http://localhost:3002/"},
+        "registrytest": {"apiName": "registrytest", "protocol": "http", "host": "localhost", "port": 3002, "url": "http://localhost:3002/"},
+        "testregister1": {"apiName": "testregister1", "protocol": "http", "host": "localhost", "port": 3003, "url": "http://localhost:3003/"},
+        "testregister2": {"apiName": "testregister2", "protocol": "http", "host": "localhost", "port": 3004, "url": "http://localhost:3004/"},
+        "testregister3": {"apiName": "testregister3", "protocol": "http", "host": "localhost", "port": 3005, "url": "http://localhost:3005/"}
     }
 }
