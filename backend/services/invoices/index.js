@@ -38,9 +38,6 @@ app.use(function (req, res, next) {
     next();
   });
 
-// const connectNeo = require('./middlewares/neo4j').connectNeo4j
-
-// connectNeo()  
 app.use(cookieParser());
 
 app.get('/', (req, res) => {

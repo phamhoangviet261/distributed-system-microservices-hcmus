@@ -43,9 +43,7 @@ app.use(function (req, res, next) {
     next();
   });
 
-// const connectNeo = require('./middlewares/neo4j').connectNeo4j
 
-// connectNeo()  
 app.use(cookieParser());
 
 app.use('/accounts', httpProxy('http://localhost:5001', {timeout: 3000}));

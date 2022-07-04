@@ -38,11 +38,11 @@ app.use(function (req, res, next) {
     next();
   });
 
-// const connectNeo = require('./middlewares/neo4j').connectNeo4j
-
-// connectNeo()  
 app.use(cookieParser());
 
+app.use('/districts', require('./routes/districts'));
+app.use('/auth', require('./routes/auth'));
+app.use('/accounts', require('./routes/accounts'));
 app.get('/', (req, res) => {
     return res.status(400).json({message: "ACCOUNT API"})
 })
