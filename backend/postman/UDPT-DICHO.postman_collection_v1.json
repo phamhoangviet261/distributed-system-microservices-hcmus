@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "bac1bf4d-2db8-44f5-8887-e9eb313086d4",
+		"name": "UDPT-DICHO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21560167"
+	},
+	"item": [
+		{
+			"name": "LOGIN/REGISTER",
+			"item": [
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/accounts",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MANAGE ACCOUNT",
+			"item": []
+		},
+		{
+			"name": "MANAGE PRODUCTS",
+			"item": []
+		},
+		{
+			"name": "MANAGE INVOICES",
+			"item": []
+		}
+	]
+}
