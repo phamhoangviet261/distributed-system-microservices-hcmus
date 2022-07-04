@@ -1,0 +1,34 @@
+{
+    "services": {
+        "accounts": {
+            "apiName": "accounts",
+            "host": "http://localhost",
+            "post": 5001,
+            "url": "http://localhost:5001/"
+        },
+        "invoices": {
+            "apiName": "invoices",
+            "host": "http://localhost",
+            "post": 5002,
+            "url": "http://localhost:5002/"
+        },
+        "products": {
+            "apiName": "products",
+            "host": "http://localhost",
+            "post": 5003,
+            "url": "http://localhost:5003/"
+        },
+        "testapi": {
+            "apiName": "testapi",
+            "host": "http://localhost",
+            "post": 3001,
+            "url": "http://localhost:3001/"
+        },
+        "registrytest": {
+            "apiName": "registrytest",
+            "host": "http://localhost",
+            "post": 3002,
+            "url": "http://localhost:3002/"
+        }
+    }
+}
