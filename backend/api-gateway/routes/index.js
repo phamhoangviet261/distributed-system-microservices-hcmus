@@ -4,26 +4,27 @@ const axios = require('axios');
 const registry = require('./registry.json');
 const fs = require('fs');
 
-router.all('/:apiName/:path', async (req, res, next) => {
+router.use('/:apiName/:path', async (req, res, next) => {
     try {
         const {apiName, path} = req.params;
-        console.log(req.params.apiName);
-
+        console.log(`Service [${apiName}] has been called`);
+        console.log(path);
         if (!registry.services[apiName]) {
             console.log('API name does not exist');
             res.send('API name does not exist');
             return;
         }
 
-        const resfake = await axios({
+        const option = {
             method: req.method,
             url: registry.services[apiName].url + path,
             headers: req.headers,
             data: req.body
-        });
-        console.log(resfake.status);
-        // console.log(resfake.data);
-        res.send(resfake.data);
+        };
+
+        const axiosRespond = await axios(option);
+
+        res.send(axiosRespond.data);
     } catch (error) {
         console.log(error);
     }
@@ -32,6 +33,7 @@ router.all('/:apiName/:path', async (req, res, next) => {
 router.post('/register', async (req, res, next) => {
     try {
         const resgistration = req.body;
+        resgistration.url = resgistration.protocol + '://' + resgistration.host + ':' + resgistration.port + '/';
         registry.services[resgistration.apiName] = {...resgistration};
 
         fs.writeFile('./routes/registry.json', JSON.stringify(registry), (error) => {

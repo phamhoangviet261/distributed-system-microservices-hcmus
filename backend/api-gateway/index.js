@@ -8,6 +8,8 @@ const routes = require('./routes');
 // const httpProxy = require('express-http-proxy');
 
 const app = express();
+// disables caching
+app.disable('etag');
 // enable view JSON generation for requests
 app.use(express.json());
 // enable CORS middleware
