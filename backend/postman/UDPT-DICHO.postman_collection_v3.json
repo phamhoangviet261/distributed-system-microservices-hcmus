@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "bac1bf4d-2db8-44f5-8887-e9eb313086d4",
+		"name": "UDPT-DICHO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21560167"
+	},
+	"item": [
+		{
+			"name": "LOGIN/REGISTER",
+			"item": [
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"0123456789\",\r\n    \"password\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/accounts/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"0123456789\",\r\n    \"password\": \"1\",\r\n    \"name\": \"Super Admin\",\r\n    \"dob\": \"2000-08-31\",\r\n    \"age\": 22,\r\n    \"ccid\": \"259697852\",\r\n    \"gender\": \"Nam\",\r\n    \"address\": {\r\n        \"districtId\": 760,\r\n        \"wardId\": 26740,\r\n        \"detail\": \"Số 11, đường Hai Bà Trưng\"\r\n    },\r\n    \"invoices\": [],\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/accounts/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MANAGE ACCOUNT",
+			"item": [
+				{
+					"name": "GET ALL DISTRICTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5001/districts",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"districts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET DISTRICT BY CODE/ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5001/districts/760",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"districts",
+								"760"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL ACCOUNTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/accounts/accounts",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ACCOUNT BY PHONENUMBER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/accounts/accounts/0123456789",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"accounts",
+								"0123456789"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MANAGE PRODUCTS",
+			"item": [
+				{
+					"name": "GET ALL PRODUCTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/products/products",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"products",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PRODUCT BY ID",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MANAGE INVOICES",
+			"item": []
+		},
+		{
+			"name": "OTHERS",
+			"item": [
+				{
+					"name": "GET ALL WARDS/DISTRICT",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "ewoiQWNjZXNzS2V5IjoiclRraFlDQndITSIsCiJTZWNyZXRLZXkiOiJEV2tRZ1kxWVNTIiwKIkFwcE5hbWUiOiAiVFBIQ00iLAoiUGFydG5lckNvZGUiOiAiMDAwLjAwLjAxLkgyOSIsCiJQYXJ0bmVyQ29kZUN1cyI6ICIwMDAuMDAuMDEuSDI5Igp9Cg==",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://provinces.open-api.vn/api/",
+							"protocol": "https",
+							"host": [
+								"provinces",
+								"open-api",
+								"vn"
+							],
+							"path": [
+								"api",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
