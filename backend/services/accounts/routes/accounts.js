@@ -18,4 +18,15 @@ router.get('/', async (req, res, next) => {
     
 })
 
+router.get('/:phoneNumber', async (req, res, next) => {
+    try {
+        const account = await Account.findOne({phoneNumber: req.params.phoneNumber});
+        return res.status(200).json({data: account});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+    
+})
+
 module.exports = router
