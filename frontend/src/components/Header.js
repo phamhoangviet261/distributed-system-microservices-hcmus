@@ -68,15 +68,17 @@ const Center = styled.div`
     display: flex;
     flex: 1;
     text-align: center;
-    justify-content: space-evenly;
-    margin-left: 40px;
+    justify-content: flex-start;
+    margin-left: 60px;
+    & > a {
+        margin-right: 40px;
+    }
     @media (max-width: 768px) {
         display: none;
     }
 `;
 
 const Right = styled.div`
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -151,7 +153,10 @@ export class Header extends Component {
         this.state = {
             linkToMyUser: localStorage.getItem('UDPTuser') ? `/aboutme/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
             linkToMyOrder: localStorage.getItem('UDPTuser') ? `/myorder/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
-            linkToNearest: localStorage.getItem('UDPTuser') ? `/nearest/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``
+            linkToNearest: localStorage.getItem('UDPTuser') ? `/nearest/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
+            linkToMyStore: localStorage.getItem('UDPTuser') ? `/store/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
+            userInfo: JSON.parse(localStorage.getItem('UDPTuser')),
+            isLogin: localStorage.getItem('UDPTisLogin')
         };
     }
 
@@ -170,12 +175,14 @@ export class Header extends Component {
                         <StyledLink to="/">Trang chủ</StyledLink>
                         <StyledLink to="/collections/1">Sản phẩm</StyledLink>
                         {localStorage.getItem('UDPTisLogin') && <StyledLink to={this.state.linkToNearest}>Cửa hàng gần nhất</StyledLink>}
+                        {this.state.isLogin && this.state.userInfo.typeAccount === 'customer' && <StyledLink to="/store/register">Trở thành Người bán</StyledLink>}
+                        {this.state.isLogin && this.state.userInfo.typeAccount === 'store' && <StyledLink to={this.state.linkToMyStore}>Kênh người bán</StyledLink>}
                     </Center>
                     <Right>
                         {localStorage.getItem('UDPTisLogin') && (
                             <StyledLink to={this.state.linkToMyUser}>
                                 <MenuItem style={{transform: 'translateY(0px)'}} className="menu-item">
-                                    Xin chào, {JSON.parse(localStorage.getItem('UDPTuser')).fullname}
+                                    Xin chào, {this.state.userInfo.fullname}
                                 </MenuItem>
                             </StyledLink>
                         )}
