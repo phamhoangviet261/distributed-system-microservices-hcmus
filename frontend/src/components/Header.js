@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const Container = styled.div`
     position: fixed;
+    font-size: 16px;
     z-index: 10;
     display: flex;
     width: 100vw;
@@ -86,7 +87,7 @@ const Right = styled.div`
 `;
 
 const MenuItem = styled.div`
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     margin-left: 25px;
     padding: 0 10px;
@@ -148,11 +149,12 @@ export class Header extends Component {
         super(props);
         console.log('hehe:', this.props.numberCart);
         this.state = {
-            linkToMyUser: localStorage.getItem('UDPTuser') ? `/aboutme/${JSON.parse(localStorage.getItem('UDPTuser')).username}` : ``,
-            linkToMyOrder: localStorage.getItem('UDPTuser') ? `/myorder/${JSON.parse(localStorage.getItem('UDPTuser')).username}` : ``,
-            linkToNearest: localStorage.getItem('UDPTuser') ? `/nearest/${JSON.parse(localStorage.getItem('UDPTuser')).username}` : ``
+            linkToMyUser: localStorage.getItem('UDPTuser') ? `/aboutme/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
+            linkToMyOrder: localStorage.getItem('UDPTuser') ? `/myorder/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
+            linkToNearest: localStorage.getItem('UDPTuser') ? `/nearest/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``
         };
     }
+
     render() {
         return (
             <Container id="header">
@@ -173,7 +175,7 @@ export class Header extends Component {
                         {localStorage.getItem('UDPTisLogin') && (
                             <StyledLink to={this.state.linkToMyUser}>
                                 <MenuItem style={{transform: 'translateY(0px)'}} className="menu-item">
-                                    Xin chào, {JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}
+                                    Xin chào, {JSON.parse(localStorage.getItem('UDPTuser')).fullname}
                                 </MenuItem>
                             </StyledLink>
                         )}
