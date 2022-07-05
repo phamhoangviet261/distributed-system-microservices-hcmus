@@ -8,7 +8,7 @@ const Account = require('../models/Account')
 // @route POST /api/auth/register
 // @desc register new user
 // @access public
-router.post('/register', async (req, res) => {       
+router.post('/register', async (req, res, next) => {       
     const {phone, password, name, age, address, status} = req.body;    
     // Validation
     if(!phone || !password) return res.status(400).json({success: false, message: 'Missing phone number or password'})
@@ -46,8 +46,9 @@ router.post('/register', async (req, res) => {
 // @route POST /api/auth/login
 // @desc login user
 // @access public
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
     const {phone, password} = req.body;
+    console.log({phone, password});
     // console.log("body", req.body);
     // Validation
     if(!phone || !password) return res.status(400).json({success: false, message: 'Missing phone or password'})

@@ -17,11 +17,11 @@ router.use('/:apiName/:path', async (req, res, next) => {
 
         const option = {
             method: req.method,
-            url: registry.services[apiName].url + path,
+            url: registry.services[apiName].url + path + req.path,
             headers: req.headers,
             data: req.body
         };
-
+        console.log(apiName, "/", path, req.path,);
         const axiosRespond = await axios(option);
 
         res.send(axiosRespond.data);

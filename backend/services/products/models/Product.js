@@ -12,6 +12,9 @@ const ProductSchema = new Schema({
     linkImg: String,
     description: String,
     price: String,
+    sold: Number,
+    rest: Number,
+    discount: Number,
     status: String
 }, { timestamps: true })
 

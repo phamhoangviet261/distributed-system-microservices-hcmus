@@ -41,6 +41,7 @@ app.use(function (req, res, next) {
 app.use(cookieParser());
 
 app.use('/products', require('./routes/products'));
+app.use('/stores', require('./routes/stores'));
 
 app.get('/', (req, res) => {
     return res.status(400).json({message: "PRODUCT API"})
