@@ -36,7 +36,7 @@ router.post('/register', async (req, res, next) => {
         //return token 
         const accessToken = jwt.sign({userId: cus._id}, process.env.ACCESS_TOKEN_SECRET)
         console.log("accessToken", accessToken);
-        return res.json({success: true, message: 'Register successfully', accessToken})
+        return res.json({success: true, message: 'Register successfully', accessToken, cus})
     } catch (error) {
         console.log("ERROR: ", error);
         return res.status(500).json({success: false, message: "Internal server error"})
@@ -81,7 +81,7 @@ router.post('/login', async (req, res, next) => {
             maxAge: 10000,
           })
         .status(200)
-        .json({success: true, message: 'Logged in successfully', phoneNumber :user.phoneNumber, accessToken})
+        .json({success: true, message: 'Logged in successfully', phoneNumber :user.phoneNumber, accessToken, user})
     } catch (error) {
         console.log("ERROR: ", error);
         return res.status(500).json({success: false, message: "Internal server error"})
