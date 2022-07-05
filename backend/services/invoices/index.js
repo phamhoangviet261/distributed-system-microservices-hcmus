@@ -40,6 +40,8 @@ app.use(function (req, res, next) {
 
 app.use(cookieParser());
 
+app.use('/invoices', require('./routes/invoices'));
+
 app.get('/', (req, res) => {
     return res.status(400).json({message: "INVOICE API"})
 })
