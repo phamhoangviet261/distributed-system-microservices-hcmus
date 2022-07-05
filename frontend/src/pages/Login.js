@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import React, {useEffect, useState, useContext} from 'react';
 import {LoginContext} from '../LoginContext';
-
+import myUrl from '../domain';
 const LoginContainter = styled.div`
     width: 100%;
     background: rgb(0, 212, 255);
@@ -79,7 +79,7 @@ const Login = () => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:5000/accounts/auth/login',
+            url: `${myUrl}/accounts/auth/login`,
             data: {
                 phone: username,
                 password: password
@@ -92,7 +92,8 @@ const Login = () => {
                 } else {
                     let userInfo = {
                         phoneNumber: res.data.phoneNumber,
-                        fullname: res.data.user.name
+                        fullname: res.data.user.name,
+                        typeAccount: res.data.typeAccount || 'store'
                     };
                     console.log('hello: ', res.data);
                     loginContext.updateLogin(loginContext.isLogin);

@@ -1,15 +1,13 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-import Banner1 from '../assets/h1.png';
-import Banner2 from '../assets/h2.png';
-import Banner3 from '../assets/h3.png';
-import Banner4 from '../assets/h4.png';
 import Product from '../components/Products';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
+import CategorySection from '../components/CategorySection';
 const Container = styled.div`
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -200,36 +198,7 @@ const Collection = (props) => {
 
     return (
         <Container>
-            <Banner>
-                <BannerItem image={Banner1}>
-                    <BannerWrapper onClick={() => (window.location = '/collections/1')}>
-                        <BannerTitle>Thực phẩm tươi sống</BannerTitle>
-                        <BannerTag></BannerTag>
-                        <BannerButton>MUA NGAY</BannerButton>
-                    </BannerWrapper>
-                </BannerItem>
-                <BannerItem onClick={() => (window.location = '/collections/2')} image={Banner2}>
-                    <BannerWrapper>
-                        <BannerTitle>Công nghệ phẩm</BannerTitle>
-                        <BannerTag></BannerTag>
-                        <BannerButton>MUA NGAY</BannerButton>
-                    </BannerWrapper>
-                </BannerItem>
-                <BannerItem onClick={() => (window.location = '/collections/3')} image={Banner3}>
-                    <BannerWrapper>
-                        <BannerTitle>Lương thực</BannerTitle>
-                        <BannerTag></BannerTag>
-                        <BannerButton>MUA NGAY</BannerButton>
-                    </BannerWrapper>
-                </BannerItem>
-                <BannerItem onClick={() => (window.location = '/collections/4')} image={Banner4}>
-                    <BannerWrapper>
-                        <BannerTitle>Nhu yếu phẩm cần thiết</BannerTitle>
-                        <BannerTag></BannerTag>
-                        <BannerButton>MUA NGAY</BannerButton>
-                    </BannerWrapper>
-                </BannerItem>
-            </Banner>
+            <CategorySection />
             <Wrap>
                 <SubCategory>
                     <h5>Danh mục phụ</h5>
