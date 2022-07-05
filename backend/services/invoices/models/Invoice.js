@@ -16,12 +16,13 @@ const InvoiceSchema = new Schema({
         detail: String
     }, 
     products: Array,
-    total: Number,
+    total: Number,    
+    history: Array,
     status: {
         type: String,
-        enum: ['To Pay', 'To Ship', 'To receive', 'Completed', 'Cancelled', 'Return Refund'],
+        enum: ['To Pay', 'To Ship', 'To Receive', 'Completed', 'Cancelled', 'Return Refund'],
         default: 'To Pay',
-    }
+    },
 }, { timestamps: true })
 
 const Status = {
