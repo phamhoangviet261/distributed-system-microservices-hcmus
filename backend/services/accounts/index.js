@@ -43,6 +43,10 @@ app.use(cookieParser());
 app.use('/districts', require('./routes/districts'));
 app.use('/auth', require('./routes/auth'));
 app.use('/accounts', require('./routes/accounts'));
+app.use('/testing', (req, res, next) => {
+  console.log('TESTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+  res.json({successful: true, message:'Success'});
+})
 app.get('/', (req, res) => {
     return res.status(400).json({message: "ACCOUNT API"})
 })

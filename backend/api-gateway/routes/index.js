@@ -21,12 +21,25 @@ router.use('/:apiName/:path', async (req, res, next) => {
             headers: req.headers,
             data: req.body
         };
-        console.log(apiName, "/", path, req.path,);
-        const axiosRespond = await axios(option);
+        console.log(req.method, ":", apiName, "/", path, req.path,);
+        try {
+            if(req.method == 'POST'){
+                const axiosRespond = await axios.post(option.url, option.data, option.headers);
+                res.send(axiosRespond.data);
+            }
+            else {
+                const axiosRespond = await axios(option);
+                res.send(axiosRespond.data);
+            }
+            
+        } catch (errors) {
+            return res.status(400).json({success: false, message: errors});
+        }
 
-        res.send(axiosRespond.data);
+        
     } catch (error) {
         console.log(error);
+        return res.status(400).json({success: false, message: error.message});
     }
 });
 
