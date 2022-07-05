@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-
+const axios = require('axios');
 const Invoice = require('../models/Invoice')
 
 const mongoose = require('mongoose')
@@ -31,7 +31,7 @@ router.post('/add', async (req, res, next) => {
     try {
         const invoices = await Invoice.find({});
 
-        const {storeId, userId, address, products, total} = req.body;
+        const {storeId, phoneNumber, address, products, total} = req.body;
         const history = [
             {
                 status: "To Pay",
@@ -58,9 +58,33 @@ router.post('/add', async (req, res, next) => {
                 timestamp: null,
             }
         ]
-        const i = new Invoice({id: `INV${invoices.length}`, storeId, userId, address, products, total, history});
+        const i = new Invoice({id: `INV${invoices.length}`, storeId, phoneNumber, address, products, total, history});
         const invoice = await i.save();
-        return res.status(200).json({data: invoice});
+
+        const optionsAddInvoiceToAccount = {
+            method: 'post',
+            url: 'http://localhost:5001/accounts/addInvoice',
+            data: {
+                "phoneNumber": phoneNumber,
+                invoice: `INV${invoices.length}`
+            },
+        };
+
+        const axiosRespondAddInvoiceToAccount = await axios(optionsAddInvoiceToAccount);
+
+
+        const optionsAddInvoiceToStore = {
+            method: 'post',
+            url: 'http://localhost:5003/stores/addInvoice',
+            data: {
+                "storeId": storeId,
+                invoice: `INV${invoices.length}`
+            },
+        };
+
+        const axiosRespondAddInvoiceToStore = await axios(optionsAddInvoiceToStore);
+
+        return res.status(200).json({messsage:"Add invoice id to account and store successfully", data: i});
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
