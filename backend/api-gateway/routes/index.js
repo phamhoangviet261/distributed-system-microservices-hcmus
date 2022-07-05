@@ -36,7 +36,8 @@ router.use('/:apiName', async (req, res, next) => {
         const options = {
             method: req.method,
             url: registry.services[apiName].url + path,
-            data: req.body
+            data: req.body,
+            headers: {'content-type': req.headers['content-type']}
         };
 
         const axiosRespond = await axios(options);
