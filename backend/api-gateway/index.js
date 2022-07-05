@@ -29,15 +29,8 @@ app.use(function (req, res, next) {
 
 app.use(cookieParser());
 
-// app.use('/accounts', httpProxy('http://localhost:5001', {timeout: 3000}));
-// app.use('/invoices', httpProxy('http://localhost:5002', {timeout: 3000}));
-// app.use('/products', httpProxy('http://localhost:5003', {timeout: 3000}));
-
 app.use('/', routes);
 
-// app.get('/', (req, res) => {
-//     return res.status(400).json({message: 'API GATEWAY'});
-// });
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
