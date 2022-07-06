@@ -139,4 +139,26 @@ router.post('/addProduct', async (req, res, next) => {
     }
 })
 
+router.post('/update', async (req, res, next) => {
+    try {
+        const {storeId, name, description, ownerId, address, products, invoices, status} = req.body;
+        const store = await Store.findOne({id: storeId});
+        if(!store) return res.status(404).json({success: false, message: 'Store not found'});
+        await Store.findOneAndUpdate({id: storeId}, {
+            name: name ? name : store.name, 
+            description: description ? description : store.description, 
+            ownerId: ownerId ? ownerId : store.ownerId, 
+            address: address? address : store.address, 
+            roducts: products ? products : store.products, 
+            invoices: invoices ? invoices : store.invoices, 
+            status: status ? status : store.status});
+        const newStore = await Store.findOne({id: storeId});
+        return res.status(200).json({data: newStore});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+    
+})
+
 module.exports = router

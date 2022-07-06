@@ -765,4 +765,33 @@ router.post('/add', async (req, res, next) => {
     
 })
 
+router.post('/update', async (req, res, next) => {
+    try {
+        const {productId, name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, status} = req.body;
+
+        const product = await Product.findOne({id: productId})
+
+        await Product.findOneAndUpdate({id: productId}, {
+            name: name, 
+            description: description ? description : product.description, 
+            linkImg: linkImg ? linkImg : product.linkImg,
+            price: price ? price : product.price, 
+            sold: sold ? sold : product.sold,
+            rest: rest ? rest : product.rest,
+            discount: discount ? discount : product.discount,
+            NSX: NSX ? NSX : product.NSX,
+            HSD: HSD ? HSD : product.HSD,
+            rating: rating ? rating : product.rating,
+            reviews: reviews ? reviews : product.reviews,
+            status: status ? status : product.status
+        });
+        const newProduct = await Product.findOne({id: productId});
+        return res.status(200).json({data: newProduct});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+    
+})
+
 module.exports = router
