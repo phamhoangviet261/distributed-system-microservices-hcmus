@@ -72,4 +72,29 @@ router.post('/addInvoice', async (req, res, next) => {
     
 })
 
+router.post('/update', async (req, res, next) => {
+    try {
+        const {id, phoneNumber, name, dob, age, ccid, gender, address, typeAccount, invoices, status} = req.body;
+        const account = await Account.findOne({id: id});
+        if(!account) return res.status(404).json({success: false, message: 'Account not found'});
+        await Account.findOneAndUpdate({id: id}, {
+            phoneNumber: phoneNumber ? phoneNumber : account.phoneNumber,
+            name: name ? name : account.name,
+            dob: dob ? dob : account.dob,
+            age: age ? age : account.age,
+            ccid: ccid ? ccid : account.ccid,   
+            gender: gender ? gender : account.gender,
+            address: address ? address : account.address,
+            typeAccount: typeAccount ? typeAccount : account.typeAccount,
+            invoices: invoices ? invoices : account.invoices,
+            status: status ? status : account.status,
+        })
+        const newAccount = await Account.findOne({id: id});
+        return res.status(200).json({data: newAccount});
+    } catch (errors) {
+        return res.status(400).json({success: false, message: errors.message});
+    }
+    
+})
+
 module.exports = router
