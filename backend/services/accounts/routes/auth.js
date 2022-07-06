@@ -89,7 +89,7 @@ router.post('/login', async (req, res, next) => {
 })
 
 
-router.get('/changePassword', async (req, res, next) => {
+router.post('/changePassword', async (req, res, next) => {
     try {
         const {phoneNumber, oldPassword, newPassword} = req.body
         const account = await Account.findOne({phoneNumber: phoneNumber});
