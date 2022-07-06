@@ -40,14 +40,9 @@ app.use(function (req, res, next) {
 
 app.use(cookieParser());
 
-app.use('/products', require('./routes/products'));
-app.use('/stores', require('./routes/stores'));
-
-app.get('/', (req, res) => {
-    return res.status(400).json({message: "PRODUCT API"})
-})
-const PORT = process.env.PORT || 5003
+app.use('/', require('./routes/auth'));
+const PORT = process.env.PORT || 5004
 
 app.listen(PORT, () => {
-  console.log(`Server PRODUCTS started on PORT ${PORT}`)
+  console.log(`Server AUTHORIZATION started on PORT ${PORT}`)
 })

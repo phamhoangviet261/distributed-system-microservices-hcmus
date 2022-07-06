@@ -35,7 +35,6 @@ router.post('/register', async (req, res, next) => {
         await cus.save()
         //return token 
         const accessToken = jwt.sign({userId: cus._id}, process.env.ACCESS_TOKEN_SECRET)
-        console.log("accessToken", accessToken);
         return res.json({success: true, message: 'Register successfully', accessToken, cus})
     } catch (error) {
         console.log("ERROR: ", error);
@@ -48,7 +47,6 @@ router.post('/register', async (req, res, next) => {
 // @access public
 router.post('/login', async (req, res, next) => {
     const {phone, password} = req.body;
-    console.log({phone, password});
     // console.log("body", req.body);
     // Validation
     if(!phone || !password) return res.status(400).json({success: false, message: 'Missing phone or password'})
@@ -73,7 +71,6 @@ router.post('/login', async (req, res, next) => {
 
         //return token 
         const accessToken = "Bearer " + jwt.sign({userId: user._id}, process.env.ACCESS_TOKEN_SECRET)
-        console.log("accessToken", accessToken);
         return res
         .cookie("access_token", accessToken, {
             httpOnly: true,
