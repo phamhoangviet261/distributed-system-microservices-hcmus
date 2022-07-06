@@ -28,7 +28,7 @@ const ProductType = [
     {
         id: "lsp005",
         name: "Sản phẩm trứng",
-        idProductGroup: "nsp002"
+        idProductGroup: "nsp001"
     },
     {
         id: "lsp006",
@@ -714,14 +714,23 @@ router.get('/', async (req, res, next) => {
 
 router.get('/byGroup/:idGroup', async (req, res, next) => {
     try {
-        console.log(req.params.idGroup);
         const products = await Product.find({});
-        let r = ProductType.filter(item => item.idProductGroup == req.params.idGroup)
+        const fakeProducts = JSON.parse(JSON.stringify(products));
+        let r = ProductType.filter(item => item.idProductGroup == req.params.idGroup).map(item => item.id)
         // console.log("--> ", r.map(item => item.id == product.category).includes(true));
-        let result = products.filter(product => {
-            console.log(product, r.map(item => item.id == product.category).includes(true));
-            r.map(item => item.id == product.category).includes(true)
-        })
+        let result = fakeProducts.filter(item => r.includes(item.lsp))
+        return res.status(200).json({data: result, ProductType, ProductGroup});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+})
+
+router.get('/byType/:idType', async (req, res, next) => {
+    try {
+        const products = await Product.find({});
+        const fakeProducts = JSON.parse(JSON.stringify(products));
+        const result = fakeProducts.filter(product => product.lsp == req.params.idType);
         return res.status(200).json({data: result, ProductType, ProductGroup});
     } catch (errors) {
         console.log(errors);
