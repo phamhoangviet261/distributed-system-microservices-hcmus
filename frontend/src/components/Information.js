@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, {useEffect, useState, useRef} from 'react';
+import styled, {css} from 'styled-components';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
 const Container = styled.div`
     width: 100%;
 `;
@@ -73,22 +73,22 @@ const SelectTag = styled.select`
     }
 `;
 
-const Information = ({ userID }) => {
-    const [address, setAddress] = useState("");
-    const [birthday, setBirthday] = useState("");
+const Information = ({userID}) => {
+    const [address, setAddress] = useState('');
+    const [birthday, setBirthday] = useState('');
     const [data, setData] = useState([]);
 
-    const [wardID, setWardID] = useState("");
+    const [wardID, setWardID] = useState('');
     const [ward, setWard] = useState({});
     const [listWard, setListWard] = useState([]);
     const [listWardCurrent, setListWardCurrent] = useState([]);
 
-    const [districtID, setDistrictID] = useState("");
+    const [districtID, setDistrictID] = useState('');
     const [district, setDistrict] = useState({});
     const [listDistrict, setListDistrict] = useState([]);
     const [listDistrictCurrent, setListDistrictCurrent] = useState([]);
 
-    const [cityID, setCityID] = useState("");
+    const [cityID, setCityID] = useState('');
     const [city, setCity] = useState({});
     const [listCity, setListCity] = useState([]);
     const [listCityCurrent, setListCityCurrent] = useState([]);
@@ -96,168 +96,168 @@ const Information = ({ userID }) => {
     const [submit, setSubmit] = useState(false);
 
     // call API get Thông tin user
-    useEffect(() => {
-        let API_URL = "https://localhost:44352/api/customer/one";
-        // props.actFetchProductsRequest();
-        let method = "POST";
-        let d = axios({
-            method,
-            url: API_URL,
-            data: {
-                accountID: userID,
-            },
-        })
-            .catch((err) => {
-                console.log(err);
-            })
-            .then((res) => {
-                console.log("res.data ne: ", res.data);
-                setAddress(res.data.diaChi.diaChiChiTiet.diaChiChiTiet);
-                setBirthday(res.data.ngaySinh.split(" ")[0]);
-                setData(res.data);
-                console.log(res.data);
-                setWardID(res.data.diaChi.diaChiChiTiet.maPhuongXa);
-            });
-    }, []);
+    // useEffect(() => {
+    //     let API_URL = "https://localhost:44352/api/customer/one";
+    //     // props.actFetchProductsRequest();
+    //     let method = "POST";
+    //     let d = axios({
+    //         method,
+    //         url: API_URL,
+    //         data: {
+    //             accountID: userID,
+    //         },
+    //     })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    //         .then((res) => {
+    //             console.log("res.data ne: ", res.data);
+    //             setAddress(res.data.diaChi.diaChiChiTiet.diaChiChiTiet);
+    //             setBirthday(res.data.ngaySinh.split(" ")[0]);
+    //             setData(res.data);
+    //             console.log(res.data);
+    //             setWardID(res.data.diaChi.diaChiChiTiet.maPhuongXa);
+    //         });
+    // }, []);
 
-    // call API get all mã tỉnh
-    useEffect(() => {
-        let API_URL = "https://localhost:44352/api/province/all";
-        // props.actFetchProductsRequest();
-        let method = "GET";
-        let d = axios({
-            method,
-            url: API_URL,
-        })
-            .catch((err) => {
-                console.log(err);
-            })
-            .then((res) => {
-                setListCity(res.data);
-            });
-    }, []);
+    // // call API get all mã tỉnh
+    // useEffect(() => {
+    //     let API_URL = "https://localhost:44352/api/province/all";
+    //     // props.actFetchProductsRequest();
+    //     let method = "GET";
+    //     let d = axios({
+    //         method,
+    //         url: API_URL,
+    //     })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    //         .then((res) => {
+    //             setListCity(res.data);
+    //         });
+    // }, []);
 
-    // call API get all huyện của tỉnh
-    useEffect(() => {
-        let API_URL = "https://localhost:44352/api/district/all";
-        // props.actFetchProductsRequest();
-        let method = "GET";
-        let d = axios({
-            method,
-            url: API_URL,
-        })
-            .catch((err) => {
-                console.log(err);
-            })
-            .then((res) => {
-                setListDistrict(res.data);
-            });
-    }, []);
+    // // call API get all huyện của tỉnh
+    // useEffect(() => {
+    //     let API_URL = "https://localhost:44352/api/district/all";
+    //     // props.actFetchProductsRequest();
+    //     let method = "GET";
+    //     let d = axios({
+    //         method,
+    //         url: API_URL,
+    //     })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    //         .then((res) => {
+    //             setListDistrict(res.data);
+    //         });
+    // }, []);
 
-    // call API get all phường xã của huyện
-    useEffect(() => {
-        let API_URL = "https://localhost:44352/api/ward/all";
-        // props.actFetchProductsRequest();
-        let method = "GET";
-        let d = axios({
-            method,
-            url: API_URL,
-        })
-            .catch((err) => {
-                console.log(err);
-            })
-            .then((res) => {
-                setListWard(res.data);
-            });
-    }, []);
+    // // call API get all phường xã của huyện
+    // useEffect(() => {
+    //     let API_URL = "https://localhost:44352/api/ward/all";
+    //     // props.actFetchProductsRequest();
+    //     let method = "GET";
+    //     let d = axios({
+    //         method,
+    //         url: API_URL,
+    //     })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    //         .then((res) => {
+    //             setListWard(res.data);
+    //         });
+    // }, []);
 
-    // useEffect to get Ward when WardID has changed
-    useEffect(() => {
-        if (listWard.length > 0) {
-            // console.log("list Ward:", listWard)
-            let wardObj = listWard.filter(
-                (item, index) => item.maPhuongXa == wardID
-            );
-            setWard(wardObj[0]);
-            // console.log(wardID)
-            // console.log(wardObj)
-        }
-    }, [wardID, listWard]);
+    // // useEffect to get Ward when WardID has changed
+    // useEffect(() => {
+    //     if (listWard.length > 0) {
+    //         // console.log("list Ward:", listWard)
+    //         let wardObj = listWard.filter(
+    //             (item, index) => item.maPhuongXa == wardID
+    //         );
+    //         setWard(wardObj[0]);
+    //         // console.log(wardID)
+    //         // console.log(wardObj)
+    //     }
+    // }, [wardID, listWard]);
 
-    // useEffect to get District when Ward has changed
-    useEffect(() => {
-        if (listDistrict.length > 0 && ward) {
-            let districtObj = listDistrict.filter(
-                (item, index) => item.maQuanHuyen == ward.maQuanHuyen
-            );
-            setDistrict(districtObj[0]);
-            // console.log(districtObj)
-        }
-    }, [ward, listDistrict]);
+    // // useEffect to get District when Ward has changed
+    // useEffect(() => {
+    //     if (listDistrict.length > 0 && ward) {
+    //         let districtObj = listDistrict.filter(
+    //             (item, index) => item.maQuanHuyen == ward.maQuanHuyen
+    //         );
+    //         setDistrict(districtObj[0]);
+    //         // console.log(districtObj)
+    //     }
+    // }, [ward, listDistrict]);
 
-    // useEffect to get City when District has changed
-    useEffect(() => {
-        if (listCity.length > 0 && district) {
-            let cityObj = listCity.filter(
-                (item, index) => item.maTinhTP == district.maTinhTP
-            );
-            setCity(cityObj[0]);
-            // console.log(cityObj[0])
-        }
-    }, [district, listCity]);
+    // // useEffect to get City when District has changed
+    // useEffect(() => {
+    //     if (listCity.length > 0 && district) {
+    //         let cityObj = listCity.filter(
+    //             (item, index) => item.maTinhTP == district.maTinhTP
+    //         );
+    //         setCity(cityObj[0]);
+    //         // console.log(cityObj[0])
+    //     }
+    // }, [district, listCity]);
 
-    // useEffect to get wardID when ward has changed
-    useEffect(() => {
-        if (ward) {
-            setWardID(ward.maPhuongXa);
-        }
-    }, [ward]);
+    // // useEffect to get wardID when ward has changed
+    // useEffect(() => {
+    //     if (ward) {
+    //         setWardID(ward.maPhuongXa);
+    //     }
+    // }, [ward]);
 
-    // useEffect to get districtID when district has changed
-    useEffect(() => {
-        if (district) {
-            setDistrictID(district.maQuanHuyen);
-        }
-    }, [district]);
+    // // useEffect to get districtID when district has changed
+    // useEffect(() => {
+    //     if (district) {
+    //         setDistrictID(district.maQuanHuyen);
+    //     }
+    // }, [district]);
 
-    // useEffect to get cityID when city has changed
-    useEffect(() => {
-        if (city) {
-            setCityID(city.maTinhTP);
-        }
-    }, [city]);
+    // // useEffect to get cityID when city has changed
+    // useEffect(() => {
+    //     if (city) {
+    //         setCityID(city.maTinhTP);
+    //     }
+    // }, [city]);
 
-    // useEffect to get listDistrictCurrent when cityID has changed
-    useEffect(() => {
-        let lsDistrict = listDistrict.filter(
-            (item, index) => item.maTinhTP == cityID
-        );
-        setListDistrictCurrent(lsDistrict);
-    }, [cityID]);
+    // // useEffect to get listDistrictCurrent when cityID has changed
+    // useEffect(() => {
+    //     let lsDistrict = listDistrict.filter(
+    //         (item, index) => item.maTinhTP == cityID
+    //     );
+    //     setListDistrictCurrent(lsDistrict);
+    // }, [cityID]);
 
-    // useEffect to get listDistrictCurrent when cityID has changed
-    useEffect(() => {
-        let lsWard = listWard.filter(
-            (item, index) => item.maQuanHuyen == districtID
-        );
-        setListWardCurrent(lsWard);
-    }, [districtID]);
+    // // useEffect to get listDistrictCurrent when cityID has changed
+    // useEffect(() => {
+    //     let lsWard = listWard.filter(
+    //         (item, index) => item.maQuanHuyen == districtID
+    //     );
+    //     setListWardCurrent(lsWard);
+    // }, [districtID]);
 
     let submitFunc = () => {
         let value = {
             accountID: userID,
             hoTen: data.hoTen,
             sdt: data.sdt,
-            email: data.email,
+            email: data.email
         };
-        console.log("value:", value);
+        console.log('value:', value);
         axios({
-            method: "post",
-            url: "http://localhost:8080/api/customer/edit",
-            data: value,
+            method: 'post',
+            url: 'http://localhost:8080/api/customer/edit',
+            data: value
         })
             .then(function (res) {
-                console.log("res.data: ", res.data);
+                console.log('res.data: ', res.data);
             })
             .catch(function (err) {
                 console.log(err);
@@ -266,7 +266,7 @@ const Information = ({ userID }) => {
 
     return (
         <>
-            <Heading style={{ marginLeft: "76px" }}>Thông tin của bạn</Heading>
+            <Heading style={{marginLeft: '76px'}}>Thông tin của bạn</Heading>
             <FormGroup>
                 <Label htmlFor="name">Họ và tên:</Label>
                 <Input
@@ -274,7 +274,7 @@ const Information = ({ userID }) => {
                     value={data.hoTen}
                     name="name"
                     onChange={(e) => {
-                        setData({ ...data, hoTen: e.target.value });
+                        setData({...data, hoTen: e.target.value});
                     }}
                 ></Input>
             </FormGroup>
@@ -285,7 +285,7 @@ const Information = ({ userID }) => {
                     value={data.sdt}
                     name="phone"
                     onChange={(e) => {
-                        setData({ ...data, sdt: e.target.value });
+                        setData({...data, sdt: e.target.value});
                     }}
                 ></Input>
             </FormGroup>
@@ -296,7 +296,7 @@ const Information = ({ userID }) => {
                     value={data.email}
                     name="email"
                     onChange={(e) => {
-                        setData({ ...data, email: e.target.value });
+                        setData({...data, email: e.target.value});
                     }}
                 ></Input>
             </FormGroup>
@@ -307,7 +307,7 @@ const Information = ({ userID }) => {
                     value={data.gioiTinh}
                     name="sex"
                     onChange={(e) => {
-                        setData({ ...data, gioiTinh: e.target.value });
+                        setData({...data, gioiTinh: e.target.value});
                     }}
                     disabled
                 ></Input>
@@ -331,19 +331,14 @@ const Information = ({ userID }) => {
                     value={data.cmnd}
                     name="personID"
                     onChange={(e) => {
-                        setData({ ...data, cmnd: e.target.value });
+                        setData({...data, cmnd: e.target.value});
                     }}
                     disabled
                 ></Input>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="address">Địa chỉ:</Label>
-                <Input
-                    type="text"
-                    value={address}
-                    name="address"
-                    disabled
-                ></Input>
+                <Input type="text" value={address} name="address" disabled></Input>
             </FormGroup>
 
             <Submit onClick={() => submitFunc()}>Cập nhật</Submit>
