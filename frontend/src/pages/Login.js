@@ -93,7 +93,7 @@ const Login = () => {
                     let userInfo = {
                         phoneNumber: res.data.phoneNumber,
                         fullname: res.data.user.name,
-                        typeAccount: res.data.typeAccount || 'store'
+                        typeAccount: res.data.user.typeAccount || 'Customer'
                     };
                     console.log('hello: ', res.data);
                     loginContext.updateLogin(loginContext.isLogin);
