@@ -13,13 +13,13 @@ router.post('/register', async (req, res, next) => {
 
         fs.writeFile('./routes/registry.json', JSON.stringify(registry), (error) => {
             if (error) {
-                throw `Could not register ${resgistration.apiName} \n${error.message}`;
+                throw new Error(`Could not register [${resgistration.apiName}] \n${error.message}`);
             } else {
-                res.send('Successfully registered ' + resgistration.apiName);
+                res.send(`Successfully registered [${resgistration.apiName}]`);
             }
         });
     } catch (error) {
-        console.log('error: ', error.message);
+        console.log('Error: ', error.message);
         return res.status(400).json({success: false, message: error.message});
     }
 });
@@ -28,20 +28,20 @@ router.post('/unregister', async (req, res, next) => {
     try {
         const {apiName} = req.body;
         if (!registry.services[apiName]) {
-            throw `Service name [${apiName}] does not exist`;
+            throw new Error(`Service name [${apiName}] does not exist`);
         }
 
         delete registry.services[apiName];
 
         fs.writeFile('./routes/registry.json', JSON.stringify(registry), (error) => {
             if (error) {
-                res.send('Could not register ' + apiName + '\n' + error);
+                throw new Error(`Could not unregister [${apiName}] \n${error.message}`);
             } else {
-                res.send('Successfully registered ' + apiName);
+                res.send(`Successfully unregistered [${apiName}]`);
             }
         });
     } catch (error) {
-        console.log('error: ', error.message);
+        console.log('Error: ', error.message);
         return res.status(400).json({success: false, message: error.message});
     }
 });
@@ -51,7 +51,7 @@ router.use('/:apiName', async (req, res, next) => {
         const {apiName} = req.params;
         const {path} = req;
         if (!registry.services[apiName]) {
-            throw `Service name [${apiName}] does not exist`;
+            throw new Error(`Service name [${apiName}] does not exist`);
         }
         console.log(`Service [${apiName}] has been called`);
         const options = {
@@ -64,7 +64,7 @@ router.use('/:apiName', async (req, res, next) => {
         const axiosRespond = await axios(options);
         res.send(axiosRespond.data);
     } catch (error) {
-        console.log('error: ', error.message);
+        console.log('Error: ', error.message);
         return res.status(400).json({success: false, message: error.message});
     }
 });
