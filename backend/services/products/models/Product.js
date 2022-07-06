@@ -11,10 +11,14 @@ const ProductSchema = new Schema({
     name: String,
     linkImg: String,
     description: String,
-    price: String,
+    price: Number,
     sold: Number,
     rest: Number,
     discount: Number,
+    NSX: Date,
+    HSD: Date,
+    rating: Number,
+    reviews: Number,
     status: String
 }, { timestamps: true })
 

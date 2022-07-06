@@ -9,7 +9,7 @@ const Account = require('../models/Account')
 // @desc register new user
 // @access public
 router.post('/register', async (req, res, next) => {       
-    const {phone, password, name, age, address, status} = req.body;    
+    const {phone, password, name, age, address, status, type} = req.body;    
     // Validation
     if(!phone || !password) return res.status(400).json({success: false, message: 'Missing phone number or password'})
     try {
@@ -31,7 +31,7 @@ router.post('/register', async (req, res, next) => {
 
         const customerList = await Account.find({});
 
-        const cus = new Account({id: `ACC${customerList.length}`, phoneNumber: phone, password: hashedPassword, name: name, age: age || 18, address: address, invoices: [], status: status ? status : "Nam"})
+        const cus = new Account({id: `ACC${customerList.length}`, phoneNumber: phone, password: hashedPassword, name: name, age: age || 18, address: address, invoices: [], typeAccount: type ? type : "Customer", status: status ? status : "Nam"})
         await cus.save()
         //return token 
         const accessToken = jwt.sign({userId: cus._id}, process.env.ACCESS_TOKEN_SECRET)

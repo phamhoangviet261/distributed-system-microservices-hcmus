@@ -37,6 +37,11 @@ const AccountSchema = new Schema({
     address: {
         type: Object,
     },
+    typeAccount: {
+        type: String,
+        enum: ['Customer', 'Store'],
+        default: 'Customer',
+    },
     invoices: {
         type: Array,
     },
