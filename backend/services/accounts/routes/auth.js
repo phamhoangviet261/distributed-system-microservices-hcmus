@@ -88,4 +88,30 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
+
+router.get('/changePassword', async (req, res, next) => {
+    try {
+        const {phoneNumber, oldPassword, newPassword} = req.body
+        const account = await Account.findOne({phoneNumber: phoneNumber});
+        if(!account){
+            return res.status(200).json({success: false, message: 'Phone number not found'})
+        }
+
+        const hashedOldPassword = await bcrypt.hash(oldPassword, '$2b$10$o/hktJ4aYLFo3zuvTU80mO');
+        if(account.password !== hashedOldPassword){
+            return res.status(200).json({success: false, message: 'Old password is incorrect'})
+        }
+
+        const hashedNewPassword = await bcrypt.hash(newPassword, '$2b$10$o/hktJ4aYLFo3zuvTU80mO');
+        await Account.findOneAndUpdate({phoneNumber: phoneNumber}, {password: hashedNewPassword});
+
+        const newAccount = await Account.findOne({phoneNumber: phoneNumber});
+        return res.status(200).json({success: true, data: newAccount, message: 'New password is saved successfully'});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors});
+    }
+    
+})
+
 module.exports = router
