@@ -1,0 +1,693 @@
+{
+	"info": {
+		"_postman_id": "bac1bf4d-2db8-44f5-8887-e9eb313086d4",
+		"name": "UDPT-DICHO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21560167"
+	},
+	"item": [
+		{
+			"name": "LOGIN/REGISTER",
+			"item": [
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"0373597130\",\r\n    \"password\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/authorization/login",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"authorization",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"0283666999\",\r\n    \"password\": \"1\",\r\n    \"name\": \"Pham Thi Thu Phuong\",\r\n    \"dob\": \"2000-05-17\",\r\n    \"age\": 22,\r\n    \"ccid\": \"2569987456\",\r\n    \"gender\": \"Nữ\",\r\n    \"address\": {\r\n        \"districtId\": 760,\r\n        \"wardId\": 26740,\r\n        \"detail\": \"Số 11, đường Hai Bà Trưng\"\r\n    },\r\n    \"invoices\": [],\r\n    \"type\": \"Customer\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/authorization/register",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"authorization",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MANAGE ACCOUNT",
+			"item": [
+				{
+					"name": "GET ALL DISTRICTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5001/districts",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"districts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET DISTRICT BY CODE/ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5001/districts/760/26740",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"districts",
+								"760",
+								"26740"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL ACCOUNTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/accounts/accounts",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ACCOUNT BY PHONENUMBER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/accounts/accounts/0123456789",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"accounts",
+								"0123456789"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ACCOUNT INFORMATION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"ACC0\",\r\n    \"invoices\":[]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/accounts/accounts/update",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CHANGE PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\": \"0123456789\",\r\n    \"oldPassword\": \"2\",\r\n    \"newPassword\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/accounts/auth/changePassword",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts",
+								"auth",
+								"changePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MANAGE PRODUCTS",
+			"item": [
+				{
+					"name": "PRODUCTS",
+					"item": [
+						{
+							"name": "GET ALL PRODUCTS",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:5000/products/products",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET PRODUCT BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/products/products/sp002",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products",
+										"sp002"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GENERATE PRODUCTS DATA",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/products/products/",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL PRODUCT BY GROUP",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/products/products/byGroup/nsp001",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products",
+										"byGroup",
+										"nsp001"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL PRODUCT BY TYPE",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/products/products/byType/lsp001",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products",
+										"byType",
+										"lsp001"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD PRODUCT TO STORE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"storeId\": \"STORE0\",\r\n    \"products\": [\"sp001\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/products/stores/addProduct",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"stores",
+										"addProduct"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE PRODUCT INFORMATION",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": \"sp001\",\r\n    \"price\": 100000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/products/products/update",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CLEAR STORE ID IN PRODUCTS",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"storeId\": \"\",\r\n    \"listProductId\": [\"sp001\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/products/products/clearStoreId",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products",
+										"clearStoreId"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREATE NEW PRODUCT",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"New Product T7\",\r\n    \"description\": \"Product description\",\r\n    \"linkImg\": \"link\",\r\n    \"price\": 123000,\r\n    \"sold\": 10,\r\n    \"rest\": 10,\r\n    \"discount\": 10,\r\n    \"NSX\": \"2022-7-7\",\r\n    \"HSD\": \"2023-12-1\",\r\n    \"rating\": 0,\r\n    \"reviews\": 0,\r\n    \"storeId\": \"STORE0\",\r\n    \"storeName\": \"Cua Hang Bach Hoa Xanh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/products/products/add",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"products",
+										"add"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "STORES",
+					"item": [
+						{
+							"name": "GET ALL STORE",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/products/stores",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"stores"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ADD NEW STORE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"BXH Quan 12\",\r\n    \"description\": \"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\",\r\n    \"ownerId\": \"ACC1\",\r\n    \"address\": {\r\n        \"districtId\": 760,\r\n        \"wardId\": 26740,\r\n        \"detail\": \"Số 11, đường Hai Bà Trưng\"\r\n    },\r\n    \"products\": [\"sp001\", \"sp002\", \"sp003\", \"sp004\", \"sp005\", \"sp006\", \"sp007\", \"sp008\", \"sp009\"],\r\n    \"invoices\": [],\r\n    \"status\": \"active\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/products/stores/add",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"stores",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET STORE BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/products/stores/STORE0",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"stores",
+										"STORE0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET STORE BY OWNER ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:5000/products/stores/getByOwnerId/ACC0",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"stores",
+										"getByOwnerId",
+										"ACC0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE STORE INFORMATION",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"storeId\": \"STORE4\",\r\n    \"products\": [],\r\n    \"invoices\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/products/stores/update",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"products",
+										"stores",
+										"update"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "MANAGE INVOICES",
+			"item": [
+				{
+					"name": "GET ALL INVOICES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/invoices/invoices",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"invoices",
+								"invoices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET INVOICE BY ID",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ADD NEW INVOICE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"storeId\": \"STORE0\",\r\n    \"phoneNumber\" :\"0123456789\",\r\n    \"address\": {\r\n        \"districtId\": 760,\r\n        \"wardId\": 26740,\r\n        \"detail\": \"Số 11, đường Hai Bà Trưng\"\r\n    },\r\n    \"products\": [\r\n        {\r\n            \"productId\": \"sp001\",\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"productId\": \"sp002\",\r\n            \"quantity\": 1\r\n        },\r\n        {\r\n            \"productId\": \"sp003\",\r\n            \"quantity\": 5\r\n        },\r\n        {\r\n            \"productId\": \"sp001\",\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"productId\": \"sp004\",\r\n            \"quantity\": 10\r\n        }\r\n    ],\r\n    \"total\": 4347000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/invoices/invoices/add",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"invoices",
+								"invoices",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE INVOICE STATUS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"invoiceId\": \"INV0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/invoices/invoices/updateStatus",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"invoices",
+								"invoices",
+								"updateStatus"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OTHERS",
+			"item": [
+				{
+					"name": "GET ALL WARDS/DISTRICT",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "ewoiQWNjZXNzS2V5IjoiclRraFlDQndITSIsCiJTZWNyZXRLZXkiOiJEV2tRZ1kxWVNTIiwKIkFwcE5hbWUiOiAiVFBIQ00iLAoiUGFydG5lckNvZGUiOiAiMDAwLjAwLjAxLkgyOSIsCiJQYXJ0bmVyQ29kZUN1cyI6ICIwMDAuMDAuMDEuSDI5Igp9Cg==",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://provinces.open-api.vn/api/",
+							"protocol": "https",
+							"host": [
+								"provinces",
+								"open-api",
+								"vn"
+							],
+							"path": [
+								"api",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
