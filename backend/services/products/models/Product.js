@@ -20,6 +20,7 @@ const ProductSchema = new Schema({
     rating: Number,
     reviews: Number,
     storeId: String,
+    storeName: String,
     status: String
 }, { timestamps: true })
 
