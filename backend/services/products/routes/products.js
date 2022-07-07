@@ -705,24 +705,24 @@ const ProductGroup = [
 const datamap =['Cua Hang Bach Hoa Xanh', 'Cua Hang Family Mark', 'Cua Hang Tap Hoa', 'Cua Hang SquareK', 'Cua Hang Nong San', 'Cua Hang Tap Hoa Gia Dinh']
 router.get('/', async (req, res, next) => {
     try {
-        // const products = await Product.find({});
-        // const fakeProducts = products.filter(product => product.storeId)
-        // return res.status(200).json({data: products, fakeProducts, ProductType, ProductGroup});
         const products = await Product.find({});
-        const fakeProducts = JSON.parse(JSON.stringify(products));
+        const fakeProducts = products.filter(product => product.storeId)
+        return res.status(200).json({data: products, fakeProducts, ProductType, ProductGroup});
+        // const products = await Product.find({});
+        // const fakeProducts = JSON.parse(JSON.stringify(products));
 
-        for(let i = 0; i < fakeProducts.length; i++) {
-            let randomId = "STORE" + i%6;
-            await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeName: datamap[i%6]})
+        // for(let i = 0; i < fakeProducts.length; i++) {
+        //     let randomId = "STORE" + i%6;
+        //     await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeName: datamap[i%6]})
 
-            // let s = await Store.findOne({id: randomId});
-            // let oldProducts = s.products;
-            // oldProducts.push(fakeProducts[i].id);
-            // console.log(oldProducts.length);
-            // await Store.findOneAndUpdate({id: randomId}, {products: oldProducts})
-        }
-        const productsAfter = await Product.find({});
-        return res.status(200).json({data: productsAfter});
+        //     // let s = await Store.findOne({id: randomId});
+        //     // let oldProducts = s.products;
+        //     // oldProducts.push(fakeProducts[i].id);
+        //     // console.log(oldProducts.length);
+        //     // await Store.findOneAndUpdate({id: randomId}, {products: oldProducts})
+        // }
+        // const productsAfter = await Product.find({});
+        // return res.status(200).json({data: productsAfter});
 
 
         
