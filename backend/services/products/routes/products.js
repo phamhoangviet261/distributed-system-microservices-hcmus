@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const Product = require('../models/Product')
+const Store = require('../models/Store')
 const mongoose = require('mongoose')
 
 const ProductType = [
@@ -707,6 +708,24 @@ router.get('/', async (req, res, next) => {
         const products = await Product.find({});
         const fakeProducts = products.filter(product => product.storeId)
         return res.status(200).json({data: products, fakeProducts, ProductType, ProductGroup});
+        // const products = await Product.find({});
+        // const fakeProducts = JSON.parse(JSON.stringify(products));
+
+        // for(let i = 0; i < fakeProducts.length; i++) {
+        //     let randomId = "STORE" + i%6;
+        //     await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeId: randomId})
+
+        //     let s = await Store.findOne({id: randomId});
+        //     let oldProducts = s.products;
+        //     oldProducts.push(fakeProducts[i].id);
+        //     console.log(oldProducts.length);
+        //     await Store.findOneAndUpdate({id: randomId}, {products: oldProducts})
+        // }
+        // const productsAfter = await Product.find({});
+        // return res.status(200).json({data: productsAfter});
+
+
+        
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
