@@ -46,11 +46,13 @@ const ProductTitle = styled.p`
     font-size: 40px;
     font-weight: 500;
     line-height: 1.2;
+    margin-bottom: 16px;
 `;
 
 const ProductPrice = styled.p`
     font-size: 26px;
     font-weight: 400;
+    margin-bottom: 12px;
 `;
 
 const ProductDescription = styled.span`
@@ -277,7 +279,7 @@ export const ItemProduct = (props) => {
                 <ProductInfo>
                     <ProductTitle>{product.name}</ProductTitle>
                     <ProductPrice>
-                        <Highlight>{product.price ? product.price.toLocaleString('vi') : ''}</Highlight> vnđ
+                        <Highlight>{product.price ? product.price.toLocaleString('en').replace(',', ' ') : ''}</Highlight> vnđ
                     </ProductPrice>
                     <ProductWrapSpan>
                         <ProductSpan>
@@ -332,7 +334,7 @@ export const ItemProduct = (props) => {
                 </ProductInfo>
             </Product>
             <RelatedProductTitle>Sản phẩm liên quan</RelatedProductTitle>
-            {/* <RelatedProduct key={product.id} query={product.lsp} productKey={product.id} /> */}
+            <RelatedProduct key={product.id} query={product.lsp} productId={product.id} />
         </Container>
     );
 };

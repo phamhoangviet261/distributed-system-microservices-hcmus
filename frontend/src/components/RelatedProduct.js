@@ -4,9 +4,10 @@ import axios from 'axios';
 import StarIcon from '@mui/icons-material/Star';
 import {Link} from 'react-router-dom';
 import myUrl from '../domain';
+
 const Container = styled.div`
     display: grid;
-    margin-top: 50px;
+    margin-top: 10px;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     @media (max-width: 1024px) {
@@ -19,6 +20,28 @@ const Container = styled.div`
         grid-template-columns: repeat(1, 1fr);
     }
 `;
+
+const ProducAddtocart = styled.div`
+    width: 80%;
+    height: 40px;
+    background-color: #fff;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 1.2em;
+
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    border: 1px solid #1f1f1f1f;
+    margin-bottom: 20px;
+    margin-left: 50%;
+    margin-top: auto;
+    transform: translateX(-50%);
+    &:hover {
+        color: #fff;
+        background-color: #000;
+    }
+`;
+
 const ProductItem = styled.div`
     display: flex;
     flex-direction: column;
@@ -27,6 +50,15 @@ const ProductItem = styled.div`
     position: relative;
     transition: 0.4s ease-out;
     cursor: pointer;
+    flex: 1;
+    .product-top {
+        flex: 1;
+    }
+    .product-bottom {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 const ProductImage = styled.img`
@@ -38,6 +70,7 @@ const ProductImage = styled.img`
         }
     }
 `;
+
 const ProductTitle = styled.h5`
     color: #000;
     font-size: 18px;
@@ -53,8 +86,8 @@ const ProductPrice = styled.span`
 `;
 
 const ProductWrapper = styled.div`
-    // width: 1200px;
     height: auto;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -67,11 +100,17 @@ const ProductWrapper = styled.div`
         font-size: 12px;
     }
 `;
+const ProductWrapperTitle = styled.h2`
+    text-transform: uppercase;
+`;
 
 const StyledLink = styled(Link)`
     text-decoration: none;
     color: #000;
     border-bottom: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     &:hover {
         /* border: 2px solid rgb(99,113,198); */
     }
@@ -100,6 +139,15 @@ const WrapItem = styled.div`
         color: blue;
         transform: translateY(-10px);
     }
+
+    & > .store-name {
+        font-size: 16px;
+
+        flex: 1;
+        margin-top: auto;
+        padding: 0 30px;
+        padding-bottom: 20px;
+    }
 `;
 
 const Highlight = styled.span`
@@ -125,36 +173,38 @@ function shuffle(array) {
 }
 
 const RelatedProduct = (props) => {
-    const productKey = props.productKey;
+    const [productId, setProductId] = useState(props.productId);
     // eslint-disable-next-line no-useless-constructor
     const [_products, setProducts] = useState([]);
     let API_URL;
 
     useEffect(() => {
-        // props.actFetchProductsRequest();
-        let method = 'GET';
-        API_URL = `${myUrl}/products/products/byType/${props.query}`;
+        if (productId) {
+            console.log('concac');
+            let method = 'GET';
+            API_URL = `${myUrl}/products/products/byType/${props.query}`;
 
-        let fetchAPI = axios({
-            method,
-            url: API_URL,
-            data: null
-        })
-            .catch((err) => {
-                // console.log(err);
+            axios({
+                method,
+                url: API_URL,
+                data: null
             })
-            .then((res) => {
-                let check = false;
-                for (const item of res.data.data) {
-                    if (item.id === productKey) check = true;
-                }
-                if (check) {
-                    setProducts(shuffle(res.data.filter((product) => product.id !== productKey)));
-                } else {
-                    setProducts(shuffle(res.data));
-                }
-            });
-    }, [productKey]);
+                .catch((err) => {
+                    // console.log(err);
+                })
+                .then((res) => {
+                    let check = false;
+                    for (const item of res.data.data) {
+                        if (item.id === productId) check = true;
+                    }
+                    if (check) {
+                        setProducts(shuffle(res.data.data.filter((product) => product.id !== productId)));
+                    } else {
+                        setProducts(shuffle(res.data.data));
+                    }
+                });
+        }
+    }, []);
 
     if (_products.length > 0) {
         return (
@@ -164,36 +214,32 @@ const RelatedProduct = (props) => {
                         {_products.map((item, index) => {
                             if (index < 4) {
                                 return (
-                                    <WrapItem key={index}>
-                                        <StyledLink to={'/product/' + item.maSP}>
-                                            <ProductItem>
-                                                <ProductImage src={item.anhSP} alt="TEE" />
-                                                <ProductTitle>{item.tenSP}</ProductTitle>
-                                                <ProductPrice>
-                                                    Giá: <Highlight>{item.giaSP} VNĐ</Highlight>
-                                                </ProductPrice>
-                                                <ProductPrice>
-                                                    Đã bán: <Highlight>{item.soSPDaBan}</Highlight>
-                                                </ProductPrice>
-                                                <ProductPrice>
-                                                    Rating: <Highlight>{item.avgRating}</Highlight>
-                                                    <StarIcon
-                                                        style={{
-                                                            fontSize: '18px',
-                                                            transform: 'translateY(-1px)',
-                                                            color: '#dd9d0d',
-                                                            marginLeft: '2px'
-                                                        }}
-                                                    ></StarIcon>
-                                                </ProductPrice>
-                                            </ProductItem>
-                                        </StyledLink>
-
-                                        <StyledLink style={{marginLeft: '30px'}} to={'/store/' + item.iD_Store}>
-                                            <p>
-                                                Cửa hàng: <Highlight>{item.tenCH}</Highlight>
-                                            </p>
-                                        </StyledLink>
+                                    <WrapItem key={item.id}>
+                                        <ProductItem key={item.id}>
+                                            <StyledLink to={'/product/' + item.id}>
+                                                <div className="product-top">
+                                                    <ProductImage src={item.linkImg} alt="TEE" />
+                                                    <ProductTitle>{item.name}</ProductTitle>
+                                                </div>
+                                                <div className="product-bottom">
+                                                    <ProductPrice>
+                                                        Giá: <Highlight>{item.price ? item.price.toLocaleString('en').replace(',', ' ') : ''} vnđ</Highlight>
+                                                    </ProductPrice>
+                                                    <ProductPrice>
+                                                        Đã bán: <Highlight>{item.sold}</Highlight>
+                                                    </ProductPrice>
+                                                    <ProductPrice>
+                                                        Đánh giá: <Highlight>{item.rating}</Highlight>
+                                                        <StarIcon style={{fontSize: '18px', transform: 'translateY(-1px)', color: '#dd9d0d', marginLeft: '2px'}}></StarIcon>
+                                                    </ProductPrice>
+                                                    <StyledLink to={'/store/' + item.storeId}>
+                                                        <ProductPrice>
+                                                            Cửa hàng: <Highlight style={{marginLeft: '-8px'}}>{item.storeName || 'Cửa hàng Danh'}</Highlight>
+                                                        </ProductPrice>
+                                                    </StyledLink>
+                                                </div>
+                                            </StyledLink>
+                                        </ProductItem>
                                     </WrapItem>
                                 );
                             }
