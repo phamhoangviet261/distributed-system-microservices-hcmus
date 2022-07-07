@@ -92,6 +92,7 @@ const Login = () => {
                 } else {
                     let userInfo = {
                         phoneNumber: res.data.phoneNumber,
+                        userId: res.data.user.id,
                         fullname: res.data.user.name,
                         typeAccount: res.data.user.typeAccount || 'Customer',
                         storeId: res.data.user.storeId
