@@ -149,7 +149,7 @@ router.post('/update', async (req, res, next) => {
             description: description ? description : store.description, 
             ownerId: ownerId ? ownerId : store.ownerId, 
             address: address? address : store.address, 
-            roducts: products ? products : store.products, 
+            products: products ? products : store.products, 
             invoices: invoices ? invoices : store.invoices, 
             status: status ? status : store.status});
         const newStore = await Store.findOne({id: storeId});
