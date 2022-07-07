@@ -772,7 +772,9 @@ router.get('/:productId', async (req, res, next) => {
 router.post('/add', async (req, res, next) => {
     try {
         const {name, linkImg, description, price, status} = req.body;
-
+        if(!name || !linkImg || !description || !price){
+            return res.status(200).json({message: "Missing data...", data: []});
+        }
         const products = await Product.find({})
 
         const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, status: status ? status : 'active'});
