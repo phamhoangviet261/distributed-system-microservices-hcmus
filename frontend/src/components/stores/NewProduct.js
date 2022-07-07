@@ -26,10 +26,31 @@ const ProductName = styled.div`
     display: flex;
 `
 
+const ProductDescribe = styled.div`
+    display: flex;
+    margin-top: 20px;
+`
+
+const ProductPrice = styled.div`
+    display: flex;
+    margin-top: 20px;
+`
+
+const ProductRest = styled.div`
+    display: flex;
+    margin-top: 20px;
+`
+
+const ProductImg = styled.div`
+    display: flex;
+    margin-top: 20px;
+`
+
 const Label = styled.label`
     font-size: 14px;
     margin-right: 15px;
     align-self: center;
+    min-width: 100px;
 `
 
 const Input = styled.input`
@@ -75,25 +96,57 @@ const Selected = styled.div`
     }
 `
 
+const Confirm = styled.div`
+    padding: 8px 13px;
+    margin: 20px 0;
+    border-radius: 3px;
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+    &:hover{
+        opacity: 0.8;
+        transition: 0.3;
+    }
+    width: fit-content;
+`
 
-function BodyStoreRegister3({click}) {
+function NewProduct() {
 
     const [group, setGroup] = useState(productGroup[0]);
     const [type, setType] = useState({});
 
     console.log(productGroup);
     console.log(productType);
+
   return (
-    <Container>
+    <div>
         <Head>
             <Title>Thêm 1 sản phẩm mới</Title>
             <SubTitle>Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn.</SubTitle>
         </Head>
         <hr />
         <ProductName>
-            <Label>Tên sản phẩm:</Label>
-            <Input placeholder='Nhập vào'/>
+            <Label htmlFor='name'>Tên sản phẩm:</Label>
+            <Input id='name' placeholder='Nhập vào'/>
         </ProductName>
+        <ProductDescribe>
+            <Label htmlFor='describe'>Mô tả:</Label>
+            <Input id='describe' placeholder='Nhập vào'/>
+        </ProductDescribe>
+        <ProductPrice>
+            <Label htmlFor='price'>Giá sản phẩm:</Label>
+            <Input id='price' placeholder='Nhập vào' type={"number"}/>
+        </ProductPrice>
+        <ProductRest>
+            <Label htmlFor='rest'>Tồn kho:</Label>
+            <Input id='rest' placeholder='Nhập vào' type={"number"}/>
+        </ProductRest>
+        <ProductImg>
+            <Label htmlFor='img'>Hình ảnh:</Label>
+            <Input id='img' placeholder='Nhập vào' type={"text"}/>
+        </ProductImg>
         <Category>
             <CategoryGroup>
                 {productGroup.map((item, index)=>(
@@ -113,8 +166,9 @@ function BodyStoreRegister3({click}) {
             <span>Đã chọn: </span>
             <span>{group.name} / {type.name}</span>
         </Selected>
-    </Container>
+        <Confirm>Xác Nhận</Confirm>
+    </div>
   )
 }
 
-export default BodyStoreRegister3
+export default NewProduct

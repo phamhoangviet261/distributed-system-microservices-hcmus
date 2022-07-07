@@ -83,42 +83,41 @@ const SelectorItem = styled.div`
     }
 `
 
-function AddressRegister() {
+function AddressRegister(props) {
 
     const [active, setActive] = useState(1);
     const [show, setShow] = useState(0);
-    const [listProvince, setListProvince] = useState([]);
+    const [listProvince, setListProvince] = useState(["TP Hồ Chí Minh"]);
     const [listDistrict, setListDistrict] = useState([]);
     const [listWard, setListWard] = useState([]);
 
     const [province, setProvince] = useState("");
-    const [district, setDistrict] = useState("");
-    const [ward, setWard] = useState("");
+    const [district, setDistrict] = useState({});
+    const [ward, setWard] = useState({});
 
     useEffect(()=>{
+        console.log(Location.data)
         let temp = [];
         for (let item of Location.data){
-                temp.push(item.name);
+                temp.push(item);
         }
-        setListProvince([...temp]);
+        setListDistrict([...temp]);
     },[])
 
     useEffect(()=>{
-        Location.data.forEach(item => {
-            if (item.name == province) {
-                setListDistrict(item.districts);
-            }
-            
-        })
-    }, [province])
-
-    useEffect(()=>{
         listDistrict.forEach(item => {
-            if (item.name == district) {
+            if (item.name == district.name) {
                 setListWard(item.wards);
             }
         })
+        props.setDistrictID(district.code)
     }, [district])
+
+    useEffect(()=>{
+        props.setWardID(ward.code)
+    }, [ward])
+
+    
 
 
     const HandleShow = ()=>{
@@ -127,7 +126,7 @@ function AddressRegister() {
 
   return (
     <Container>
-        <AddressInput onClick={HandleShow}>{province ==""?"Nhấp chọn địa chỉ":`${province} / ${district} / ${ward}`}</AddressInput>
+        <AddressInput onClick={HandleShow}>{province ==""?"Nhấp chọn địa chỉ":`${province} / ${district.name?district.name:""} / ${ward.name?ward.name:""}`}</AddressInput>
         {show?<AddressSelector>
             <SelectorHeader>
                 <SelectorLabel onClick={()=>{setActive(1)}} className={active === 1?"active":""} style={{borderTopLeftRadius: "3px", borderBottomLeftRadius: "3px"}}>Tỉnh/Thành phố</SelectorLabel>
@@ -136,17 +135,17 @@ function AddressRegister() {
             </SelectorHeader>
             {active === 1?<SelectorBody>
                 {listProvince.length > 0 && listProvince.map((item, index)=>(
-                    <SelectorItem className={item==province?"active":""} key={index} onClick={()=>{setProvince(item); setDistrict(""); setWard("")}}>{item}</SelectorItem>
+                    <SelectorItem className={item==province?"active":""} key={index} onClick={()=>{setProvince(item); setDistrict({}); setWard({})}}>{item}</SelectorItem>
                 ))}
             </SelectorBody>:null}
             {active === 2?<SelectorBody>
                 {listDistrict.length > 0 && listDistrict.map((item, index)=>(
-                    <SelectorItem className={item.name==district?"active":""} key={index} onClick={()=>{setDistrict(item.name); setWard("")}}>{item.name}</SelectorItem>
+                    <SelectorItem className={item.name==district.name?"active":""} key={index} onClick={()=>{setDistrict({...item}); setWard({})}}>{item.name}</SelectorItem>
                 ))}
             </SelectorBody>:null}
             {active === 3?<SelectorBody>
                 {listWard.length > 0 && listWard.map((item, index)=>(
-                    <SelectorItem className={item.name==ward?"active":""} key={index} onClick={()=>{setWard(item.name)}}>{item.name}</SelectorItem>
+                    <SelectorItem className={item.name==ward.name?"active":""} key={index} onClick={()=>{setWard({...item})}}>{item.name}</SelectorItem>
                 ))}
             </SelectorBody>:null}
         </AddressSelector>:null}

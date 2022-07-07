@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import BodyStoreRegister from "./BodyStoreRegister";
@@ -75,8 +76,21 @@ const Continue = styled.div`
 
 const StoreRegister = () => {
 
-    const [step, setStep] = useState(3);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        document.getElementById('header').classList.add('changeHeaderColor');
+        document.getElementById('center').classList.add('changeColor');
+        document.getElementById('brandNameRight').classList.add('changeColorToBlack');
+        document.getElementById('shopping-icon').classList.add('changeColorToBlack');
+        let menuItem = document.querySelectorAll('.menu-item');
+        menuItem.forEach(function (item) {
+            item.classList.add('changeColorToBlack');
+        });
+    }, []);
+
+    const [step, setStep] = useState(1);
+    const [click, setClick] = useState(0);
 
     return <Container>
         <Content>
@@ -95,11 +109,12 @@ const StoreRegister = () => {
                 </Step>
             </HeaderStoreRegister>
             <hr />
-            <BodyStoreRegister3 />
+            {step==1?<BodyStoreRegister click={click}/>:<BodyStoreRegister3 click={click}/>}
+            
             <hr />
             <FooterStoreRegister>
                 <Cancel>Huỷ bỏ</Cancel>
-                <Continue>Tiếp theo</Continue>
+                <Continue onClick={()=>{setClick(click+1); setTimeout(()=>{setStep(3)}, 100)}}>Tiếp theo</Continue>
             </FooterStoreRegister>
         </Content>
     </Container>;

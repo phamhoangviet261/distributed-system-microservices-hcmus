@@ -1,4 +1,6 @@
 import React from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import AddressRegister from './AddressRegister'
 
@@ -44,24 +46,86 @@ const Input = styled.input`
     }
 `
 
-function BodyStoreRegister() {
+const AddressDetail = styled.div`
+
+`
+
+const Describe = styled.div`
+
+`
+
+function BodyStoreRegister({click}) {
+
+    const [name, setName] = useState("");
+    const [describe, setDescribe] = useState("");
+    const [districtID, setDistrictID] = useState(0);
+    const [wardID, setWardID] = useState(0);
+    const [detail, setDetail] = useState("");
+
+    const [user, setUser] = useState([]);
+
+    useEffect(()=>{
+        setUser(JSON.parse(localStorage.getItem("UDPTuser")));
+    }, [])
+
+    const updateDistrictID = (ID) => {
+        setDistrictID(ID);
+    }
+
+    const updateWardID = (ID) => {
+        setWardID(ID);
+    }
+
+    useEffect(()=>{
+        if (click){
+            HandleSubmit();
+        }
+    }, [click])
+
+    const HandleSubmit = () => {
+        let value = {
+            name,
+            description: describe,
+            ownerId: user.userId,
+            address: {
+                districtId: districtID,
+                wardId: wardID,
+                detail
+            },
+            products: [],
+            invoices: [],
+            status: "active"
+        }
+
+        console.log(value);
+    }
+
+
   return (
     <Container>
         <Name>
             <Label htmlFor='name'>Tên Shop</Label>
-            <Input type="text" id='name' placeholder='Nhập vào'/>
+            <Input type="text" id='name' placeholder='Nhập vào' value={name} onChange={(e)=>{setName(e.target.value)}}/>
         </Name>
+        <Describe>
+            <Label htmlFor='describe'>Mô tả</Label>
+            <Input type="text" id='describe' placeholder='Nhập vào' value={describe} onChange={(e)=>{setDescribe(e.target.value)}}/>
+        </Describe>
         <Address>
             <Label>Địa chỉ lấy hàng</Label>
-            <AddressRegister />
+            <AddressRegister wardID={wardID} setWardID={updateWardID} districtID={districtID} setDistrictID={updateDistrictID} />
         </Address>
+        <AddressDetail>
+            <Label htmlFor='detail'>Địa chỉ chi tiết</Label>
+            <Input type="text" id='detail' placeholder='Nhập vào' value={detail} onChange={(e)=>{setDetail(e.target.value)}}/>
+        </AddressDetail>
         <Email>
             <Label>Email</Label>
-            <Input value="tranquocthinh.t2.15cla@gmail.com" disabled/>
+            <Input value="email@gmail.com" disabled/>
         </Email>
         <Phone>
             <Label>Số điện thoại</Label>
-            <Input value="0845644566" disabled/>
+            <Input value={user.phoneNumber} disabled/>
         </Phone>
     </Container>
   )
