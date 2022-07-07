@@ -7,6 +7,7 @@ export default function PaginationRounded() {
     const filterProductContext = React.useContext(FilterProductContext);
     const HandleChange = (event) => {
         filterProductContext.updatePage(event.currentTarget.textContent);
+        window.scrollTo(0, 1700);
     };
 
     React.useEffect(() => {
