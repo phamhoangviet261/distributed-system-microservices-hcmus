@@ -19,6 +19,8 @@ const ProductSchema = new Schema({
     HSD: Date,
     rating: Number,
     reviews: Number,
+    storeId: String,
+    storeName: String,
     status: String
 }, { timestamps: true })
 

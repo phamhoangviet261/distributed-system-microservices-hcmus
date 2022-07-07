@@ -173,10 +173,10 @@ export class Header extends Component {
                     </StyledLink>
                     <Center id="center">
                         <StyledLink to="/">Trang chủ</StyledLink>
-                        <StyledLink to="/collections/1">Sản phẩm</StyledLink>
+                        <StyledLink to="/category/nsp001">Sản phẩm</StyledLink>
                         {localStorage.getItem('UDPTisLogin') && <StyledLink to={this.state.linkToNearest}>Cửa hàng gần nhất</StyledLink>}
-                        {this.state.isLogin && this.state.userInfo.typeAccount === 'customer' && <StyledLink to="/store/register">Trở thành Người bán</StyledLink>}
-                        {this.state.isLogin && this.state.userInfo.typeAccount === 'store' && <StyledLink to={this.state.linkToMyStore}>Kênh người bán</StyledLink>}
+                        {this.state.isLogin && !this.state.userInfo.storeId && <StyledLink to="/store/register">Trở thành Người bán</StyledLink>}
+                        {this.state.isLogin && this.state.userInfo.storeId && <StyledLink to={this.state.linkToMyStore}>Kênh người bán</StyledLink>}
                     </Center>
                     <Right>
                         {localStorage.getItem('UDPTisLogin') && (
@@ -209,7 +209,7 @@ export class Header extends Component {
                         )}
 
                         <MenuItem>
-                            <Link to="/carts">
+                            <Link to={this.state.isLogin ? '/carts' : '/signin'}>
                                 <Badge badgeContent={this.props.numberCart} color="primary">
                                     <ShoppingCartIcon id="shopping-icon" style={{color: '#fff'}}></ShoppingCartIcon>
                                 </Badge>

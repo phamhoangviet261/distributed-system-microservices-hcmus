@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const Product = require('../models/Product')
+const Store = require('../models/Store')
 const mongoose = require('mongoose')
 
 const ProductType = [
@@ -701,11 +702,30 @@ const ProductGroup = [
 //     }
     
 // })
-
+const datamap =['Cua Hang Bach Hoa Xanh', 'Cua Hang Family Mark', 'Cua Hang Tap Hoa', 'Cua Hang SquareK', 'Cua Hang Nong San', 'Cua Hang Tap Hoa Gia Dinh']
 router.get('/', async (req, res, next) => {
     try {
         const products = await Product.find({});
-        return res.status(200).json({data: products, ProductType, ProductGroup});
+        const fakeProducts = products.filter(product => product.storeId)
+        return res.status(200).json({data: products, fakeProducts, ProductType, ProductGroup});
+        // const products = await Product.find({});
+        // const fakeProducts = JSON.parse(JSON.stringify(products));
+
+        // for(let i = 0; i < fakeProducts.length; i++) {
+        //     let randomId = "STORE" + i%6;
+        //     await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeName: datamap[i%6]})
+
+        //     // let s = await Store.findOne({id: randomId});
+        //     // let oldProducts = s.products;
+        //     // oldProducts.push(fakeProducts[i].id);
+        //     // console.log(oldProducts.length);
+        //     // await Store.findOneAndUpdate({id: randomId}, {products: oldProducts})
+        // }
+        // const productsAfter = await Product.find({});
+        // return res.status(200).json({data: productsAfter});
+
+
+        
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
@@ -792,6 +812,41 @@ router.post('/update', async (req, res, next) => {
         return res.status(400).json({success: false, message: errors.message});
     }
     
+})
+
+
+router.post('/clearStoreId', async (req, res, next) => {
+    try {
+        const {storeId, listProductId} = req.body;
+
+        if(!storeId && !listProductId){
+            const products = await Product.find({});
+            const fakeProducts = products.filter(product => product.storeId)
+            for(let i = 0; i < fakeProducts.length; i++) {
+                await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeId: ""});
+            }
+            return res.status(200).json({message: "Clear store Id successfully", data: fakeProducts});
+        }
+        if(storeId){
+            const products = await Product.find({});
+            const fakeProducts = products.filter(product => product.storeId == storeId);
+            for(let i = 0; i < fakeProducts.length; i++) {
+                await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeId: ""});
+            }
+            return res.status(200).json({message: "Clear store Id successfully", data: fakeProducts});
+        }
+        if(listProductId.length > 0){
+            const products = await Product.find({});
+            const fakeProducts = products.filter(product => listProductId.includes(product.id));
+            for(let i = 0; i < fakeProducts.length; i++) {
+                await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeId: ""});
+            }
+            return res.status(200).json({message: "Clear store Id successfully", data: fakeProducts});
+        }
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
 })
 
 module.exports = router

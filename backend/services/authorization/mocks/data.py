@@ -9,10 +9,10 @@ myclient = MongoClient("mongodb+srv://IEwDYeP7dz:mdm-p7Thrs2awb@mongodbcluster.a
 db = myclient["UDPT-DICHO-ACCOUNTS"]
    
 # Created or Switched to collection 
-Collection = db["accounts"]
+Collection = db["districts"]
   
 # Loading or Opening the json file
-with open('Account.json', encoding="utf8") as file:
+with open('Ward.json', encoding="utf8") as file:
     file_data = json.load(file)
       
 # Inserting the loaded data in the Collection

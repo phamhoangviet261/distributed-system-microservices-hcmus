@@ -74,7 +74,7 @@ router.post('/addInvoice', async (req, res, next) => {
 
 router.post('/update', async (req, res, next) => {
     try {
-        const {id, phoneNumber, name, dob, age, ccid, gender, address, typeAccount, invoices, status} = req.body;
+        const {id, phoneNumber, name, dob, age, ccid, gender, address, typeAccount, invoices, storeId, status} = req.body;
         const account = await Account.findOne({id: id});
         if(!account) return res.status(404).json({success: false, message: 'Account not found'});
         await Account.findOneAndUpdate({id: id}, {
@@ -87,6 +87,7 @@ router.post('/update', async (req, res, next) => {
             address: address ? address : account.address,
             typeAccount: typeAccount ? typeAccount : account.typeAccount,
             invoices: invoices ? invoices : account.invoices,
+            storeId: storeId ? storeId : account.storeId,
             status: status ? status : account.status,
         })
         const newAccount = await Account.findOne({id: id});
