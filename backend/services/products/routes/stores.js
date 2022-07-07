@@ -131,8 +131,18 @@ router.post('/addProduct', async (req, res, next) => {
         const store = await Store.findOne({id: storeId});
         const newProducts = [...new Set([...store.products, ...products])];
         await Store.findOneAndUpdate({id: storeId}, {products: newProducts});
+
+        let newProductsAdded = newProducts.filter(p => !store.products.includes(p));
+        let listProducts = await Product.find({});
+
+        let listProductsCanAdd = listProducts.filter(p => newProductsAdded.includes(p.id) && !p.storeId).map(item => item.id);
+
+        for(let i = 0; i < listProductsCanAdd.length; i++) {
+            await Product.findOneAndUpdate({id: listProductsCanAdd[i]}, {storeId: store.id});
+        }
+
         const newStore = await Store.findOne({id: storeId})
-        return res.status(200).json({data: newStore, message: 'Product added successfully.', success: true});
+        return res.status(200).json({data: newStore, listProductsCanAdd, message: 'Product added successfully.', success: true});
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
