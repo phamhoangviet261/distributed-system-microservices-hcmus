@@ -79,7 +79,7 @@ const Login = () => {
 
         axios({
             method: 'post',
-            url: `${myUrl}/accounts/auth/login`,
+            url: `${myUrl}/authorization/login`,
             data: {
                 phone: username,
                 password: password
