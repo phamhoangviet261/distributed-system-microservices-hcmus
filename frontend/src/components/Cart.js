@@ -255,7 +255,7 @@ function Cart({items, IncreaseQuantity, DecreaseQuantity, DeleteCart}) {
                         <span style={{fontWeight: 'bold'}}>Tổng:</span>
                         <span>{Number(TotalCart).toLocaleString('en-US')} VNĐ</span>
                     </Total>
-                    <StyledLink style={{}} to={'/checkout/' + JSON.parse(localStorage.getItem('MISuser')).username}>
+                    <StyledLink style={{}} to={'/checkout/' + JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}>
                         <ButtonCheckout>Thanh toán</ButtonCheckout>
                     </StyledLink>
                 </CheckoutSide>

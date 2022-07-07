@@ -79,7 +79,7 @@ const Login = () => {
 
         axios({
             method: 'post',
-            url: `${myUrl}/accounts/auth/login`,
+            url: `${myUrl}/authorization/login`,
             data: {
                 phone: username,
                 password: password
@@ -93,7 +93,8 @@ const Login = () => {
                     let userInfo = {
                         phoneNumber: res.data.phoneNumber,
                         fullname: res.data.user.name,
-                        typeAccount: res.data.user.typeAccount || 'Customer'
+                        typeAccount: res.data.user.typeAccount || 'Customer',
+                        storeId: res.data.user.storeId
                     };
                     console.log('hello: ', res.data);
                     loginContext.updateLogin(loginContext.isLogin);
