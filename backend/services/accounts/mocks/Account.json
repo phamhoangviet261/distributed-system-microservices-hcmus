@@ -1,0 +1,108 @@
+[
+    {
+        "id": "ACC0",
+        "phoneNumber": "0123456789",
+        "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
+        "name": "Super Admin",
+        "age": 22,
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-05T07:27:25.865Z",
+        "updatedAt": "2022-07-07T06:14:55.049Z",
+        "__v": 0,
+        "storeId": "STORE0"
+    },
+    {
+        "id": "ACC1",
+        "phoneNumber": "0333444555",
+        "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
+        "name": "Chu Cua Hang 1",
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "typeAccount": "Customer",
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-06T03:00:18.193Z",
+        "updatedAt": "2022-07-06T03:00:18.193Z",
+        "__v": 0
+    },
+    {
+        "id": "ACC2",
+        "phoneNumber": "0222444666",
+        "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
+        "name": "Pham Hoang Viet",
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "typeAccount": "Customer",
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-06T03:01:25.724Z",
+        "updatedAt": "2022-07-06T03:01:25.724Z",
+        "__v": 0
+    },
+    {
+        "id": "ACC3",
+        "phoneNumber": "0555999777",
+        "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
+        "name": "Phan Khac Thanh Danh",
+        "age": 22,
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "typeAccount": "Store",
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-06T03:16:37.134Z",
+        "updatedAt": "2022-07-06T03:16:37.134Z",
+        "__v": 0
+    },
+    {
+        "id": "ACC4",
+        "phoneNumber": "0222666777",
+        "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
+        "name": "Pham Hai Dang",
+        "age": 22,
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "typeAccount": "Store",
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-06T03:16:37.134Z",
+        "updatedAt": "2022-07-06T03:16:37.134Z",
+        "__v": 0
+    },
+    {
+        "id": "ACC5",
+        "phoneNumber": "0333666999",
+        "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
+        "name": "Tran Quoc Thinh",
+        "age": 22,
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "typeAccount": "Store",
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-06T03:16:37.134Z",
+        "updatedAt": "2022-07-06T03:16:37.134Z",
+        "__v": 0
+    }
+]
