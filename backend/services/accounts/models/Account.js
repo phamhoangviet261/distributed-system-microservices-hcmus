@@ -44,6 +44,7 @@ const AccountSchema = new Schema({
     invoices: {
         type: Array,
     },
+    storeId: String,
     status: String
 }, { timestamps: true })
 
