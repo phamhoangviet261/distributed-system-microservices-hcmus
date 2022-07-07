@@ -41,6 +41,7 @@ const ProducAddtocart = styled.div`
     border: 1px solid #1f1f1f1f;
     margin-bottom: 20px;
     margin-left: 50%;
+    margin-top: auto;
     transform: translateX(-50%);
     &:hover {
         color: #fff;
@@ -56,6 +57,15 @@ const ProductItem = styled.div`
     position: relative;
     transition: 0.4s ease-out;
     cursor: pointer;
+    flex: 1;
+    .product-top {
+        flex: 1;
+    }
+    .product-bottom {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 const ProductImage = styled.img`
@@ -82,10 +92,7 @@ const ProductPrice = styled.span`
     opacity: 0.7;
 `;
 
-//
-
 const ProductWrapper = styled.div`
-    // width: 1200px;
     height: auto;
     margin-top: 40px;
     display: flex;
@@ -103,114 +110,14 @@ const ProductWrapper = styled.div`
 const ProductWrapperTitle = styled.h2`
     text-transform: uppercase;
 `;
-const ProductFilterAndSearch = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-`;
-const ListFilterProduct = styled.div`
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    align-items: center;
-`;
-const FilterProduct = styled.div`
-    border-bottom: 2px solid #fff;
-    &:hover {
-        border-bottom: 2px solid rgb(99, 113, 198);
-    }
-`;
-
-const ProductFilterButton = styled.div`
-    margin-left: 350px;
-    cursor: pointer;
-    border: 1px solid #717fe0;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 10px;
-    border-radius: 10px;
-    &:hover {
-        background-color: #717fe0;
-        color: #fff;
-    }
-    @media (max-width: 1024px) {
-        margin-left: 100px;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 10px;
-        border-radius: 10px;
-    }
-    @media (max-width: 768px) {
-        margin-left: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 5px;
-        max-height: 35px;
-    }
-`;
-const ProductSearchButton = styled.div`
-    cursor: pointer;
-    border: 1px solid #717fe0;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 10px;
-    &:hover {
-        background-color: #717fe0;
-        color: #fff;
-    }
-    @media (max-width: 1024px) {
-        max-width: 80%;
-        font-size: 12px;
-    }
-    @media (max-width: 768px) {
-        max-width: 80%;
-        font-size: 12px;
-        max-height: 35px;
-        padding-top: 5px;
-        padding-bottom: 10px;
-    }
-`;
-
-// OPTION FILTER
-const OptionFilter = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: 100%;
-    padding: 0px 50px;
-    margin-top: 5px;
-    height: auto;
-    background-color: #f2f2f2;
-    overflow: hidden;
-    transition: 1.5s linear;
-    & li {
-        list-style-type: none;
-    }
-    & div {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-`;
-
-const FilterLink = styled.li`
-    color: #aaa;
-    margin-top: 10px;
-    font-size: 0.9rem;
-    & > a {
-        color: #aaa;
-    }
-    & a:hover {
-        color: #717fe0;
-    }
-`;
 
 const StyledLink = styled(Link)`
     text-decoration: none;
     color: #000;
     border-bottom: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     &:hover {
         /* border: 2px solid rgb(99,113,198); */
     }
@@ -239,6 +146,15 @@ const WrapItem = styled.div`
         color: blue;
         transform: translateY(-10px);
     }
+
+    & > .store-name {
+        font-size: 16px;
+
+        flex: 1;
+        margin-top: auto;
+        padding: 0 30px;
+        padding-bottom: 20px;
+    }
 `;
 
 const Highlight = styled.span`
@@ -256,7 +172,7 @@ export const Products = (props) => {
 
     const [quantity, setquantity] = useState(1);
 
-    const numPerPage = 50;
+    const numPerPage = 28;
 
     useEffect(() => {
         let header = document.getElementById('header');
@@ -332,28 +248,31 @@ export const Products = (props) => {
                             if (index >= (filterProductContext.page - 1) * numPerPage && index < filterProductContext.page * numPerPage) {
                                 return (
                                     <WrapItem key={item.id}>
-                                        <StyledLink to={'/product/' + item.id}>
-                                            <ProductItem key={item.id}>
-                                                <ProductImage src={item.linkImg} alt="TEE" />
-                                                <ProductTitle>{item.name}</ProductTitle>
-                                                <ProductPrice>
-                                                    Giá: <Highlight>{item.price} VNĐ</Highlight>
-                                                </ProductPrice>
-                                                <ProductPrice>
-                                                    Đã bán: <Highlight>{item.sold}</Highlight>
-                                                </ProductPrice>
-                                                <ProductPrice>
-                                                    Đánh giá: <Highlight>{item.rating}</Highlight>
-                                                    <StarIcon style={{fontSize: '18px', transform: 'translateY(-1px)', color: '#dd9d0d', marginLeft: '2px'}}></StarIcon>
-                                                </ProductPrice>
-                                            </ProductItem>
-                                        </StyledLink>
-
-                                        <StyledLink style={{marginLeft: '30px'}} to={'/store/' + item.account_CH}>
-                                            <p>
-                                                Cửa hàng: <Highlight style={{marginLeft: '-8px'}}>{item.storeName || 'Cửa hàng Danh'}</Highlight>
-                                            </p>
-                                        </StyledLink>
+                                        <ProductItem key={item.id}>
+                                            <StyledLink to={'/product/' + item.id}>
+                                                <div className="product-top">
+                                                    <ProductImage src={item.linkImg} alt="TEE" />
+                                                    <ProductTitle>{item.name}</ProductTitle>
+                                                </div>
+                                                <div className="product-bottom">
+                                                    <ProductPrice>
+                                                        Giá: <Highlight>{item.price ? item.price.toLocaleString('en').replace(',', ' ') : ''} vnđ</Highlight>
+                                                    </ProductPrice>
+                                                    <ProductPrice>
+                                                        Đã bán: <Highlight>{item.sold}</Highlight>
+                                                    </ProductPrice>
+                                                    <ProductPrice>
+                                                        Đánh giá: <Highlight>{item.rating}</Highlight>
+                                                        <StarIcon style={{fontSize: '18px', transform: 'translateY(-1px)', color: '#dd9d0d', marginLeft: '2px'}}></StarIcon>
+                                                    </ProductPrice>
+                                                    <StyledLink to={'/store/' + item.storeId}>
+                                                        <ProductPrice>
+                                                            Cửa hàng: <Highlight style={{marginLeft: '-8px'}}>{item.storeName || 'Cửa hàng Danh'}</Highlight>
+                                                        </ProductPrice>
+                                                    </StyledLink>
+                                                </div>
+                                            </StyledLink>
+                                        </ProductItem>
 
                                         <ProducAddtocart
                                             onClick={() => {
