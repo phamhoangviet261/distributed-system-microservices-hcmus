@@ -1,0 +1,105 @@
+[
+    {
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "id": "STORE0",
+        "name": "Cua Hang Bach Hoa Xanh",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "ownerId": "ACC0",
+        "products": [],
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-05T04:17:11.276Z",
+        "updatedAt": "2022-07-07T06:14:01.248Z",
+        "__v": 0
+    },
+    {
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "id": "STORE1",
+        "name": "Cua Hang Family Mark",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "ownerId": "ACC1",
+        "products": [],
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-05T04:17:11.276Z",
+        "updatedAt": "2022-07-07T06:14:01.248Z",
+        "__v": 0
+    },
+    {
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "id": "STORE2",
+        "name": "Cua Hang Tap Hoa",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "ownerId": "ACC2",
+        "products": [],
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-05T04:17:11.276Z",
+        "updatedAt": "2022-07-07T06:14:01.248Z",
+        "__v": 0
+    },
+    {
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "id": "STORE3",
+        "name": "Cua Hang SquareK",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "ownerId": "ACC3",
+        "products": [],
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-05T04:17:11.276Z",
+        "updatedAt": "2022-07-07T06:14:01.248Z",
+        "__v": 0
+    },
+    {
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "id": "STORE4",
+        "name": "Cua Hang Nong San",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "ownerId": "ACC4",
+        "products": [],
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-05T04:17:11.276Z",
+        "updatedAt": "2022-07-07T06:14:01.248Z",
+        "__v": 0
+    },
+    {
+        "address": {
+            "districtId": 760,
+            "wardId": 26740,
+            "detail": "Số 11, đường Hai Bà Trưng"
+        },
+        "_id": "62c3bb47aced9000c3ab4a3b",
+        "id": "STORE5",
+        "name": "Cua Hang Tap Hoa Gia Dinh",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "ownerId": "ACC5",
+        "products": [],
+        "invoices": [],
+        "status": "active",
+        "createdAt": "2022-07-05T04:17:11.276Z",
+        "updatedAt": "2022-07-07T06:14:01.248Z",
+        "__v": 0
+    }
+]
