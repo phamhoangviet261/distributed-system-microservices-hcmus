@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext } from "react";
-import { actFetchProductsRequest, AddCart } from "./actions";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import { ShoppingCartOutlined } from "@material-ui/icons";
-import axios from "axios";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
-import { FilterProductContext } from "../FilterProductContext";
+import React, {useEffect, useState, useContext} from 'react';
+import {actFetchProductsRequest, AddCart} from './actions';
+import {connect} from 'react-redux';
+import styled from 'styled-components';
+import {ShoppingCartOutlined} from '@material-ui/icons';
+import axios from 'axios';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import SearchIcon from '@mui/icons-material/Search';
+import {Link} from 'react-router-dom';
+import {FilterProductContext} from '../FilterProductContext';
 
 const ProductFilterAndSearch = styled.div`
     width: 100%;
@@ -96,7 +96,7 @@ const FilterLink = styled.li`
     color: #aaa;
     width: 250px;
     padding: 10px;
-    border: 2px solid ${(props) => (props.choosen ? "palevioletred" : "white")};
+    border: 2px solid ${(props) => (props.choosen ? 'palevioletred' : 'white')};
     border-radius: 10px;
     &:hover {
         color: #717fe0;
@@ -138,151 +138,117 @@ const SearchInput = styled.input`
     /* background-color: #f2f2f2; */
 `;
 
-const Filter = ({ productList, defaultProductList }) => {
-    console.log("re-render Filter")
+const Filter = () => {
+    console.log('re-render Filter');
     const filterProductContext = useContext(FilterProductContext);
-    const [search, setSearch] = useState('')
-    
+    const [search, setSearch] = useState('');
+    const [showFilter, setShowFilter] = useState(false);
+    const [orderBy, setOrderBy] = useState('default');
+    const [filterPrice, setFilterPrice] = useState('all');
 
     let handleSearch = () => {
-        handleShowHide()
-        let _products = filterProductContext.listDef;
-        if (search !== ''){
-            console.log("search",search)
-            const result = _products.filter(
-                (item) => item.tenSP.includes(search)
-            );
-            if (result.length === 0){
+        handleShowHide();
+        let listProductDefault = filterProductContext.listDef;
+        if (search !== '') {
+            const result = listProductDefault.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+            if (result.length === 0) {
                 filterProductContext.updateCount(filterProductContext.listDef);
-                return
+                return;
             }
             filterProductContext.updateCount(result);
         }
-    } 
-
-    let changeproductInFilter = (filterOrderBy, filterPrice, check=1) => {
-        let _products
-        if (check === 2){
-            console.log("Ccccccc")
-            _products = defaultProductList;
-        }
-        else {
-            _products = productList;
-        }
-        let ls = productList;
-        console.log("ls begin:",defaultProductList)
-        
-        console.log("OrderBy: ", filterOrderBy)
-        
-        if (filterPrice === "all") {
-            console.log("rs:",_products)
-            ls = defaultProductList
-            setPrice("all");
-        } else if (filterPrice === "1") {
-            // 1000-50000
-            console.log("rs:",_products)
-
-            const result = _products.filter(
-                (item) => item.giaSP >= 1000 && item.giaSP < 50000
-            );
-
-            ls = result;
-            console.log("ls",ls)
-            setPrice("1");
-        } else if (filterPrice === "2") {
-            // 50000-100000
-            console.log("rs:",_products)
-
-            const result = _products.filter(
-                (item) => item.giaSP >= 50000 && item.giaSP < 100000
-            );
-
-            ls = result;
-            console.log("ls",ls)
-            setPrice("2");
-        } else if (filterPrice === "3") {
-            console.log("rs:",_products)
-
-            // 100000-200000
-            const result = _products.filter(
-                (item) => item.giaSP >= 100000 && item.giaSP < 200000
-            );
-
-            ls = result;
-            console.log("ls",ls)
-            setPrice("3");
-        } else if (filterPrice === "4") {
-            console.log("rs:",_products)
-
-            // 200000-500000
-            const result = _products.filter(
-                (item) => item.giaSP >= 200000 && item.giaSP < 400000
-            );
-
-            ls = result;
-            console.log("ls",ls)
-            setPrice("4");
-        } else if (filterPrice === "5") {
-            console.log("rs:",_products)
-            //  > 500000
-            const result = _products.filter((item) => item.giaSP >= 400000);
-
-            ls = result;
-            console.log("ls",ls)
-
-            setPrice("5");
-        }
-
-        if (filterOrderBy === "default") {
-            ls = defaultProductList
-            setOrderBy("default");
-        } else if (filterOrderBy === "vote") {
-            ls.sort((a, b) => b.avgRating - a.avgRating);
-            console.log("ls",ls)
-            setOrderBy("vote");
-        } else if (filterOrderBy === "newest") {
-            ls.sort((a, b) => b.ngayDang - a.ngayDang);
-            console.log("ls",ls)
-            setOrderBy("newest");
-        } else if (filterOrderBy === "lowtohigh") {
-            ls.sort((a, b) => a.giaSP - b.giaSP);
-            console.log("ls",ls)
-            setOrderBy("lowtohigh");
-        } else if (filterOrderBy === "hightolow") {
-            ls.sort((a, b) => b.giaSP - a.giaSP);
-            console.log("ls",ls)
-            setOrderBy("hightolow");
-        }
-        
-        if (ls.length === 0){
-            filterProductContext.updateCount(filterProductContext.listDef);
-            return
-        }
-        filterProductContext.updateCount(ls);
     };
 
-    let handleShowHide = () => {
-        let option = document.getElementById("option-filter");
-        
-        option.style.maxHeight = "0";
-            // option.style.transitionTimingFunction = "cubic-bezier(0.46, 0.14, 0.93, 0.76)"
-        return setShowFilter(false);
-    }
+    useEffect(() => {
+        let listProductDefault = filterProductContext.listDef;
+        if (search === '') {
+            filterProductContext.updateCount(listProductDefault);
+        }
+    }, [search]);
 
-    const [showFilter, setShowFilter] = useState(false);
-    const [orderBy, setOrderBy] = useState("default");
-    const [price, setPrice] = useState("all");
+    useEffect(() => {
+        let listProductDefault = filterProductContext.listDef;
+        if (listProductDefault && listProductDefault.length > 0) {
+            let ls = listProductDefault;
+            if (filterPrice === 'all') {
+            } else if (filterPrice === '1') {
+                // 1000-50000
+                console.log('rs:', ls);
+
+                const result = ls.filter((item) => item.price >= 1000 && item.price < 50000);
+
+                ls = result;
+                console.log('ls', ls);
+            } else if (filterPrice === '2') {
+                // 50000-100000
+                console.log('rs:', ls);
+
+                const result = ls.filter((item) => item.price >= 50000 && item.price < 100000);
+
+                ls = result;
+                console.log('ls', ls);
+            } else if (filterPrice === '3') {
+                console.log('rs:', ls);
+
+                // 100000-200000
+                const result = ls.filter((item) => item.price >= 100000 && item.price < 200000);
+
+                ls = result;
+                console.log('ls', ls);
+            } else if (filterPrice === '4') {
+                console.log('rs:', ls);
+
+                // 200000-500000
+                const result = ls.filter((item) => item.price >= 200000 && item.price < 400000);
+
+                ls = result;
+                console.log('ls', ls);
+            } else if (filterPrice === '5') {
+                console.log('rs:', ls);
+                //  > 500000
+                const result = ls.filter((item) => item.price >= 400000);
+
+                ls = result;
+                console.log('ls', ls);
+            }
+
+            if (orderBy === 'default') {
+            } else if (orderBy === 'vote') {
+                ls.sort((a, b) => b.rating - a.rating);
+                console.log('ls', ls);
+            } else if (orderBy === 'newest') {
+                ls.sort((a, b) => b.NSX - a.NSX);
+                console.log('ls', ls);
+            } else if (orderBy === 'lowtohigh') {
+                ls.sort((a, b) => a.price - b.price);
+                console.log('ls', ls);
+            } else if (orderBy === 'hightolow') {
+                ls.sort((a, b) => b.price - a.price);
+                console.log('ls', ls);
+            }
+            filterProductContext.updateCount(ls);
+        }
+    }, [filterPrice, orderBy]);
+
+    let handleShowHide = () => {
+        let option = document.getElementById('option-filter');
+
+        option.style.maxHeight = '0';
+        // option.style.transitionTimingFunction = "cubic-bezier(0.46, 0.14, 0.93, 0.76)"
+        return setShowFilter(false);
+    };
+
     return (
         <React.Fragment>
             <ProductFilterAndSearch>
                 <ProductFilterButton
                     onClick={() => {
-                        let option = document.getElementById("option-filter");
+                        let option = document.getElementById('option-filter');
                         if (showFilter === true) {
-                            option.style.maxHeight = "0";
+                            option.style.maxHeight = '0';
                             // option.style.transitionTimingFunction = "cubic-bezier(0.46, 0.14, 0.93, 0.76)"
                         } else {
-                            option.style.maxHeight = "1000px";
+                            option.style.maxHeight = '1000px';
                             // option.style.transitionTimingFunction ="cubic-bezier(0.18, 0.28, 0, 0.95)"
                         }
                         return setShowFilter(!showFilter);
@@ -291,60 +257,35 @@ const Filter = ({ productList, defaultProductList }) => {
                     <FilterListIcon></FilterListIcon>
                     Bộ lọc
                 </ProductFilterButton>
-                <ProductSearchButton onClick={()=> handleSearch()}>
+                <ProductSearchButton onClick={() => handleSearch()}>
                     <SearchIcon></SearchIcon>
                     Tìm kiếm
                 </ProductSearchButton>
             </ProductFilterAndSearch>
             <SearchBar>
                 <i className="fas fa-search"></i>
-                <SearchInput
-                    type="text"
-                    name="search"
-                    id="searchbar"
-                    placeholder="Tìm kiếm..."
-                    value = {search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+                <SearchInput type="text" name="search" id="searchbar" placeholder="Tìm kiếm..." value={search} onChange={(e) => setSearch(e.target.value)} />
             </SearchBar>
             <OptionFilter id="option-filter">
                 <SortBy>
                     <div>Sắp xếp theo</div>
                     <ul>
-                        <FilterLink
-                            choosen={orderBy === "default" ? true : false}
-                            onClick={() => changeproductInFilter("default")}
-                        >
+                        <FilterLink choosen={orderBy === 'default' ? true : false} onClick={() => setOrderBy('default')}>
                             Mặc định
                         </FilterLink>
-                        <FilterLink
-                            choosen={orderBy === "popular" ? true : false}
-                            onClick={() => changeproductInFilter("popular")}
-                        >
+                        <FilterLink choosen={orderBy === 'popular' ? true : false} onClick={() => setOrderBy('popular')}>
                             Phổ biến
                         </FilterLink>
-                        <FilterLink
-                            choosen={orderBy === "vote" ? true : false}
-                            onClick={() => changeproductInFilter("vote")}
-                        >
+                        <FilterLink choosen={orderBy === 'vote' ? true : false} onClick={() => setOrderBy('vote')}>
                             Đánh giá
                         </FilterLink>
-                        <FilterLink
-                            choosen={orderBy === "newest" ? true : false}
-                            onClick={() => changeproductInFilter("newest")}
-                        >
+                        <FilterLink choosen={orderBy === 'newest' ? true : false} onClick={() => setOrderBy('newest')}>
                             Mới nhất
                         </FilterLink>
-                        <FilterLink
-                            choosen={orderBy === "lowtohigh" ? true : false}
-                            onClick={() => changeproductInFilter("lowtohigh")}
-                        >
+                        <FilterLink choosen={orderBy === 'lowtohigh' ? true : false} onClick={() => setOrderBy('lowtohigh')}>
                             Giá: Thấp đến Cao
                         </FilterLink>
-                        <FilterLink
-                            choosen={orderBy === "hightolow" ? true : false}
-                            onClick={() => changeproductInFilter("hightolow")}
-                        >
+                        <FilterLink choosen={orderBy === 'hightolow' ? true : false} onClick={() => setOrderBy('hightolow')}>
                             Giá: Cao đến Thấp
                         </FilterLink>
                     </ul>
@@ -352,45 +293,26 @@ const Filter = ({ productList, defaultProductList }) => {
                 <Price>
                     <div>Giá</div>
                     <ul>
-                        <FilterLink
-                            choosen={price === "all" ? true : false}
-                            onClick={() => changeproductInFilter(orderBy, "all",2)}
-                        >
+                        <FilterLink choosen={filterPrice === 'all' ? true : false} onClick={() => setFilterPrice('all')}>
                             Tất cả
                         </FilterLink>
-                        <FilterLink
-                            choosen={price === "1" ? true : false}
-                            onClick={() => changeproductInFilter(orderBy, "1",2)}
-                        >
+                        <FilterLink choosen={filterPrice === '1' ? true : false} onClick={() => setFilterPrice('1')}>
                             1 000VND - 50 000VND
                         </FilterLink>
-                        <FilterLink
-                            choosen={price === "2" ? true : false}
-                            onClick={() => changeproductInFilter(orderBy, "2",2)}
-                        >
+                        <FilterLink choosen={filterPrice === '2' ? true : false} onClick={() => setFilterPrice('2')}>
                             50 000VND - 100 000VND
                         </FilterLink>
-                        <FilterLink
-                            choosen={price === "3" ? true : false}
-                            onClick={() => changeproductInFilter(orderBy, "3",2)}
-                        >
+                        <FilterLink choosen={filterPrice === '3' ? true : false} onClick={() => setFilterPrice('3')}>
                             100 000VND - 200 000VND
                         </FilterLink>
-                        <FilterLink
-                            choosen={price === "4" ? true : false}
-                            onClick={() => changeproductInFilter(orderBy, "4",2)}
-                        >
+                        <FilterLink choosen={filterPrice === '4' ? true : false} onClick={() => setFilterPrice('4')}>
                             200 000VND - 400 000VND
                         </FilterLink>
-                        <FilterLink
-                            choosen={price === "5" ? true : false}
-                            onClick={() => changeproductInFilter(orderBy, "5",2)}
-                        >
+                        <FilterLink choosen={filterPrice === '5' ? true : false} onClick={() => setFilterPrice('5')}>
                             400 000VND+
                         </FilterLink>
                     </ul>
                 </Price>
-                
             </OptionFilter>
             <OptionSearch></OptionSearch>
         </React.Fragment>
