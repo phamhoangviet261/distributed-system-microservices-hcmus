@@ -288,7 +288,8 @@ export const Products = (props) => {
             if (props.typeQuery === 'all') {
                 API_URL = `${myUrl}/products/products`;
             } else if (props.typeQuery === 'many') {
-                API_URL = `https://localhost:44352/api/product/many/${props.query}`;
+                API_URL = `${myUrl}/products/products/byType/${props.query}`;
+                console.log('url:', API_URL);
             } else if (props.typeQuery === 'one') {
                 API_URL = `https://localhost:44352/api/product/one/${props.query}`;
             }
@@ -356,7 +357,7 @@ export const Products = (props) => {
 
                                         <ProducAddtocart
                                             onClick={() => {
-                                                item['rest'] = quantity;
+                                                item['quantity'] = quantity;
                                                 return props.AddCart(item);
                                             }}
                                         >

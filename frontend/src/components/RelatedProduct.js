@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import axios from "axios";
-import StarIcon from "@mui/icons-material/Star";
-import { Link } from "react-router-dom";
-
+import React, {useEffect, useState} from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import StarIcon from '@mui/icons-material/Star';
+import {Link} from 'react-router-dom';
+import myUrl from '../domain';
 const Container = styled.div`
     display: grid;
     margin-top: 50px;
@@ -108,120 +108,90 @@ const Highlight = styled.span`
 `;
 
 function shuffle(array) {
-    let currentIndex = array.length,  randomIndex;
-  
+    let currentIndex = array.length,
+        randomIndex;
+
     // While there remain elements to shuffle...
     while (currentIndex != 0) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
-    }
-  
-    return array;
-  }
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
 
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+}
 
 const RelatedProduct = (props) => {
-    const productKey = props.productKey
+    const productKey = props.productKey;
     // eslint-disable-next-line no-useless-constructor
     const [_products, setProducts] = useState([]);
     let API_URL;
 
     useEffect(() => {
         // props.actFetchProductsRequest();
-        let method = "GET";
-        API_URL = `https://localhost:44352/api/product/many/${props.query}`;
+        let method = 'GET';
+        API_URL = `${myUrl}/products/products/byType/${props.query}`;
 
         let fetchAPI = axios({
             method,
             url: API_URL,
-            data: null,
+            data: null
         })
             .catch((err) => {
                 // console.log(err);
             })
             .then((res) => {
-                let check = false
-                for (const item of res.data){
-                    if (item.maSP === productKey) check = true
+                let check = false;
+                for (const item of res.data.data) {
+                    if (item.id === productKey) check = true;
                 }
-                if (check){
-                    setProducts(shuffle(res.data.filter(product => product.maSP != productKey)))
-                }
-                else {
-                    setProducts(shuffle(res.data))
+                if (check) {
+                    setProducts(shuffle(res.data.filter((product) => product.id !== productKey)));
+                } else {
+                    setProducts(shuffle(res.data));
                 }
             });
-        
-        
     }, [productKey]);
-
-    
 
     if (_products.length > 0) {
         return (
-            <div style={{ display: "flex", flexDirection: "column", maxWidth: "80%",margin:"-40px 0 40px 0"}}>
+            <div style={{display: 'flex', flexDirection: 'column', maxWidth: '80%', margin: '-40px 0 40px 0'}}>
                 <ProductWrapper>
                     <Container>
                         {_products.map((item, index) => {
                             if (index < 4) {
                                 return (
                                     <WrapItem key={index}>
-                                        <StyledLink
-                                            to={"/product/" + item.maSP}
-                                        >
+                                        <StyledLink to={'/product/' + item.maSP}>
                                             <ProductItem>
-                                                <ProductImage
-                                                    src={item.anhSP}
-                                                    alt="TEE"
-                                                />
-                                                <ProductTitle>
-                                                    {item.tenSP}
-                                                </ProductTitle>
+                                                <ProductImage src={item.anhSP} alt="TEE" />
+                                                <ProductTitle>{item.tenSP}</ProductTitle>
                                                 <ProductPrice>
-                                                    Giá:{" "}
-                                                    <Highlight>
-                                                        {item.giaSP} VNĐ
-                                                    </Highlight>
+                                                    Giá: <Highlight>{item.giaSP} VNĐ</Highlight>
                                                 </ProductPrice>
                                                 <ProductPrice>
-                                                    Đã bán:{" "}
-                                                    <Highlight>
-                                                        {item.soSPDaBan}
-                                                    </Highlight>
+                                                    Đã bán: <Highlight>{item.soSPDaBan}</Highlight>
                                                 </ProductPrice>
                                                 <ProductPrice>
-                                                    Rating:{" "}
-                                                    <Highlight>
-                                                        {item.avgRating}
-                                                    </Highlight>
+                                                    Rating: <Highlight>{item.avgRating}</Highlight>
                                                     <StarIcon
                                                         style={{
-                                                            fontSize: "18px",
-                                                            transform:
-                                                                "translateY(-1px)",
-                                                            color: "#dd9d0d",
-                                                            marginLeft: "2px",
+                                                            fontSize: '18px',
+                                                            transform: 'translateY(-1px)',
+                                                            color: '#dd9d0d',
+                                                            marginLeft: '2px'
                                                         }}
                                                     ></StarIcon>
                                                 </ProductPrice>
                                             </ProductItem>
                                         </StyledLink>
 
-                                        <StyledLink
-                                            style={{ marginLeft: "30px" }}
-                                            to={"/store/" + item.iD_Store}
-                                        >
+                                        <StyledLink style={{marginLeft: '30px'}} to={'/store/' + item.iD_Store}>
                                             <p>
-                                                Cửa hàng:{" "}
-                                                <Highlight>
-                                                    {item.tenCH}
-                                                </Highlight>
+                                                Cửa hàng: <Highlight>{item.tenCH}</Highlight>
                                             </p>
                                         </StyledLink>
                                     </WrapItem>
@@ -235,10 +205,7 @@ const RelatedProduct = (props) => {
     }
 
     return (
-        <div
-            className="row"
-            style={{ marginTop: "500px", marginBottom: "500px" }}
-        >
+        <div className="row" style={{marginTop: '500px', marginBottom: '500px'}}>
             <h2>Loading...!</h2>
         </div>
     );
