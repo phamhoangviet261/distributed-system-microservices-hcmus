@@ -771,15 +771,18 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/add', async (req, res, next) => {
     try {
-        const {name, linkImg, description, price, status} = req.body;
+        const {name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, status} = req.body;
         if(!name || !linkImg || !description || !price){
             return res.status(200).json({message: "Missing data...", data: []});
         }
         const products = await Product.find({})
 
-        const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, status: status ? status : 'active'});
+        const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, status: status ? status : 'active'});
         const product = await p.save();
-        return res.status(200).json({data: product});
+
+        // await Store.findOneAndUpdate({id: storeId}, {})
+
+        return res.status(200).json({data: products.length});
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
