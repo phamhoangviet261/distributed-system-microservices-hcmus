@@ -1,1 +1,23 @@
-{"services":{"accounts":{"apiName":"accounts","protocol":"http","host":"localhost","port":5001,"url":"http://localhost:5001"}}}
+{
+    "services": {
+        "accounts": {
+            "index": 0,
+            "instances": [
+                {
+                    "apiName": "accounts",
+                    "protocol": "http",
+                    "host": "localhost",
+                    "port": 5001,
+                    "url": "http://localhost:5001"
+                },
+                {
+                    "apiName": "accounts",
+                    "protocol": "http",
+                    "host": "localhost",
+                    "port": 5002,
+                    "url": "http://localhost:5002"
+                }
+            ]
+        }
+    }
+}
