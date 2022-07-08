@@ -9,7 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import style from 'styled-components';
 import EditProduct from './EditProduct';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,65 +38,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-const rows = [
-    {
-        "_id": "62c4f9bbd9e6be98efed3166",
-        "sold": 20,
-        "rest": 50,
-        "discount": 23,
-        "NSX": "2022-05-26T13:41:00.553Z",
-        "HSD": "2023-10-02T11:56:17.760Z",
-        "id": "sp001",
-        "name": "Thịt ba rọi heo tươi C.P khay 500g",
-        "linkImg": "https://cdn.tgdd.vn/Products/Images/8781/228329/bhx/ba-roi-heo-khay-500g-202111262046493617_300x300.jpg",
-        "descriptions": "1  Hương vị cola sảng khoái, thơm lừng hoà quyện trong miếng kẹo mềm dẻo, kích thích mọi giác quan.",
-        "price": 100000,
-        "rating": 4,
-        "reviews": 7,
-        "lsp": "lsp001",
-        "updatedAt": "2022-07-07T09:50:45.139Z",
-        "storeId": "STORE0",
-        "storeName": "Cua Hang Bach Hoa Xanh"
-    },
-    {
-        "_id": "62c4f9bbd9e6be98efed3167",
-        "sold": 30,
-        "rest": 50,
-        "discount": 21,
-        "NSX": "2022-04-05T14:38:37.445Z",
-        "HSD": "2023-09-02T13:22:49.965Z",
-        "id": "sp002",
-        "name": "Thịt heo xay nhuyễn G khay 300g",
-        "linkImg": "https://cdn.tgdd.vn/Products/Images/8781/245247/bhx/thit-heo-xay-nhap-khau-tam-uop-bach-hoa-xanh-tui-250g-202107081024096978_300x300.jpeg",
-        "descriptions": "2  Hương vị cola sảng khoái, thơm lừng hoà quyện trong miếng kẹo mềm dẻo, kích thích mọi giác quan.",
-        "price": 52000,
-        "rating": 5,
-        "reviews": 7,
-        "lsp": "lsp001",
-        "storeId": "STORE1",
-        "updatedAt": "2022-07-07T09:50:45.184Z",
-        "storeName": "Cua Hang Family Mark"
-    },
-    {
-        "_id": "62c4f9bbd9e6be98efed3168",
-        "sold": 40,
-        "rest": 50,
-        "discount": 9,
-        "NSX": "2022-01-04T07:12:07.896Z",
-        "HSD": "2023-07-09T04:10:05.920Z",
-        "id": "sp003",
-        "name": "Ba chỉ bò Úc tươi Pacow khay 250g",
-        "linkImg": "https://cdn.tgdd.vn/Products/Images/8139/223384/bhx/thit-ba-chi-bo-uc-pacow-khay-250g-202112031540589978_300x300.jpg",
-        "descriptions": "3  Hương vị cola sảng khoái, thơm lừng hoà quyện trong miếng kẹo mềm dẻo, kích thích mọi giác quan.",
-        "price": 69000,
-        "rating": 4,
-        "reviews": 7,
-        "lsp": "lsp001",
-        "storeId": "STORE2",
-        "updatedAt": "2022-07-07T09:50:45.232Z",
-        "storeName": "Cua Hang Tap Hoa"
-    }
-];
+
 
 const Image = style.img`
     width: 50px;
@@ -103,10 +46,35 @@ const Image = style.img`
 
 export default function StoreTable() {
 
+    const [product, setProduct] = useState({});
+    const [rows, setRows] = useState([]);
     const EditButton = useRef(null);
-    const HandleClick = () => {
-        EditButton.current.click();
+    const HandleClick = (product) => {
+      setProduct({...product});
+      EditButton.current.click();
     }
+
+    const user = JSON.parse(localStorage.getItem("UDPTuser"))
+    console.log(`http://localhost:5000/products/stores/${user.storeId}`)
+    useEffect(()=>{
+      console.log(product)
+    },[product])
+
+    useEffect(()=>{
+      axios({
+        method: "GET",
+        url: `http://localhost:5000/products/stores/${user.storeId}`,
+        data: null
+    })
+        .catch((err) => {
+            console.log(err);
+        })
+        .then((res) => {
+            if(res.data){
+              setRows([...res.data.data.productsDetail])
+            }
+        });
+    },[])
 
 
   return (
@@ -124,7 +92,7 @@ export default function StoreTable() {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow onClick={HandleClick} key={row.name}>
+            <StyledTableRow onClick={()=>{HandleClick(row)}} key={row.name}>
               <StyledTableCell component="th" scope="row">
                 <Image src={row.linkImg} alt='product image'/>
               </StyledTableCell>
@@ -132,7 +100,7 @@ export default function StoreTable() {
               <StyledTableCell align="left">{row.sold}</StyledTableCell>
               <StyledTableCell align="left">{row.rest}</StyledTableCell>
               <StyledTableCell align="left">{row.price}</StyledTableCell>
-              <StyledTableCell align="left"><EditProduct ref={EditButton}></EditProduct></StyledTableCell>
+              <StyledTableCell align="left"><EditProduct product={product} ref={EditButton}></EditProduct></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
