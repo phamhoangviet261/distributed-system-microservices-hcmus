@@ -5,23 +5,26 @@ const registry = require('./registry.json');
 const loadbalancer = require('../utils/loadbalancer');
 const fs = require('fs');
 
+const instanceAlreadyExists = (instance) => {
+    return registry.services[instance.apiName].instances.some((instanceExist) => {
+        let isSame = true;
+        for (let field in instanceExist) {
+            if (instanceExist[field] !== instance[field]) {
+                isSame = false;
+                break;
+            }
+        }
+        if (isSame) return true;
+    });
+};
+
 router.post('/register', async (req, res, next) => {
     try {
         const resgistration = req.body;
         resgistration.url = resgistration.protocol + '://' + resgistration.host + ':' + resgistration.port;
 
         if (registry.services[resgistration.apiName]) {
-            const checkExist = registry.services[resgistration.apiName].instances.some((instance) => {
-                let isSame = true;
-                for (let field in instance) {
-                    if (instance[field] !== resgistration[field]) {
-                        isSame = false;
-                        break;
-                    }
-                }
-                if (isSame) return true;
-            });
-            if (checkExist) {
+            if (instanceAlreadyExists(resgistration)) {
                 throw new Error(`This instance already exists in [${resgistration.apiName}]`);
             }
             registry.services[resgistration.apiName].instances.push({...resgistration});
@@ -44,18 +47,27 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/unregister', async (req, res, next) => {
     try {
-        const {apiName} = req.body;
-        if (!registry.services[apiName]) {
-            throw new Error(`Service name [${apiName}] does not exist`);
+        const resgistration = req.body;
+        resgistration.url = resgistration.protocol + '://' + resgistration.host + ':' + resgistration.port;
+        if (!registry.services[resgistration.apiName]) {
+            throw new Error(`Service name [${resgistration.apiName}] does not exist`);
         }
 
-        delete registry.services[apiName];
+        if (!instanceAlreadyExists(resgistration)) {
+            throw new Error(`This instance does not exist in [${resgistration.apiName}]`);
+        }
+
+        registry.services[resgistration.apiName].instances = registry.services[resgistration.apiName].instances.filter((instance) => instance.url !== resgistration.url);
+
+        if (registry.services[resgistration.apiName].instances.length === 0) {
+            delete registry.services[resgistration.apiName];
+        }
 
         fs.writeFile('./routes/registry.json', JSON.stringify(registry), (error) => {
             if (error) {
-                throw new Error(`Could not unregister [${apiName}] \n${error.message}`);
+                throw new Error(`Could not unregister [${resgistration.apiName}] \n${error.message}`);
             } else {
-                res.send(`Successfully unregistered [${apiName}]`);
+                res.send(`Successfully unregistered [${resgistration.apiName}]`);
             }
         });
     } catch (error) {
