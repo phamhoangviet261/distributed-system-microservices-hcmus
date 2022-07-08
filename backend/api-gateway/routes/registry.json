@@ -3,20 +3,22 @@
         "accounts": {
             "index": 0,
             "instances": [
-                {
-                    "apiName": "accounts",
-                    "protocol": "http",
-                    "host": "localhost",
-                    "port": 5001,
-                    "url": "http://localhost:5001"
-                },
-                {
-                    "apiName": "accounts",
-                    "protocol": "http",
-                    "host": "localhost",
-                    "port": 5002,
-                    "url": "http://localhost:5002"
-                }
+                {"apiName": "accounts", "protocol": "http", "host": "localhost", "port": 5001, "url": "http://localhost:5001"},
+                {"apiName": "accounts", "protocol": "http", "host": "localhost", "port": 5002, "url": "http://localhost:5002"}
+            ]
+        },
+        "testregister3": {
+            "index": 0,
+            "instances": [
+                {"apiName": "testregister3", "protocol": "http", "host": "localhost", "port": 3007, "url": "http://localhost:3007"},
+                {"apiName": "testregister3", "protocol": "http", "host": "localhost", "port": 3006, "url": "http://localhost:3006"}
+            ]
+        },
+        "testregister4": {
+            "index": 0,
+            "instances": [
+                {"apiName": "testregister4", "protocol": "http", "host": "localhost", "port": 3006, "url": "http://localhost:3006"},
+                {"apiName": "testregister4", "protocol": "https", "host": "localhost", "port": 3006, "url": "https://localhost:3006"}
             ]
         }
     }
