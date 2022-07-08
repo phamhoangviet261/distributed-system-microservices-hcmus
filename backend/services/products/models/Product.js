@@ -21,6 +21,9 @@ const ProductSchema = new Schema({
     reviews: Number,
     storeId: String,
     storeName: String,
+    lsp: {
+        type: String,
+    },
     status: String
 }, { timestamps: true })
 
