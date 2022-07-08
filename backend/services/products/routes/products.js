@@ -771,18 +771,18 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/add', async (req, res, next) => {
     try {
-        const {name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, status} = req.body;
-        if(!name || !linkImg || !description || !price){
+        const {name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, lsp, status} = req.body;
+        if(!name || !linkImg || !description || !price || !lsp){
             return res.status(200).json({message: "Missing data...", data: []});
         }
         const products = await Product.find({})
 
-        const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, status: status ? status : 'active'});
+        const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, lsp, status: status ? status : 'active'});
         const product = await p.save();
 
         // await Store.findOneAndUpdate({id: storeId}, {})
 
-        return res.status(200).json({data: products.length});
+        return res.status(200).json({data: product});
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
@@ -792,8 +792,8 @@ router.post('/add', async (req, res, next) => {
 
 router.post('/update', async (req, res, next) => {
     try {
-        const {productId, name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, status} = req.body;
-
+        const {productId, name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, lsp, status} = req.body;
+        
         const product = await Product.findOne({id: productId})
 
         await Product.findOneAndUpdate({id: productId}, {
@@ -808,6 +808,9 @@ router.post('/update', async (req, res, next) => {
             HSD: HSD ? HSD : product.HSD,
             rating: rating ? rating : product.rating,
             reviews: reviews ? reviews : product.reviews,
+            storeId: storeId ? storeId : product.storeId,
+            storeName: storeName ? storeName : product.storeName,
+            lsp: lsp ? lsp : product.lsp,
             status: status ? status : product.status
         });
         const newProduct = await Product.findOne({id: productId});
