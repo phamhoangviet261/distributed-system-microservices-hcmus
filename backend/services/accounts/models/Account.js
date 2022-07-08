@@ -37,9 +37,14 @@ const AccountSchema = new Schema({
     address: {
         type: Object,
     },
+    typeAccount: {
+        type: String,
+        enum: ['Customer', 'Store'],
+    },
     invoices: {
         type: Array,
     },
+    storeId: String,
     status: String
 }, { timestamps: true })
 

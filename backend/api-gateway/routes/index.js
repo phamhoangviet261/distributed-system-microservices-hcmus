@@ -35,6 +35,7 @@ router.post('/register', async (req, res, next) => {
         fs.writeFile('./routes/registry.json', JSON.stringify(registry), (error) => {
             if (error) {
                 throw new Error(`Could not register [${resgistration.apiName}] \n${error.message}`);
+
             } else {
                 res.send(`Successfully registered [${resgistration.apiName}]`);
             }

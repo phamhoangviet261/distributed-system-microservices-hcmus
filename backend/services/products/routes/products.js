@@ -2,7 +2,115 @@ const express = require('express')
 const router = express.Router()
 
 const Product = require('../models/Product')
+const Store = require('../models/Store')
 const mongoose = require('mongoose')
+
+const ProductType = [
+    {
+        id: "lsp001",
+        name: "Sản phẩm thịt",
+        idProductGroup: "nsp001"
+    },
+    {
+        id: "lsp002",
+        name: "Sản phẩm thuỷ sản",
+        idProductGroup: "nsp001"
+    },
+    {
+        id: "lsp003",
+        name: "Sản phẩm rau xanh",
+        idProductGroup: "nsp001"
+    },
+    {
+        id: "lsp004",
+        name: "Sản phẩm trái cây",
+        idProductGroup: "nsp001"
+    },
+    {
+        id: "lsp005",
+        name: "Sản phẩm trứng",
+        idProductGroup: "nsp001"
+    },
+    {
+        id: "lsp006",
+        name: "Bánh kẹo",
+        idProductGroup: "nsp002"
+    },
+    {
+        id: "lsp007",
+        name: "Gia vị",
+        idProductGroup: "nsp002"
+    },
+    {
+        id: "lsp008",
+        name: "Đồ ăn nhanh",
+        idProductGroup: "nsp002"
+    },
+    {
+        id: "lsp009",
+        name: "Đồ ăn đóng hộp",
+        idProductGroup: "nsp002"
+    },
+    {
+        id: "lsp010",
+        name: "Nước uống các loại",
+        idProductGroup: "nsp002"
+    },
+    {
+        id: "lsp011",
+        name: "Gạo các loại",
+        idProductGroup: "nsp003"
+    },
+    {
+        id: "lsp012",
+        name: "Củ, quả",
+        idProductGroup: "nsp003"
+    },
+    {
+        id: "lsp013",
+        name: "Sản phẩm bột, tinh bộ",
+        idProductGroup: "nsp003"
+    },
+    {
+        id: "lsp014",
+        name: "Khẩu trang",
+        idProductGroup: "nsp004"
+    },
+    {
+        id: "lsp015",
+        name: "Sản phẩm kháng khuẩn",
+        idProductGroup: "nsp004"
+    },
+    {
+        id: "lsp016",
+        name: "Sản phảm vệ sinh cá nhân",
+        idProductGroup: "nsp004"
+    },
+    {
+        id: "lsp017",
+        name: "Sản phẩm tẩy rửa",
+        idProductGroup: "nsp004"
+    }
+]
+
+const ProductGroup = [
+    {
+        id: "nsp001",
+        name: "Thực phẩm tươi sống"
+    },
+    {
+        id: "nsp002",
+        name: "Công nghệ phẩm"
+    },
+    {
+        id: "nsp003",
+        name: "Lương thực"
+    },
+    {
+        id: "nsp004",
+        name: "Nhu yếu phẩm cần thiết"
+    }
+]
 
 // let db = [`INSERT [dbo].[SanPham] ([maSP], [tenSP], [anhSP], [moTaSP], [ngayDang], [giaSP], [soLuongTon], [soSPDaBan], [avgRating], [soRating], [loaiSP], [account_CH]) VALUES (N'sp001', N'Thịt ba rọi heo tươi C.P khay 500g', N'https://cdn.tgdd.vn/Products/Images/8781/228329/bhx/ba-roi-heo-khay-500g-202111262046493617_300x300.jpg', N'1  Hương vị cola sảng khoái, thơm lừng hoà quyện trong miếng kẹo mềm dẻo, kích thích mọi giác quan.', CAST(N'2021-12-31' AS Date), 91000, 50, 20, 4.9, 7, N'lsp001', N'ch001')`,
 // `INSERT [dbo].[SanPham] ([maSP], [tenSP], [anhSP], [moTaSP], [ngayDang], [giaSP], [soLuongTon], [soSPDaBan], [avgRating], [soRating], [loaiSP], [account_CH]) VALUES (N'sp002', N'Thịt heo xay nhuyễn G khay 300g', N'https://cdn.tgdd.vn/Products/Images/8781/245247/bhx/thit-heo-xay-nhap-khau-tam-uop-bach-hoa-xanh-tui-250g-202107081024096978_300x300.jpeg', N'2  Hương vị cola sảng khoái, thơm lừng hoà quyện trong miếng kẹo mềm dẻo, kích thích mọi giác quan.', CAST(N'2021-12-31' AS Date), 52000, 50, 30, 5, 7, N'lsp001', N'ch002')`,
@@ -535,13 +643,13 @@ const mongoose = require('mongoose')
 //         // const products = await Product.find({})
 //         for(let i = 0; i < db.length; i++){
 //             let item = db[i]
-//             const itemData = item.split(',').slice(11, 19)
+//             const itemData = item.split(`',`)
 //             let obj = {
 //                 sold: Math.floor(Math.random() * 100),
 //                 rest: 100-Math.floor(Math.random() * 50),
 //                 discount: 30-Math.floor(Math.random() * 30),
 //                 NSX: randomDate(new Date(2022, 0, 1), new Date()),
-//                 HSD: randomDate(new Date(), new Date(2024, 0, 1))
+//                 HSD: randomDate(new Date(), new Date(2024, 0, 1)),
 //             }
 //             for(let index = 0; index < itemData.length; index++){
 //                 let data = itemData[index]
@@ -551,28 +659,40 @@ const mongoose = require('mongoose')
 //                         obj.id = data;
 //                         break;
 //                     case 1:
-//                         data = data.split('N')[1].split(`'`)[1]
+//                         data = data.split(`N'`)[1].split(`'`)[0]
 //                         obj.name = data;
 //                         break;
 //                     case 2:
-//                         data = data.split('N')[1].split(`'`)[1]
+//                         data = data.split(`N'`)[1].split(`'`)[0]
 //                         obj.linkImg = data;
 //                         break;
 //                     case 3:
-//                         data = itemData[3] + itemData[4] + itemData[5]
-//                         data = data.split('N')[1]
+//                         // data = itemData[3] + itemData[4] + itemData[5]
+//                         data = data.split(`N'`)[1]
 //                         obj.descriptions = data;
 //                     case 4:
-//                         data = itemData[7].trim()
-//                         obj.price = data;
+//                         let newData = data.split(',');
+//                         obj.price = newData[1];
+//                         obj.rest = newData[2];
+//                         obj.sold = newData[3];
+//                         obj.rating = newData[4];
+//                         obj.reviews = newData[5];
+//                         obj.lsp = newData[6];
 //                         break;
 //                     default:
-//                         data = '-----'
+//                         // data = '-----'
+//                         // obj.others.push(index + data);
 //                         break;
 //                 }
 //             }
 //             // itemData[index] = obj;
 //             // db[i]= itemData.slice(0, 4)
+//             obj.price = parseInt(obj.price.trim());
+//             obj.rest = parseInt(obj.rest.trim());
+//             obj.sold = parseInt(obj.sold.trim());
+//             obj.rating = parseInt(obj.rating.trim());
+//             obj.reviews = parseInt(obj.reviews.trim());
+//             obj.lsp = obj.lsp.split(`N'`)[1]
 //             db[i] = obj;
 //         }
 //         return res.status(200).json({data: db});
@@ -582,11 +702,56 @@ const mongoose = require('mongoose')
 //     }
     
 // })
-
+const datamap =['Cua Hang Bach Hoa Xanh', 'Cua Hang Family Mark', 'Cua Hang Tap Hoa', 'Cua Hang SquareK', 'Cua Hang Nong San', 'Cua Hang Tap Hoa Gia Dinh']
 router.get('/', async (req, res, next) => {
     try {
         const products = await Product.find({});
-        return res.status(200).json({data: products});
+        const fakeProducts = products.filter(product => product.storeId)
+        return res.status(200).json({data: products, fakeProducts, ProductType, ProductGroup});
+        // const products = await Product.find({});
+        // const fakeProducts = JSON.parse(JSON.stringify(products));
+
+        // for(let i = 0; i < fakeProducts.length; i++) {
+        //     let randomId = "STORE" + i%6;
+        //     await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeName: datamap[i%6]})
+
+        //     // let s = await Store.findOne({id: randomId});
+        //     // let oldProducts = s.products;
+        //     // oldProducts.push(fakeProducts[i].id);
+        //     // console.log(oldProducts.length);
+        //     // await Store.findOneAndUpdate({id: randomId}, {products: oldProducts})
+        // }
+        // const productsAfter = await Product.find({});
+        // return res.status(200).json({data: productsAfter});
+
+
+        
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+})
+
+router.get('/byGroup/:idGroup', async (req, res, next) => {
+    try {
+        const products = await Product.find({});
+        const fakeProducts = JSON.parse(JSON.stringify(products));
+        let r = ProductType.filter(item => item.idProductGroup == req.params.idGroup).map(item => item.id)
+        // console.log("--> ", r.map(item => item.id == product.category).includes(true));
+        let result = fakeProducts.filter(item => r.includes(item.lsp))
+        return res.status(200).json({data: result, ProductType, ProductGroup});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+})
+
+router.get('/byType/:idType', async (req, res, next) => {
+    try {
+        const products = await Product.find({});
+        const fakeProducts = JSON.parse(JSON.stringify(products));
+        const result = fakeProducts.filter(product => product.lsp == req.params.idType);
+        return res.status(200).json({data: result, ProductType, ProductGroup});
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
@@ -606,18 +771,90 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/add', async (req, res, next) => {
     try {
-        const {name, linkImg, description, price, status} = req.body;
-
+        const {name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, lsp, status} = req.body;
+        if(!name || !linkImg || !description || !price || !lsp){
+            return res.status(200).json({message: "Missing data...", data: []});
+        }
         const products = await Product.find({})
 
-        const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, status: status ? status : 'active'});
+        const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, lsp, status: status ? status : 'active'});
         const product = await p.save();
+
+        // await Store.findOneAndUpdate({id: storeId}, {})
+
         return res.status(200).json({data: product});
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
     }
     
+})
+
+router.post('/update', async (req, res, next) => {
+    try {
+        const {productId, name, linkImg, description, price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, lsp, status} = req.body;
+        
+        const product = await Product.findOne({id: productId})
+
+        await Product.findOneAndUpdate({id: productId}, {
+            name: name, 
+            description: description ? description : product.description, 
+            linkImg: linkImg ? linkImg : product.linkImg,
+            price: price ? price : product.price, 
+            sold: sold ? sold : product.sold,
+            rest: rest ? rest : product.rest,
+            discount: discount ? discount : product.discount,
+            NSX: NSX ? NSX : product.NSX,
+            HSD: HSD ? HSD : product.HSD,
+            rating: rating ? rating : product.rating,
+            reviews: reviews ? reviews : product.reviews,
+            storeId: storeId ? storeId : product.storeId,
+            storeName: storeName ? storeName : product.storeName,
+            lsp: lsp ? lsp : product.lsp,
+            status: status ? status : product.status
+        });
+        const newProduct = await Product.findOne({id: productId});
+        return res.status(200).json({data: newProduct});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+    
+})
+
+
+router.post('/clearStoreId', async (req, res, next) => {
+    try {
+        const {storeId, listProductId} = req.body;
+
+        if(!storeId && !listProductId){
+            const products = await Product.find({});
+            const fakeProducts = products.filter(product => product.storeId)
+            for(let i = 0; i < fakeProducts.length; i++) {
+                await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeId: ""});
+            }
+            return res.status(200).json({message: "Clear store Id successfully", data: fakeProducts});
+        }
+        if(storeId){
+            const products = await Product.find({});
+            const fakeProducts = products.filter(product => product.storeId == storeId);
+            for(let i = 0; i < fakeProducts.length; i++) {
+                await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeId: ""});
+            }
+            return res.status(200).json({message: "Clear store Id successfully", data: fakeProducts});
+        }
+        if(listProductId.length > 0){
+            const products = await Product.find({});
+            const fakeProducts = products.filter(product => listProductId.includes(product.id));
+            for(let i = 0; i < fakeProducts.length; i++) {
+                await Product.findOneAndUpdate({id: fakeProducts[i].id}, {storeId: ""});
+            }
+            return res.status(200).json({message: "Clear store Id successfully", data: fakeProducts});
+        }
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
 })
 
 module.exports = router

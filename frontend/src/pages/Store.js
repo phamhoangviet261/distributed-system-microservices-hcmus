@@ -1,152 +1,80 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation} from 'react-router-dom'
-import Product from "../components/Products";
-
+import React, {useEffect, useState} from 'react';
+import {Link, useLocation} from 'react-router-dom';
+import Product from '../components/Products';
+import StoreTable from '../components/stores/StoreTable';
+import NewProduct from '../components/stores/NewProduct';
 
 const Container = styled.div`
     display: flex;
+    background-color: #f5f5f5;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-top: 90px;
-    width: 100%; 
+    width: 100%;
 `;
 
-const StoreInfor = styled.div`
-    width: 70%;
-    background-color: #b2e5e5;
-    color: black;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px 50px;
-    padding: 50px;
-    padding-left: 130px;
-    margin-bottom: 30px;
-    border-radius: 1em;
-    -webkit-box-shadow: -8px 8px 13px -1px rgba(0,0,0,0.54); 
-    box-shadow: -8px 8px 13px -1px rgba(0,0,0,0.54);    & > img{
-        width: 20%;
-        border-radius: 50%;
-    }
-`;
-const StoreInforItem = styled.div`
-    & > label,span {
-        font-size: 18px;
-    }
-    & > label {
-        font-weight: bold;
-    }
-    & > span {
-        padding-left: 12px;
+const AddContainer = styled.div`
+    margin: 20px auto;
+    width: 1200px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 3px;
+    animation: show 2s;
+`
+
+const AddNew = styled.div`
+    min-width: 1200px;
+    background-color: #333;
+    height: 60px;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    line-height: 57px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.9;
+        transition: 0.3;
     }
 `
-const StoreInfor1 = styled.div`
-    width: 80%;
-    background-color: #ffd1dc;
-    display: flex;
-    padding: 20px 100px;
-    margin-bottom: 30px;
-    border-radius: 1em;
-    & > img{
-        width: 20%;
-        border-radius: 50%;
-    }
-`;
 
-const StoreImage = styled.img`
-
-`;
-
-const ListProduct = styled.div`
-    width: 60%;
-`;
-
-
+const Content = styled.div`
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 3px;
+    min-width: 1200px;
+    margin: 20px auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-bottom: 50px;
+`
 
 const Store = () => {
+
+    const [showAdd, setShowAdd] = useState(0);
+
     useEffect(() => {
         window.scrollTo(0, 0);
-        document.getElementById("header").classList.add("changeHeaderColor");
-        document.getElementById("center").classList.add("changeColor");
-        document.getElementById("brandNameRight").classList.add("changeColorToBlack");
-        document.getElementById("shopping-icon").classList.add("changeColorToBlack");
-        let menuItem = document.querySelectorAll('.menu-item')
-        menuItem.forEach(function(item) {
-          item.classList.add('changeColorToBlack')
-        })
-
-    }, []);
-
-    const location = useLocation();
-    let storeID = location.pathname.split("/").pop();
-    console.log(location.pathname)
-    const [data, setData] = useState([])
-    const [listProduct, setListProduct] = useState([])
-    const [address, setAddress] = useState('')
-    let API_URL = 'http://localhost:8080/api/store/one';
-    useEffect(() => {
-        // props.actFetchProductsRequest();  
-        let endpoint = ''
-        let method = 'POST'
-        let d = axios({
-        method,
-        url: `${API_URL}/${endpoint}`,
-        data: {
-            "accountID": storeID,
-        }
-        }).catch(err => {
-        console.log(err);
-        }).then(res => {
-            console.log("data:",res.data)
-            setData(res.data)
-            setListProduct(res.data.danhSachSanPham)
-            setAddress(res.data.diaChiCuaHang.diaChiChiTiet)
+        document.getElementById('header').classList.add('changeHeaderColor');
+        document.getElementById('center').classList.add('changeColor');
+        document.getElementById('brandNameRight').classList.add('changeColorToBlack');
+        document.getElementById('shopping-icon').classList.add('changeColorToBlack');
+        let menuItem = document.querySelectorAll('.menu-item');
+        menuItem.forEach(function (item) {
+            item.classList.add('changeColorToBlack');
         });
-    }, [])
-
+    }, []);
     return <Container>
-        <h2 style={{marginBottom: "30px",marginTop:"20px"}}>Thông tin cửa hàng <strong>{data.TenCH}</strong></h2>
-        <StoreInfor>
-            <StoreInforItem>
-                <label>Mã cửa hàng:</label>
-                <span>{data.accountID}</span>
-            </StoreInforItem>
-            <StoreInforItem>
-                <label>Số điện thoại:</label>
-                <span>{data.sdt}</span>
-            </StoreInforItem>
-            <StoreInforItem>
-                <label>Tên cửa hàng:</label>
-                <span>{data.tenCH}</span>
-            </StoreInforItem>
-            <StoreInforItem>
-                <label>E-mail:</label>
-                <span>{data.email}</span>
-            </StoreInforItem>
-            <StoreInforItem>
-                <label>Mã GPKD:</label>
-                <span>{data.maGPKD}</span>
-            </StoreInforItem>
-            <StoreInforItem>
-                <label>Mã CNATTP:</label>
-                <span>{data.maCNATTP}</span>
-            </StoreInforItem>
-            <StoreInforItem>
-                <label>Địa chỉ:</label>
-                <span>{address}</span>
-            </StoreInforItem>
-            <StoreInforItem>
-                <label>Ngày tham gia:</label>
-                <span>{data.ngayThamGia}</span>
-            </StoreInforItem>
-        </StoreInfor>
-        
-        <h2 style={{marginBottom: "-20px",marginTop:"20px"}}>Danh sách sản phẩm</h2>
-        <ListProduct>
-            <Product key={listProduct} data={listProduct} typeQuery='store' ></Product>
-        </ListProduct>
-    </Container>
-}
+        <AddNew onClick={()=>{setShowAdd(!showAdd)}}>Thêm Sản Phẩm Mới</AddNew>
+            {showAdd?<AddContainer><NewProduct /></AddContainer>:null}
+        <Content>
+            <StoreTable />
+        </Content>
+    </Container>;
+};
 export default Store;

@@ -9,10 +9,10 @@ myclient = MongoClient("mongodb+srv://IEwDYeP7dz:mdm-p7Thrs2awb@mongodbcluster.a
 db = myclient["UDPT-DICHO-PRODUCTS"]
    
 # Created or Switched to collection 
-Collection = db["products"]
+Collection = db["stores"]
   
 # Loading or Opening the json file
-with open('Product.json', encoding="utf8") as file:
+with open('Store.json', encoding="utf8") as file:
     file_data = json.load(file)
       
 # Inserting the loaded data in the Collection

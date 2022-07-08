@@ -9,7 +9,7 @@ const InvoiceSchema = new Schema({
         unique: true
     },
     storeId: String,
-    userId: String,    
+    phoneNumber: String,    
     address: {
         districtId: Number,
         wardId: Number,

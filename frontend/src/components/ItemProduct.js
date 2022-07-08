@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
-import { actFetchProductsRequest, AddCart } from "./actions";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
-import StarIcon from "@mui/icons-material/Star";
+import React, {useEffect, useState, useLayoutEffect} from 'react';
+import {actFetchProductsRequest, AddCart} from './actions';
+import {connect} from 'react-redux';
+import styled from 'styled-components';
+import {Link, useLocation} from 'react-router-dom';
+import axios from 'axios';
+import StarIcon from '@mui/icons-material/Star';
 import RemoveIcon from '@mui/icons-material/Remove';
-import RelatedProduct from "./RelatedProduct";
+import RelatedProduct from './RelatedProduct';
 import AddIcon from '@mui/icons-material/Add';
-
+import myUrl from '../domain';
 const Container = styled.div`
     display: flex;
     width: 100%;
@@ -35,24 +35,6 @@ const ImageMain = styled.img`
     width: 500px;
 `;
 
-const ImageSub = styled.div`
-    display: flex;
-    margin-top: 20px;
-`;
-
-const ImageSubItemDiv = styled.div`
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-`;
-
-const ImageSubItem = styled.img`
-    width: 100%;
-    max-height: 100%;
-    cursor: pointer;
-    margin-bottom: 10px;
-`;
-
 // Info side
 const ProductInfo = styled.div`
     display: flex;
@@ -64,11 +46,13 @@ const ProductTitle = styled.p`
     font-size: 40px;
     font-weight: 500;
     line-height: 1.2;
+    margin-bottom: 16px;
 `;
 
 const ProductPrice = styled.p`
     font-size: 26px;
     font-weight: 400;
+    margin-bottom: 12px;
 `;
 
 const ProductDescription = styled.span`
@@ -81,51 +65,12 @@ const ProductWrapSpan = styled.div`
 
 const ProductSpan = styled.span`
     margin-bottom: 20px;
-    font-size: 26px;
+    font-size: 20px;
     margin-right: 38px;
 `;
 
 const Highlight = styled.span`
     font-weight: 700;
-`;
-
-const ProductColor = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 30px;
-`;
-
-const ProductColorTitle = styled.span`
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 10px;
-`;
-
-const ProductChooseColor = styled.div`
-    display: flex;
-`;
-
-const ProductColorItem = styled.div`
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 1px solid #000000;
-    margin-right: 10px;
-    background-color: ${(props) => props.color};
-    cursor: pointer;
-`;
-
-ProductColorItem.defaultProps = {
-    color: "",
-};
-
-const ProductSize = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-const ProductSizeTitle = styled.label`
-    text-transform: uppercase;
-    font-weight: 600; ;
 `;
 
 const ProductQuantity = styled.div`
@@ -134,7 +79,7 @@ const ProductQuantity = styled.div`
 `;
 const ProductQuantityTitle = styled.label`
     text-transform: uppercase;
-    font-weight: 600; 
+    font-weight: 600;
 `;
 const ProductChooseQuantity = styled.div`
     display: flex;
@@ -263,7 +208,7 @@ export const ItemProduct = (props) => {
     //     const handleScroll = () =>{
     //       const y = window.scrollY;
     //       if (y > 100) {
-    
+
     //         header.classList.add('changeHeaderColor');
     //         center.classList.add('changeColor');
     //         brandNameRight.classList.add('changeColorToBlack');
@@ -280,129 +225,129 @@ export const ItemProduct = (props) => {
     //         menuItem.forEach(function(item) {
     //           item.classList.remove('changeColorToBlack')
     //         })
-    
+
     //       }
     //     }
     //     window.addEventListener('scroll', handleScroll);
     //     return () => {
     //       window.removeEventListener('scroll',handleScroll)
-          
+
     //     }
     //   }, []);
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        document.getElementById("header").classList.add("changeHeaderColor");
-        document.getElementById("center").classList.add("changeColor");
-        document.getElementById("brandNameRight").classList.add("changeColorToBlack");
-        document.getElementById("shopping-icon").classList.add("changeColorToBlack");
-        let menuItem = document.querySelectorAll('.menu-item')
-        menuItem.forEach(function(item) {
-          item.classList.add('changeColorToBlack')
-        })
-
-    }, []);
 
     const location = useLocation();
-    let productID = location.pathname.split("/").pop();
     const [product, setProduct] = useState({});
-    const [listImage, setlistImage] = useState([]);
-    const [listColor, setlistColor] = useState([]);
-    const [listSize, setlistSize] = useState([]);
-    const [size, setsize] = useState("");
-    const [quantity, setquantity] = useState(1);
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
-        let method = "GET";
-        let API_URL = `https://localhost:44352/api/product/one/${productID}`;
-        let d = axios({
+        window.scrollTo(0, 0);
+        document.getElementById('header').classList.add('changeHeaderColor');
+        document.getElementById('center').classList.add('changeColor');
+        document.getElementById('brandNameRight').classList.add('changeColorToBlack');
+        document.getElementById('shopping-icon').classList.add('changeColorToBlack');
+        let menuItem = document.querySelectorAll('.menu-item');
+        menuItem.forEach(function (item) {
+            item.classList.add('changeColorToBlack');
+        });
+    }, []);
+
+    useEffect(() => {
+        let productID = location.pathname.split('/').pop();
+        let method = 'GET';
+        let API_URL = `${myUrl}/products/products/${productID}`;
+        axios({
             method,
             url: API_URL,
-            data: null,
+            data: null
         })
+            .then((res) => {
+                console.log('data: ', res.data.data);
+                setProduct(res.data.data);
+            })
             .catch((err) => {
                 console.log(err);
-            })
-            .then((res) => {
-                setProduct(res.data[0]);
             });
         window.scrollTo(0, 0);
-    }, [location]);
-
-    const [allProduct, setAllProduct] = useState([]);
+    }, []);
 
     return (
         <Container>
             <Product>
                 <ProductImage>
-                    <ImageMain src={product.anhSP}></ImageMain>
+                    <ImageMain src={product.linkImg}></ImageMain>
                 </ProductImage>
                 <ProductInfo>
-                    <ProductTitle>{product.tenSP}</ProductTitle>
-                    <ProductPrice><Highlight>{product.giaSP}</Highlight> VNĐ</ProductPrice>
+                    <ProductTitle>{product.name}</ProductTitle>
+                    <ProductPrice>
+                        <Highlight>{product.price ? product.price.toLocaleString('en').replace(',', ' ') : ''}</Highlight> vnđ
+                    </ProductPrice>
                     <ProductWrapSpan>
                         <ProductSpan>
-                            <Highlight>{product.avgRating}</Highlight>{" "}
+                            <Highlight>{product.rating}</Highlight>{' '}
                             <StarIcon
                                 style={{
-                                    fontSize: "30px",
-                                    transform: "translateY(-3.5px)",
-                                    color: "#dd9d0d",
-                                    marginLeft: "-4px",
+                                    fontSize: '30px',
+                                    transform: 'translateY(-3.5px)',
+                                    color: '#dd9d0d',
+                                    marginLeft: '-4px'
                                 }}
                             ></StarIcon>
-                             ({product.soRating})
+                            ({product.reviews})
                         </ProductSpan>
                         <ProductSpan>
-                            Đã bán: <Highlight>{product.soSPDaBan}</Highlight>
+                            Đã bán: <Highlight>{product.sold}</Highlight>
                         </ProductSpan>
                         <ProductSpan>
-                            Còn lại: <Highlight>{product.soLuongTon}</Highlight>
+                            Còn lại: <Highlight>{product.rest}</Highlight>
                         </ProductSpan>
                     </ProductWrapSpan>
-                    <ProductDescription>{product.moTaSP}</ProductDescription>
+                    <ProductDescription>{product.descriptions}</ProductDescription>
                     <ProductQuantity>
                         <ProductQuantityTitle>Số lượng:</ProductQuantityTitle>
                         <ProductChooseQuantity>
                             <DownQuantity
                                 onClick={() => {
-                                    quantity == 1
-                                        ? setquantity(1)
-                                        : setquantity(quantity - 1);
+                                    quantity === 1 ? setQuantity(1) : setQuantity(quantity - 1);
                                 }}
                             >
-                                <RemoveIcon style={{height:"100%"}}></RemoveIcon>
+                                <RemoveIcon style={{height: '100%'}}></RemoveIcon>
                             </DownQuantity>
                             <Quantity>{quantity}</Quantity>
                             <UpQuantity
                                 onClick={() => {
-                                    if (quantity < product.soLuongTon)
-                                      setquantity(quantity + 1);
+                                    if (quantity < product.rest) setQuantity(quantity + 1);
                                 }}
                             >
-                                <AddIcon style={{height:"100%"}}></AddIcon>
+                                <AddIcon style={{height: '100%'}}></AddIcon>
                             </UpQuantity>
                         </ProductChooseQuantity>
                     </ProductQuantity>
-                    <AddToCart onClick={() => {console.log("product ne:",product);product['soLuong'] = quantity; return props.AddCart(product)}}>
+                    <AddToCart
+                        onClick={() => {
+                            console.log('product ne:', product);
+                            product['quantity'] = quantity;
+                            return props.AddCart(product);
+                        }}
+                    >
                         THÊM VÀO GIỎ HÀNG
                     </AddToCart>
                 </ProductInfo>
             </Product>
             <RelatedProductTitle>Sản phẩm liên quan</RelatedProductTitle>
-            <RelatedProduct key={product.loaiSP} query={product.loaiSP} productKey={product.maSP} />
+            <RelatedProduct key={product.id} query={product.lsp} productId={product.id} />
         </Container>
     );
 };
 
 const mapStateToProps = (state) => {
     return {
-        _products: state._todoProduct,
+        _products: state._todoProduct
     };
 };
 function mapDispatchToProps(dispatch) {
     return {
         actFetchProductsRequest: () => dispatch(actFetchProductsRequest()),
-        AddCart: (item) => dispatch(AddCart(item)),
+        AddCart: (item) => dispatch(AddCart(item))
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ItemProduct);
