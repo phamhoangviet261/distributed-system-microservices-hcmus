@@ -780,7 +780,10 @@ router.post('/add', async (req, res, next) => {
         const p = new Product({id: `sp${products.length + 1}`, name: name, description: description, price: price, sold, rest, discount, NSX, HSD, rating, reviews, storeId, storeName, lsp, status: status ? status : 'active'});
         const product = await p.save();
 
-        // await Store.findOneAndUpdate({id: storeId}, {})
+        const store = await Store.findOne({id: storeId});
+        const newProducts = store.products;
+        newProducts.push(`sp${products.length + 1}`);
+        await Store.findOneAndUpdate({id: storeId}, {products: newProducts});
 
         return res.status(200).json({data: product});
     } catch (errors) {
