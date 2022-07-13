@@ -63,7 +63,7 @@ const EditProduct = function(props, ref) {
   };
 
   return (
-    <div>
+    <div onClick={(e)=>{e.stopPropagation()}}>
       <Button ref={ref} onClick={handleOpen} style={{pointerEvents: "none"}}>SỬA</Button>
       <Modal
         open={open}

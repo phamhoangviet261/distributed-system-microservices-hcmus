@@ -1,9 +1,12 @@
 import { ImportExport } from '@material-ui/icons'
+import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import {productType, productGroup} from '../../mocks/category'
+import myUrl from '../../domain'
+import Switch from '@mui/material/Switch';
 
 const Container = styled.div`
     padding: 40px;
@@ -42,6 +45,11 @@ const ProductRest = styled.div`
 `
 
 const ProductImg = styled.div`
+    display: flex;
+    margin-top: 20px;
+`
+
+const Active = styled.div`
     display: flex;
     margin-top: 20px;
 `
@@ -98,7 +106,7 @@ const Selected = styled.div`
 
 const Confirm = styled.div`
     padding: 8px 13px;
-    margin: 20px 0;
+    margin: 10px 0;
     border-radius: 3px;
     background-color: #000;
     color: #fff;
@@ -120,7 +128,7 @@ const TitleForm = styled.div`
 `
 
 function EditForm({product}) {
-
+    console.log(product)
     const [group, setGroup] = useState(productGroup[0]);
     const [type, setType] = useState({});
 
@@ -129,6 +137,7 @@ function EditForm({product}) {
     const [describe, setDescribe] = useState(product.descriptions);
     const [rest, setRest] = useState(product.rest);
     const [img, setImg] = useState(product.linkImg);
+    const [active, setActive] = useState(product.status == "active"?true:false);
 
     useEffect(()=>{
         setName(product.name);
@@ -156,10 +165,23 @@ function EditForm({product}) {
             price,
             descriptions: describe,
             rest,
-            linkImg: img
+            linkImg: img,
+            status: active,
         }
 
-        console.log(data);
+        axios({
+            method: 'post',
+            url: `${myUrl}/products/products/update`,
+            data
+        })
+            .then(function (res) {
+                console.log(res)
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        
+        window.location = "/store/products"
     }
 
   return (
@@ -185,6 +207,10 @@ function EditForm({product}) {
             <Label htmlFor='img'>Hình ảnh:</Label>
             <Input id='img' placeholder='Nhập vào' type={"text"} value={img} onChange={(e)=>{setImg(e.target.value)}}/>
         </ProductImg>
+        <Active>
+            <Label>Hoạt động:</Label>
+            <Switch defaultChecked={active?true:false} onChange={(e)=>{e.target.checked?setActive("active"):setActive("inactive")}}/>
+        </Active>
         <Category>
             <CategoryGroup>
                 {productGroup.map((item, index)=>(

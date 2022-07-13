@@ -1,8 +1,10 @@
+import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import AddressRegister from './AddressRegister'
+import myUrl from '../../domain'
 
 const Container = styled.div`
     width: 700px;
@@ -97,7 +99,25 @@ function BodyStoreRegister({click}) {
             status: "active"
         }
 
-        console.log(value);
+        axios({
+            method: 'post',
+            url: `${myUrl}/products/stores/add`,
+            data: value
+        })
+            .then(function (res) {
+                setUser({
+                    ...user,
+                    storeId: res.data.data.id,
+                    storeName: res.data.data.name,
+                })
+                window.localStorage.setItem('UDPTuser', user);
+                window.location = "/store/products"
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        
+        
     }
 
 
