@@ -92,6 +92,18 @@ router.post('/add', async (req, res, next) => {
         const stores = await Store.find({})
         const s = new Store({id: `STORE${stores.length}`, name, description, ownerId, address, products, invoices, status : status ? status : 'active'});
         const store = await s.save();
+
+        const optionFindWard = {
+            method: 'post',
+            url: `http://localhost:5001/account/update`,
+            data: {
+                id: ownerId,
+                storeId: `STORE${stores.length}`
+            },
+        };
+
+        const axiosRespondFindWard = await axios(optionFindWard);
+
         return res.status(200).json({data: store});
     } catch (errors) {
         console.log(errors);

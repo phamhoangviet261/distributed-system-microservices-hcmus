@@ -31,7 +31,7 @@ router.post('/add', async (req, res, next) => {
     try {
         const invoices = await Invoice.find({});
 
-        const {storeId, phoneNumber, address, products, total} = req.body;
+        const {storeId, user, phoneNumber, address, products, total} = req.body;
         const history = [
             {
                 status: "To Pay",
@@ -58,7 +58,7 @@ router.post('/add', async (req, res, next) => {
                 timestamp: null,
             }
         ]
-        const i = new Invoice({id: `INV${invoices.length}`, storeId, phoneNumber, address, products, total, history});
+        const i = new Invoice({id: `INV${invoices.length}`, user, storeId, phoneNumber, address, products, total, history});
         const invoice = await i.save();
 
         const optionsAddInvoiceToAccount = {
