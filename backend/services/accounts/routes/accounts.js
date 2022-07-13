@@ -10,6 +10,13 @@ const Account = require('../models/Account')
 router.get('/', async (req, res, next) => {
     try {
         const accounts = await Account.find();
+        // for(let i = 0; i < accounts.length; i++) {
+        //     await Account.findOneAndUpdate({id: accounts[i].id}, {
+        //         dob: "2000-08-31",
+        //         age: 22,
+        //         ccid: "066300080990"
+        //     })
+        // }
         return res.status(200).json({data: accounts});
     } catch (errors) {
         console.log(errors);

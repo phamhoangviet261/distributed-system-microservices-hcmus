@@ -4,6 +4,7 @@
         "phoneNumber": "0123456789",
         "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
         "name": "Super Admin",
+        "dob": "2000-08-31",
         "age": 22,
         "address": {
             "districtId": 760,
@@ -22,6 +23,7 @@
         "phoneNumber": "0333444555",
         "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
         "name": "Chu Cua Hang 1",
+        "dob": "2000-08-31",
         "address": {
             "districtId": 760,
             "wardId": 26740,
@@ -39,6 +41,8 @@
         "phoneNumber": "0222444666",
         "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
         "name": "Pham Hoang Viet",
+        "dob": "2000-08-31",
+        "age": 22,
         "address": {
             "districtId": 760,
             "wardId": 26740,
@@ -56,6 +60,7 @@
         "phoneNumber": "0555999777",
         "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
         "name": "Phan Khac Thanh Danh",
+        "dob": "2000-08-31",
         "age": 22,
         "address": {
             "districtId": 760,
@@ -74,6 +79,7 @@
         "phoneNumber": "0222666777",
         "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
         "name": "Pham Hai Dang",
+        "dob": "2000-08-31",
         "age": 22,
         "address": {
             "districtId": 760,
@@ -92,6 +98,7 @@
         "phoneNumber": "0333666999",
         "password": "$2b$10$o/hktJ4aYLFo3zuvTU80mO9LCKloyxjDO3pTzJrzFqj2OILY08hK2",
         "name": "Tran Quoc Thinh",
+        "dob": "2000-08-31",
         "age": 22,
         "address": {
             "districtId": 760,

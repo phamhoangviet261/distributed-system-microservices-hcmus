@@ -707,6 +707,9 @@ router.get('/', async (req, res, next) => {
     try {
         const products = await Product.find({});
         const fakeProducts = products.filter(product => product.storeId)
+        // for(let i = 0; i < products.length; i++){
+        //     await Product.findOneAndUpdate({id: products[i].id}, {status: 'active'});
+        // }
         return res.status(200).json({data: products, fakeProducts, ProductType, ProductGroup});
         // const products = await Product.find({});
         // const fakeProducts = JSON.parse(JSON.stringify(products));

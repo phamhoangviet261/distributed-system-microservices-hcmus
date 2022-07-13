@@ -84,7 +84,7 @@ router.post('/add', async (req, res, next) => {
 
         const axiosRespondAddInvoiceToStore = await axios(optionsAddInvoiceToStore);
 
-        return res.status(200).json({messsage:"Add invoice id to account and store successfully", data: i});
+        return res.status(200).json({messsage:"Add invoice id to account and store successfully", data: i, inv: axiosRespondAddInvoiceToAccount.data});
     } catch (errors) {
         console.log(errors);
         return res.status(400).json({success: false, message: errors.message});
