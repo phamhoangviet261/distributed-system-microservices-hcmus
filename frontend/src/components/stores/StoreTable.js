@@ -11,6 +11,7 @@ import style from 'styled-components';
 import EditProduct from './EditProduct';
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
+import Loading from '../Loading';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,16 +50,13 @@ export default function StoreTable() {
     const [product, setProduct] = useState({});
     const [rows, setRows] = useState([]);
     const EditButton = useRef(null);
+
     const HandleClick = (product) => {
       setProduct({...product});
       EditButton.current.click();
     }
 
     const user = JSON.parse(localStorage.getItem("UDPTuser"))
-    console.log(`http://localhost:5000/products/stores/${user.storeId}`)
-    useEffect(()=>{
-      console.log(product)
-    },[product])
 
     useEffect(()=>{
       axios({
@@ -70,16 +68,16 @@ export default function StoreTable() {
             console.log(err);
         })
         .then((res) => {
-            if(res.data){
-              setRows([...res.data.data.productsDetail])
-            }
+          if(res.data){
+            setRows([...res.data.data.productsDetail])
+          }
         });
     },[])
 
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      {rows.length > 0 ? <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell width={"100px"}></StyledTableCell>
@@ -91,8 +89,8 @@ export default function StoreTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow onClick={()=>{HandleClick(row)}} key={row.name}>
+          {rows.map((row, index) => (
+            <StyledTableRow onClick={()=>{HandleClick(row)}} key={index}>
               <StyledTableCell component="th" scope="row">
                 <Image src={row.linkImg} alt='product image'/>
               </StyledTableCell>
@@ -100,11 +98,12 @@ export default function StoreTable() {
               <StyledTableCell align="left">{row.sold}</StyledTableCell>
               <StyledTableCell align="left">{row.rest}</StyledTableCell>
               <StyledTableCell align="left">{row.price}</StyledTableCell>
-              <StyledTableCell align="left"><EditProduct product={product} ref={EditButton}></EditProduct></StyledTableCell>
+              <StyledTableCell key={index} align="left"><EditProduct product={product} ref={EditButton}></EditProduct></StyledTableCell>
             </StyledTableRow>
           ))}
-        </TableBody>
-      </Table>
+        </TableBody> 
+        
+      </Table> : <Loading />}
     </TableContainer>
   );
 }

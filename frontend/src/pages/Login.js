@@ -95,7 +95,8 @@ const Login = () => {
                         userId: res.data.user.id,
                         fullname: res.data.user.name,
                         typeAccount: res.data.user.typeAccount || 'Customer',
-                        storeId: res.data.user.storeId
+                        storeId: res.data.user.storeId,
+                        storeName: res.data.store.data.name,
                     };
                     console.log('hello: ', res.data);
                     loginContext.updateLogin(loginContext.isLogin);
@@ -106,6 +107,8 @@ const Login = () => {
             .catch(function (err) {
                 console.log(err);
             });
+        
+        
     };
 
     return (

@@ -39,7 +39,7 @@
   ;
 }
 
-@keyframe show {
+@keyframes show {
   from {
     opacity: 0;
     max-height: 100px;
@@ -74,4 +74,9 @@
 
 .changeColorToBlack {
   color: #000 !important;
+}
+
+a {
+  text-decoration: none;
+  color: white;
 }

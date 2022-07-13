@@ -154,7 +154,7 @@ export class Header extends Component {
             linkToMyUser: localStorage.getItem('UDPTuser') ? `/aboutme/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
             linkToMyOrder: localStorage.getItem('UDPTuser') ? `/myorder/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
             linkToNearest: localStorage.getItem('UDPTuser') ? `/nearest/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
-            linkToMyStore: localStorage.getItem('UDPTuser') ? `/store/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
+            linkToMyStore: localStorage.getItem('UDPTuser') ? `/store/products` : ``,
             userInfo: JSON.parse(localStorage.getItem('UDPTuser')),
             isLogin: localStorage.getItem('UDPTisLogin')
         };

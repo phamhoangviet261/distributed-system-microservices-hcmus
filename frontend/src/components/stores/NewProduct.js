@@ -1,9 +1,10 @@
-import { ImportExport } from '@material-ui/icons'
+import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import {productType, productGroup} from '../../mocks/category'
+import myUrl from '../../domain'
 
 const Container = styled.div`
     padding: 40px;
@@ -98,7 +99,6 @@ const Selected = styled.div`
 
 const Confirm = styled.div`
     padding: 8px 13px;
-    margin: 20px 0;
     border-radius: 3px;
     background-color: #000;
     color: #fff;
@@ -116,12 +116,51 @@ function NewProduct() {
 
     const [group, setGroup] = useState(productGroup[0]);
     const [type, setType] = useState({});
+    const user = JSON.parse(localStorage.getItem("UDPTuser"))
 
-    console.log(productGroup);
-    console.log(productType);
+    const [name, setName] = useState();
+    const [describe, setDescribe] = useState();
+    const [price, setPrice] = useState();
+    const [rest, setRest] = useState();
+    const [img, setImg] = useState();
+
+    const HandleSubmit = () => {
+
+
+        let data = {
+            name,
+            description: describe,
+            linkImg: img,
+            price: price,
+            sold: 0,
+            rest: rest,
+            discount: 10,
+            NSX: "2022-7-7",
+            HSD: "2023-12-1",
+            rating: 0,
+            reviews: 0,
+            storeId: user.storeId,
+            storeName: user.storeName,
+            lsp: type.id
+        }
+
+        console.log(data);
+        axios({
+            method: 'post',
+            url: `${myUrl}/products/products/add`,
+            data
+        })
+            .then(function (res) {
+                console.log(res);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+
+    }
 
   return (
-    <div>
+    <Container>
         <Head>
             <Title>Thêm 1 sản phẩm mới</Title>
             <SubTitle>Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn.</SubTitle>
@@ -129,23 +168,23 @@ function NewProduct() {
         <hr />
         <ProductName>
             <Label htmlFor='name'>Tên sản phẩm:</Label>
-            <Input id='name' placeholder='Nhập vào'/>
+            <Input id='name' placeholder='Nhập vào' value={name} onChange={(e)=>{setName(e.currentTarget.value)}}/>
         </ProductName>
         <ProductDescribe>
             <Label htmlFor='describe'>Mô tả:</Label>
-            <Input id='describe' placeholder='Nhập vào'/>
+            <Input id='describe' placeholder='Nhập vào' value={describe} onChange={(e)=>{setDescribe(e.currentTarget.value)}}/>
         </ProductDescribe>
         <ProductPrice>
             <Label htmlFor='price'>Giá sản phẩm:</Label>
-            <Input id='price' placeholder='Nhập vào' type={"number"}/>
+            <Input id='price' placeholder='Nhập vào' type={"number"} value={price} onChange={(e)=>{setPrice(e.currentTarget.value)}}/>
         </ProductPrice>
         <ProductRest>
             <Label htmlFor='rest'>Tồn kho:</Label>
-            <Input id='rest' placeholder='Nhập vào' type={"number"}/>
+            <Input id='rest' placeholder='Nhập vào' type={"number"} value={rest} onChange={(e)=>{setRest(e.currentTarget.value)}}/>
         </ProductRest>
         <ProductImg>
             <Label htmlFor='img'>Hình ảnh:</Label>
-            <Input id='img' placeholder='Nhập vào' type={"text"}/>
+            <Input id='img' placeholder='Nhập vào' type={"text"} value={img} onChange={(e)=>{setImg(e.currentTarget.value)}}/>
         </ProductImg>
         <Category>
             <CategoryGroup>
@@ -166,8 +205,8 @@ function NewProduct() {
             <span>Đã chọn: </span>
             <span>{group.name} / {type.name}</span>
         </Selected>
-        <Confirm>Xác Nhận</Confirm>
-    </div>
+        <Confirm onClick={HandleSubmit}>Xác Nhận</Confirm>
+    </Container>
   )
 }
 
