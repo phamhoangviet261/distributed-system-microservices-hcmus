@@ -55,7 +55,6 @@ const EditProduct = function(props, ref) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = (e) => {
     e.stopPropagation();
-    console.log(props.product);
     setOpen(true);
   };
   const handleClose = (e) => {
@@ -65,7 +64,7 @@ const EditProduct = function(props, ref) {
 
   return (
     <div>
-      <Button ref={ref} onClick={handleOpen}>SỬA</Button>
+      <Button ref={ref} onClick={handleOpen} style={{pointerEvents: "none"}}>SỬA</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -74,7 +73,6 @@ const EditProduct = function(props, ref) {
       >
         <Box sx={{ ...style }}>
           <EditForm product={props.product}/>
-          <ChildModal />
         </Box>
       </Modal>
     </div>

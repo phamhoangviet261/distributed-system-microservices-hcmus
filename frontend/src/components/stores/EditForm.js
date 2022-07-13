@@ -124,9 +124,6 @@ function EditForm({product}) {
     const [group, setGroup] = useState(productGroup[0]);
     const [type, setType] = useState({});
 
-    console.log(productGroup);
-    console.log(productType);
-
     const [name, setName] = useState(product.name);
     const [price, setPrice] = useState(product.price);
     const [describe, setDescribe] = useState(product.descriptions);
@@ -139,7 +136,31 @@ function EditForm({product}) {
         setDescribe(product.descriptions);
         setRest(product.rest);
         setImg(product.linkImg);
+        productType.forEach(item => {
+            if (item.id == product.lsp){
+                setType(item);
+                productGroup.forEach(item2 => {
+                    if (item2.id == item.idProductGroup){
+                        setGroup(item2);
+                    }
+                })
+            }
+        })
     }, [product])
+
+
+    const HandleSubmit = ()=>{
+        let data = {
+            productId: product.id,
+            name,
+            price,
+            descriptions: describe,
+            rest,
+            linkImg: img
+        }
+
+        console.log(data);
+    }
 
   return (
     <div>
@@ -183,7 +204,7 @@ function EditForm({product}) {
             <span>Đã chọn: </span>
             <span>{group.name} / {type.name}</span>
         </Selected>
-        <Confirm>Xác Nhận</Confirm>
+        <Confirm onClick={(e)=>{e.stopPropagation(); HandleSubmit()}}>Xác Nhận</Confirm>
     </div>
   )
 }
