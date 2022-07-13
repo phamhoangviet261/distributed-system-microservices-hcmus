@@ -8,6 +8,10 @@ const InvoiceSchema = new Schema({
         required: true,
         unique: true
     },
+    user: {
+        id: String,
+        name: String,
+    },
     storeId: String,
     phoneNumber: String,    
     address: {
@@ -15,9 +19,8 @@ const InvoiceSchema = new Schema({
         wardId: Number,
         detail: String
     }, 
-    products: Array,
-    total: Number,    
-    history: Array,
+    products: [],
+    total: Number,  
     status: {
         type: String,
         enum: ['To Pay', 'To Ship', 'To Receive', 'Completed', 'Cancelled', 'Return Refund'],

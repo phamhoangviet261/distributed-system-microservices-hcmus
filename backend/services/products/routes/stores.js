@@ -54,6 +54,7 @@ router.get('/:storeId', async (req, res, next) => {
 router.get('/getByOwnerId/:ownerId', async (req, res, next) => {
     try {
         const store = await Store.findOne({ownerId: req.params.ownerId});
+        if(!store) return res.status(200).json({message: 'Owner not found', data: []});
         const fakeStore = JSON.parse(JSON.stringify(store));
         const listProducts = []
         for(let i = 0; i < fakeStore.products.length; i++) {
@@ -91,6 +92,18 @@ router.post('/add', async (req, res, next) => {
         const stores = await Store.find({})
         const s = new Store({id: `STORE${stores.length}`, name, description, ownerId, address, products, invoices, status : status ? status : 'active'});
         const store = await s.save();
+
+        const optionFindWard = {
+            method: 'post',
+            url: `http://localhost:5001/account/update`,
+            data: {
+                id: ownerId,
+                storeId: `STORE${stores.length}`
+            },
+        };
+
+        const axiosRespondFindWard = await axios(optionFindWard);
+
         return res.status(200).json({data: store});
     } catch (errors) {
         console.log(errors);
