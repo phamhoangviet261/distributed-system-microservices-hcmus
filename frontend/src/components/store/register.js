@@ -99,18 +99,9 @@ const StoreRegister = () => {
                     <Dot>•</Dot>
                     <StepText>Cài đặt thông tin cửa hàng</StepText>
                 </Step>
-                <Step className={step === 2?"active":""}>
-                    <Dot>•</Dot>
-                    <StepText>Cài đặt vận chuyển</StepText>
-                </Step>
-                <Step className={step === 3?"active":""}>
-                    <Dot>•</Dot>
-                    <StepText>Đăng bán sản phẩm</StepText>
-                </Step>
             </HeaderStoreRegister>
             <hr />
-            {step==1?<BodyStoreRegister click={click}/>:<BodyStoreRegister3 click={click}/>}
-            
+            <BodyStoreRegister click={click}/>
             <hr />
             <FooterStoreRegister>
                 <Cancel>Huỷ bỏ</Cancel>

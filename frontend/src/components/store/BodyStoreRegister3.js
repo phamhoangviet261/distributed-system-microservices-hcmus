@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 import {productType, productGroup} from '../../mocks/category'
+import NewProduct from '../stores/NewProduct'
 
 const Container = styled.div`
     padding: 40px;
@@ -78,41 +79,10 @@ const Selected = styled.div`
 
 function BodyStoreRegister3({click}) {
 
-    const [group, setGroup] = useState(productGroup[0]);
-    const [type, setType] = useState({});
 
-    console.log(productGroup);
-    console.log(productType);
   return (
     <Container>
-        <Head>
-            <Title>Thêm 1 sản phẩm mới</Title>
-            <SubTitle>Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn.</SubTitle>
-        </Head>
-        <hr />
-        <ProductName>
-            <Label>Tên sản phẩm:</Label>
-            <Input placeholder='Nhập vào'/>
-        </ProductName>
-        <Category>
-            <CategoryGroup>
-                {productGroup.map((item, index)=>(
-                    <CategoryItem className={item.id == group.id?"active":""} key={index} onClick={()=>{setGroup(item); setType({})}}>{item.name}</CategoryItem>
-                ))}
-            </CategoryGroup>
-            <hr />
-            <CategoryGroup>
-                {productType.map((item, index)=>{
-                    if (item.idProductGroup == group.id){
-                        return <CategoryItem className={item.id == type.id?"active":""} key={index} onClick={()=>{setType(item)}}>{item.name}</CategoryItem>
-                    }
-                })}
-            </CategoryGroup>
-        </Category>
-        <Selected>
-            <span>Đã chọn: </span>
-            <span>{group.name} / {type.name}</span>
-        </Selected>
+        <NewProduct />
     </Container>
   )
 }

@@ -41,6 +41,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
+
 const Image = style.img`
     width: 50px;
 `
@@ -48,7 +49,7 @@ const Image = style.img`
 export default function StoreTable() {
 
     const [product, setProduct] = useState({});
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState();
     const EditButton = useRef(null);
 
     const HandleClick = (product) => {
@@ -57,6 +58,10 @@ export default function StoreTable() {
     }
 
     const user = JSON.parse(localStorage.getItem("UDPTuser"))
+
+    useEffect(()=>{
+      console.log(product)
+    }, [product])
 
     useEffect(()=>{
       axios({
@@ -68,7 +73,8 @@ export default function StoreTable() {
             console.log(err);
         })
         .then((res) => {
-          if(res.data){
+          console.log(res)
+          if(res.data.data.productsDetail){
             setRows([...res.data.data.productsDetail])
           }
         });
@@ -77,7 +83,7 @@ export default function StoreTable() {
 
   return (
     <TableContainer component={Paper}>
-      {rows.length > 0 ? <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      {!rows ? <Loading /> : rows.length > 0 ? <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell width={"100px"}></StyledTableCell>
@@ -103,7 +109,7 @@ export default function StoreTable() {
           ))}
         </TableBody> 
         
-      </Table> : <Loading />}
+      </Table> : <div style={{padding: "30px", fontSize: "16px", textAlign: "center"}}>Bạn Chưa Có Đơn Hàng Nào</div>}
     </TableContainer>
   );
 }
