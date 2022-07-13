@@ -54,7 +54,7 @@ router.get('/:storeId', async (req, res, next) => {
 router.get('/getByOwnerId/:ownerId', async (req, res, next) => {
     try {
         const store = await Store.findOne({ownerId: req.params.ownerId});
-        if(!store) return re.status(200).json({message: 'Owner not found', data: []});
+        if(!store) return res.status(200).json({message: 'Owner not found', data: []});
         const fakeStore = JSON.parse(JSON.stringify(store));
         const listProducts = []
         for(let i = 0; i < fakeStore.products.length; i++) {
