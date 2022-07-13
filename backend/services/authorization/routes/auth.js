@@ -3,7 +3,7 @@ const router = express.Router()
  // DO NOT USE IT
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken')
-
+const axios = require('axios');
 const Account = require('../models/Account')
 // @route POST /api/auth/register
 // @desc register new user
@@ -69,6 +69,14 @@ router.post('/login', async (req, res, next) => {
             return res.status(400).json({success: false, message: 'Incorrect phone or password'})
         }
 
+        // TODO: get user store name if has already
+        const options = {
+            method: 'get',
+            url: `http://localhost:5000/products/stores/getByOwnerId/${user.id}`,
+            data: {},
+        };
+
+        const store = await axios(options);
         //return token 
         const accessToken = "Bearer " + jwt.sign({userId: user._id}, process.env.ACCESS_TOKEN_SECRET)
         return res
@@ -78,7 +86,14 @@ router.post('/login', async (req, res, next) => {
             maxAge: 10000,
           })
         .status(200)
-        .json({success: true, message: 'Logged in successfully', phoneNumber :user.phoneNumber, accessToken, user})
+        .json({
+            success: true, 
+            message: 'Logged in successfully', 
+            phoneNumber :user.phoneNumber, 
+            accessToken, 
+            user,
+            store: store.data
+        })
     } catch (error) {
         console.log("ERROR: ", error);
         return res.status(500).json({success: false, message: "Internal server error"})
