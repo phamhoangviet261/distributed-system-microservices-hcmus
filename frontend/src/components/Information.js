@@ -73,10 +73,33 @@ const SelectTag = styled.select`
     }
 `;
 
+const ResultForm = styled.div`
+    position: absolute;
+    z-index: 9;
+    width: 400px;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 100px 50px;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    & > h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    & > .btn-result {
+        background-color: green;
+        color: white;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+`;
+
 const Information = ({userID}) => {
-    const [address, setAddress] = useState('');
-    const [birthday, setBirthday] = useState('');
-    const [data, setData] = useState([]);
+    const [status, setStatus] = useState(false);
+    const [data, setData] = useState({});
 
     const [wardID, setWardID] = useState('');
     const [ward, setWard] = useState({});
@@ -96,29 +119,29 @@ const Information = ({userID}) => {
     const [submit, setSubmit] = useState(false);
 
     // call API get Thông tin user
-    // useEffect(() => {
-    //     let API_URL = "https://localhost:44352/api/customer/one";
-    //     // props.actFetchProductsRequest();
-    //     let method = "POST";
-    //     let d = axios({
-    //         method,
-    //         url: API_URL,
-    //         data: {
-    //             accountID: userID,
-    //         },
-    //     })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    //         .then((res) => {
-    //             console.log("res.data ne: ", res.data);
-    //             setAddress(res.data.diaChi.diaChiChiTiet.diaChiChiTiet);
-    //             setBirthday(res.data.ngaySinh.split(" ")[0]);
-    //             setData(res.data);
-    //             console.log(res.data);
-    //             setWardID(res.data.diaChi.diaChiChiTiet.maPhuongXa);
-    //         });
-    // }, []);
+    useEffect(() => {
+        let API_URL = `http://localhost:5000/accounts/accounts/${userID}`;
+        let method = 'GET';
+        axios({
+            method,
+            url: API_URL,
+            data: null
+        })
+            .catch((err) => {
+                console.log(err);
+            })
+            .then((res) => {
+                if (res) {
+                    console.log('res.data ne: ', res.data);
+                    setData(res.data.data);
+                }
+                // setAddress(res.data.diaChi.diaChiChiTiet.diaChiChiTiet);
+                // setBirthday(res.data.ngaySinh.split(" ")[0]);
+                // setData(res.data);
+                // console.log(res.data);
+                // setWardID(res.data.diaChi.diaChiChiTiet.maPhuongXa);
+            });
+    }, []);
 
     // // call API get all mã tỉnh
     // useEffect(() => {
@@ -244,26 +267,22 @@ const Information = ({userID}) => {
     // }, [districtID]);
 
     let submitFunc = () => {
-        let value = {
-            accountID: userID,
-            hoTen: data.hoTen,
-            sdt: data.sdt,
-            email: data.email
-        };
-        console.log('value:', value);
+        console.log('value:', data);
         axios({
             method: 'post',
-            url: 'http://localhost:8080/api/customer/edit',
-            data: value
+            url: 'http://localhost:5000/accounts/accounts/update',
+            data: data
         })
             .then(function (res) {
-                console.log('res.data: ', res.data);
+                if (res.data) {
+                    console.log('res.data: ', res.data);
+                    setStatus(true);
+                }
             })
             .catch(function (err) {
                 console.log(err);
             });
     };
-
     return (
         <>
             <Heading style={{marginLeft: '76px'}}>Thông tin của bạn</Heading>
@@ -271,77 +290,74 @@ const Information = ({userID}) => {
                 <Label htmlFor="name">Họ và tên:</Label>
                 <Input
                     type="text"
-                    value={data.hoTen}
+                    value={data.name}
                     name="name"
                     onChange={(e) => {
-                        setData({...data, hoTen: e.target.value});
+                        setData({...data, name: e.target.value});
                     }}
                 ></Input>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="phone">Số điện thoại:</Label>
                 <Input
-                    type="number"
-                    value={data.sdt}
+                    type="text"
+                    value={data.phoneNumber}
                     name="phone"
                     onChange={(e) => {
-                        setData({...data, sdt: e.target.value});
-                    }}
-                ></Input>
-            </FormGroup>
-            <FormGroup>
-                <Label htmlFor="email">E-mail:</Label>
-                <Input
-                    type="text"
-                    value={data.email}
-                    name="email"
-                    onChange={(e) => {
-                        setData({...data, email: e.target.value});
-                    }}
-                ></Input>
-            </FormGroup>
-            <FormGroup>
-                <Label htmlFor="sex">Giới tính:</Label>
-                <Input
-                    type="text"
-                    value={data.gioiTinh}
-                    name="sex"
-                    onChange={(e) => {
-                        setData({...data, gioiTinh: e.target.value});
+                        setData({...data, phoneNumber: e.target.value});
                     }}
                     disabled
                 ></Input>
+            </FormGroup>
+            <FormGroup>
+                <Label htmlFor="gender">Giới tính:</Label>
+                <SelectTag
+                    id="gender"
+                    name="gender"
+                    onChange={(e) => {
+                        setData({...data, gender: e.target.value});
+                    }}
+                >
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </SelectTag>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="birthday">Ngày sinh:</Label>
                 <Input
-                    type="text"
-                    value={birthday}
+                    type="date"
+                    value={data.dob ? data?.dob.slice(0, 10) : ''}
                     name="birthday"
                     onChange={(e) => {
-                        setBirthday(e.target.value);
+                        setData({...data, dob: e.target.value});
                     }}
-                    disabled
                 ></Input>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="personID">CMND/CCCD:</Label>
                 <Input
                     type="text"
-                    value={data.cmnd}
+                    value={data.ccid}
                     name="personID"
                     onChange={(e) => {
-                        setData({...data, cmnd: e.target.value});
+                        setData({...data, ccid: e.target.value});
                     }}
-                    disabled
                 ></Input>
             </FormGroup>
             <FormGroup>
                 <Label htmlFor="address">Địa chỉ:</Label>
-                <Input type="text" value={address} name="address" disabled></Input>
+                <Input type="text" value={data?.addressDetail?.detail + ', ' + data?.addressDetail?.ward + ', ' + data?.addressDetail?.district} name="address" disabled></Input>
             </FormGroup>
 
             <Submit onClick={() => submitFunc()}>Cập nhật</Submit>
+            {status && (
+                <ResultForm>
+                    <h2>Cập nhật thành công !!!</h2>
+                    <div className="btn-result" onClick={() => setStatus(false)}>
+                        OK
+                    </div>
+                </ResultForm>
+            )}
         </>
     );
 };

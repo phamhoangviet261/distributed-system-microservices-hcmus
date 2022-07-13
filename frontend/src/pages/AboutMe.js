@@ -39,6 +39,7 @@ const Heading = styled.h3`
     padding-left: 10px;
     margin-bottom: 20px;
     padding-top: 20px;
+    font-size: 24px;
 `;
 const LiTag = styled.li`
     padding: 6px 0 6px 10px;
@@ -56,6 +57,7 @@ const AboutMe = () => {
     const location = useLocation();
     // let userID = location.pathname.split("/").pop();
     let userID = JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber;
+    let userName = JSON.parse(localStorage.getItem('UDPTuser')).fullname;
     let typeToShow = location.pathname.split('/')[1];
 
     const [typeInfo, setTypeInfo] = useState(1);
@@ -84,7 +86,7 @@ const AboutMe = () => {
         <>
             <Container>
                 <WrapLeft>
-                    <Heading style={{textTransform: 'uppercase', textAlign: 'center'}}>{userID}</Heading>
+                    <Heading style={{textAlign: 'center'}}>{userName}</Heading>
                     <UlTag>
                         {typeInfo == 1 ? (
                             <>
