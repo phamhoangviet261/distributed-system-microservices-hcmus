@@ -14,28 +14,6 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
 
 function Row(props) {
   const { row } = props;
@@ -100,44 +78,62 @@ function Row(props) {
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-};
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
-
 export default function CollapsibleTable() {
+    const rows = [
+        {
+          user: {
+              id: "ACC7",
+              name: "Pham Thi Thu Phuong"
+            },
+          address: {
+              districtId: 760,
+              wardId: 26740,
+              detail: "Số 11, đường Hai Bà Trưng"
+            },
+          _id: "62cee1640ddd8a62d0027129",
+          id: "INV0",
+          storeId: "STORE0",
+          phoneNumber: "012345678",
+          products: [
+                {
+                  productId: "sp001",
+                  quantity: 10
+                },
+                {
+                  productId: "sp002",
+                  quantity: 1
+                },
+                {
+                  productId: "sp003",
+                  quantity: 5
+                },
+                {
+                  productId: "sp001",
+                  quantity: 10
+                },
+                {
+                  productId: "sp004",
+                  quantity: 10
+                }
+            ],
+          total: 4347000,
+          status: "To Pay",
+          createdAt: "2022-07-13T15:14:44.579Z",
+          updatedAt: "2022-07-13T15:14:44.579Z",
+          __v: 0
+        }
+    ]
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Người mua</TableCell>
+            <TableCell align="right">Số điện thoại</TableCell>
+            <TableCell align="right">Địa chỉ</TableCell>
+            <TableCell align="right">Tổng tiền</TableCell>
+            <TableCell align="right">Trạng thái</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
