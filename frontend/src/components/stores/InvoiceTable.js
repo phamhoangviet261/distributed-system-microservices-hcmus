@@ -18,6 +18,7 @@ import axios from 'axios';
 import myUrl from '../../domain';
 import Location from '../store/location.json'
 import styled from 'styled-components';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 
 const Image = styled.img`
@@ -38,6 +39,22 @@ function Row(props) {
     }
   })
 
+  const HandleUpdate = (id)=>{
+    axios({
+      method: 'get',
+      url: `${myUrl}/invoices/invoices/updateStatus`,
+      data: {
+        invoiceId: id
+    }
+    })
+      .then(function (res) {
+          console.log(res)
+      })
+      .catch(function (err) {
+          console.log(err);
+      });
+  }
+
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -54,9 +71,9 @@ function Row(props) {
           {row.user.name}
         </TableCell>
         <TableCell align="left">{row.phoneNumber}</TableCell>
-        <TableCell align="left">{row.address.detail}, {row.address.district}, {row.address.ward}</TableCell>
+        <TableCell align="left">{row.address.detail}, {row.address.ward}, {row.address.district}</TableCell>
         <TableCell align="right">{row.total}</TableCell>
-        <TableCell align="right">{row.status}</TableCell>
+        <TableCell width={"150px"} align="right">{row.status} <UpgradeIcon style={{cursor: "pointer", color: "blue"}} onClick={()=>{HandleUpdate(row.id)}}/></TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -107,7 +124,6 @@ export default function CollapsibleTable() {
             url: `${myUrl}/invoices/invoices/getInvoicesByStoreId/${user.storeId}`,
         })
             .then(function (res) {
-                console.log("abcte" ,res);
                 setRows(res.data.data)
             })
             .catch(function (err) {
@@ -124,7 +140,7 @@ export default function CollapsibleTable() {
             <TableCell align="left">Số điện thoại</TableCell>
             <TableCell align="left">Địa chỉ</TableCell>
             <TableCell align="right">Tổng tiền</TableCell>
-            <TableCell align="right">Trạng thái</TableCell>
+            <TableCell width={"150px"} align="right">Trạng thái</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
