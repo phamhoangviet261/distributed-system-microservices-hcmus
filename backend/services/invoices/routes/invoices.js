@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:invId', async (req, res, next) => {
     try {
-        const invoice = await Invoice.findOne({id: req.params.invId});
+        const invoice = await Invoice.findOne({id: req.params.invId});        
         return res.status(200).json({data: invoice});
     } catch (errors) {
         console.log(errors);
@@ -100,7 +100,7 @@ router.post('/updateStatus', async (req, res, next) => {
         const history = [...invoice.history]
 
         const nearestStatus = history.find(item => item.timestamp == null);
-
+        console.log({nearestStatus})
         if(nearestStatus == null)  
             return res.status(200).json({data: invoice});
 
@@ -111,7 +111,7 @@ router.post('/updateStatus', async (req, res, next) => {
             return item;
         });
 
-        const i = await Invoice.findOneAndUpdate({id: invoiceId}, {history: history});
+        const i = await Invoice.findOneAndUpdate({id: invoiceId}, {history: newHistory});
 
         return res.status(200).json({data: i});
     } catch (errors) {
