@@ -139,6 +139,75 @@ const SelectTag = styled.select`
     }
 `;
 
+const mockData = {
+    user: {
+        id: 'ACC7',
+        name: 'Pham Thi Thu Phuong'
+    },
+    address: {
+        districtId: 760,
+        wardId: 26740,
+        detail: 'Số 11, đường Hai Bà Trưng'
+    },
+    _id: '62cee1640ddd8a62d0027129',
+    id: 'INV0',
+    storeId: 'STORE0',
+    phoneNumber: '012345678',
+    products: [
+        {
+            productId: 'sp001',
+            quantity: 10
+        },
+        {
+            productId: 'sp002',
+            quantity: 1
+        },
+        {
+            productId: 'sp003',
+            quantity: 5
+        },
+        {
+            productId: 'sp001',
+            quantity: 10
+        },
+        {
+            productId: 'sp004',
+            quantity: 10
+        }
+    ],
+    total: 4347000,
+    status: 'To Pay',
+    createdAt: '2022-07-13T15:14:44.579Z',
+    updatedAt: '2022-07-14T11:36:58.842Z',
+    __v: 0,
+    history: [
+        {
+            status: 'To Pay',
+            timestamp: '2022-07-14T11:35:29.104Z'
+        },
+        {
+            status: 'To Ship',
+            timestamp: '2022-07-14T11:36:06.534Z'
+        },
+        {
+            status: 'To Receive',
+            timestamp: '2022-07-14T11:36:58.840Z'
+        },
+        {
+            status: 'Completed',
+            timestamp: null
+        },
+        {
+            status: 'Cancelled',
+            timestamp: null
+        },
+        {
+            status: 'Return Refund',
+            timestamp: null
+        }
+    ]
+};
+
 const Order = ({userID}) => {
     const [invoiceID, setInvoiceID] = useState('');
     const [invoice, setInvoice] = useState({});

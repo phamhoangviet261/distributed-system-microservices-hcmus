@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import {Link, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
 import Order from '../components/Order';
 import Information from '../components/Information';
