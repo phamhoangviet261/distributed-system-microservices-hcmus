@@ -123,7 +123,39 @@ router.post('/updateStatus', async (req, res, next) => {
 
 router.get('/getInvoicesByStoreId/:storeId', async (req, res, next) => {
     try {
+        if(!req.params.storeId) return res.status(200).json({success: false, message: 'Missing storeId',data: []});
         const invoices = await Invoice.find({storeId: req.params.storeId});
+        const fakeInvoices = JSON.parse(JSON.stringify(invoices));
+        if(fakeInvoices.length > 0) {
+            for(let i = 0; i < fakeInvoices.length; i++) {
+                let productInInvoiceDetail = [];
+                for(let j = 0; j < fakeInvoices[i].products.length; j++) {
+                    const option = {
+                        method: 'get',
+                        url: `http://localhost:5003/products/${fakeInvoices[i].products[j].productId}`,
+                        data: {},
+                    };
+            
+                    const p = await axios(option);
+                    productInInvoiceDetail.push(p.data);
+                }
+                fakeInvoices[i].productsDetail = productInInvoiceDetail;
+            }
+        }
+        return res.status(200).json({data: fakeInvoices});
+    } catch (errors) {
+        console.log(errors);
+        return res.status(400).json({success: false, message: errors.message});
+    }
+    
+})
+
+router.get('/getInvoicesByAccountId/:accountId', async (req, res, next) => {
+    try {
+        if(!req.params.accountId) {
+            return res.status(200).json({success: false, message: 'Missing account id', data: []});
+        }
+        const invoices = await Invoice.find({'user.id': req.params.accountId});
         const fakeInvoices = JSON.parse(JSON.stringify(invoices));
         if(fakeInvoices.length > 0) {
             for(let i = 0; i < fakeInvoices.length; i++) {
