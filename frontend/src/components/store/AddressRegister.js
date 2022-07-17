@@ -92,7 +92,7 @@ function AddressRegister(props) {
     const [listDistrict, setListDistrict] = useState([]);
     const [listWard, setListWard] = useState([]);
 
-    const [province, setProvince] = useState('');
+    const [province, setProvince] = useState('TP Hồ Chí Minh');
     const [district, setDistrict] = useState({});
     const [ward, setWard] = useState({});
 
@@ -106,17 +106,39 @@ function AddressRegister(props) {
     }, []);
 
     useEffect(() => {
+        console.log("zero")
         listDistrict.forEach((item) => {
-            if (item.name == district.name) {
-                setListWard(item.wards);
+            console.log(item.code);
+            console.log(props.districtID);
+            if (item.code == props.districtID){
+                console.log("first")
+                setDistrict(item)
+                item.wards.forEach((item2) => {
+                    if (item2.code == props.wardID){
+                        console.log("second")
+                        setWard(item2)
+                    }
+                })
             }
-        });
-        props.setDistrictID(district.code);
+        })
+    }, [])
+
+    useEffect(() => {
+            listDistrict.forEach((item) => {
+                if (item.name == district.name) {
+                    setListWard(item.wards);
+                }
+            });
+            props.setDistrictID(district.code);
     }, [district]);
 
     useEffect(() => {
         props.setWardID(ward.code);
     }, [ward]);
+
+    
+
+    
 
     const HandleShow = () => {
         setShow(!show);
@@ -124,7 +146,7 @@ function AddressRegister(props) {
 
     return (
         <Container>
-            <AddressInput onClick={HandleShow}>{province == '' ? 'Nhấp chọn địa chỉ' : `${province} / ${district.name ? district.name : ''} / ${ward.name ? ward.name : ''}`}</AddressInput>
+            <AddressInput onClick={HandleShow}>{!district.name ? 'Nhấp chọn địa chỉ' : `${province} / ${district.name ? district.name : ''} / ${ward.name ? ward.name : ''}`}</AddressInput>
             {show ? (
                 <AddressSelector>
                     <SelectorHeader>

@@ -3,6 +3,7 @@ import React, {useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ManageProduct from '../components/stores/ManageProduct';
 import ManageInvoice from '../components/stores/ManageInvoice';
+import ManageInfo from '../components/stores/ManageInfo';
 
 const Container = styled.div`
     display: flex;
@@ -33,6 +34,7 @@ const Store = () => {
         <Switch>
             <Route path="/store/products" exact component={ManageProduct} />
             <Route path="/store/invoices" exact component={ManageInvoice} />
+            <Route path="/store/info" exact component={ManageInfo} />
         </Switch>
     </Container>;
 };
