@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import {Link, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
 import Order from '../components/Order';
 import Information from '../components/Information';
 import Address from '../components/Address';
-
+import AddressRegister from '../components/store/AddressRegister';
 const Container = styled.div`
     display: flex;
     width: 100%;
@@ -24,6 +24,7 @@ const WrapRightChild = styled.div`
     width: 90%;
     background-color: #b2e5e5;
     border-radius: 4px;
+    padding-bottom: 50px;
 `;
 
 const WrapItem = styled.div`
@@ -53,22 +54,91 @@ const LiTag = styled.li`
     }
 `;
 
+const FormGroup = styled.div`
+    font-size: 16px;
+    margin-top: 12px;
+    input {
+        margin-left: 16px;
+        border-radius: 6px;
+        outline: none;
+        border: 1px solid #fff;
+        padding: 5px 12px;
+        width: 500px;
+    }
+`;
+
+const BtnOK = styled.div`
+    color: #000;
+    padding: 10px 40px;
+    margin: 30px auto 0;
+    transform: translateX(-50%);
+    cursor: pointer;
+    border-radius: 6px;
+
+    text-align: center;
+    border: 1px solid #1f1f1f;
+    font-size: 1.2em;
+    outline: none;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    &:hover {
+        background-color: #4c4c4b;
+        color: white;
+    }
+    &:hover {
+        opacity: 0.7;
+    }
+`;
+
 const AboutMe = () => {
     const location = useLocation();
     // let userID = location.pathname.split("/").pop();
     let userID = JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber;
-    let userName = JSON.parse(localStorage.getItem('UDPTuser')).fullname;
+    let userInfo = JSON.parse(localStorage.getItem('UDPTuser'));
     let typeToShow = location.pathname.split('/')[1];
+    const [districtID, setDistrictID] = useState(0);
+    const [wardID, setWardID] = useState(0);
+    const [addressDetail, setAddressDetail] = useState('');
 
     const [typeInfo, setTypeInfo] = useState(1);
 
+    const updateDistrictID = (ID) => {
+        setDistrictID(ID);
+    };
+
+    const updateWardID = (ID) => {
+        setWardID(ID);
+    };
+
+    const handleSubmitAddress = () => {
+        let value = {
+            id: userInfo.userId,
+            address: {
+                detail: addressDetail,
+                districtId: districtID,
+                wardId: wardID
+            }
+        };
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/accounts/accounts/update',
+            data: value
+        })
+            .then(function (res) {
+                if (res.data) {
+                    console.log('res.data: ', res.data);
+                    setTypeInfo(1);
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        console.log(value);
+    };
+
     useEffect(() => {
-        if (typeToShow === 'aboutme') {
-            setTypeInfo(true);
-        } else if (typeToShow === 'myorder') {
-            setTypeInfo(false);
-        }
-    }, [typeToShow]);
+        setAddressDetail('');
+    }, [typeInfo]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -86,7 +156,7 @@ const AboutMe = () => {
         <>
             <Container>
                 <WrapLeft>
-                    <Heading style={{textAlign: 'center'}}>{userName}</Heading>
+                    <Heading style={{textAlign: 'center'}}>{userInfo.fullname}</Heading>
                     <UlTag>
                         {typeInfo == 1 ? (
                             <>
@@ -161,16 +231,21 @@ const AboutMe = () => {
                                 <Information userID={userID}></Information>
                             </WrapItem>
                         )}
-                    </WrapRightChild>
-                    {typeInfo == 2 && (
-                        <WrapItem>
-                            <Order userID={userID}></Order>
-                        </WrapItem>
-                    )}
-                    <WrapRightChild>
-                        {typeInfo == 3 && (
+                        {typeInfo == 2 && (
                             <WrapItem>
+                                <Order userID={userID}></Order>
+                            </WrapItem>
+                        )}
+
+                        {typeInfo == 3 && (
+                            <WrapItem style={{marginLeft: '40px'}}>
                                 <Address userID={userID}></Address>
+                                <AddressRegister wardID={wardID} setWardID={updateWardID} districtID={districtID} setDistrictID={updateDistrictID} />
+                                <FormGroup>
+                                    <label htmlFor="address-detail">Địa chỉ chi tiết:</label>
+                                    <input type="text" name="address-detail" value={addressDetail} onChange={(e) => setAddressDetail(e.target.value)} />
+                                </FormGroup>
+                                <BtnOK onClick={handleSubmitAddress}>Thay đổi</BtnOK>
                             </WrapItem>
                         )}
                     </WrapRightChild>

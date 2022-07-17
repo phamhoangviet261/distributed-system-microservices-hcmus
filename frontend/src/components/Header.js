@@ -151,7 +151,7 @@ export class Header extends Component {
         super(props);
         console.log('hehe:', this.props.numberCart);
         this.state = {
-            linkToMyUser: localStorage.getItem('UDPTuser') ? `/aboutme/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
+            linkToMyUser: localStorage.getItem('UDPTuser') ? `/about-me/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
             linkToMyOrder: localStorage.getItem('UDPTuser') ? `/myorder/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
             linkToNearest: localStorage.getItem('UDPTuser') ? `/nearest/${JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber}` : ``,
             linkToMyStore: localStorage.getItem('UDPTuser') ? `/store/products` : ``,
@@ -174,7 +174,6 @@ export class Header extends Component {
                     <Center id="center">
                         <StyledLink to="/">Trang chủ</StyledLink>
                         <StyledLink to="/category/nsp001">Sản phẩm</StyledLink>
-                        {localStorage.getItem('UDPTisLogin') && <StyledLink to={this.state.linkToNearest}>Cửa hàng gần nhất</StyledLink>}
                         {this.state.isLogin && !this.state.userInfo.storeId && <StyledLink to="/store/register">Trở thành Người bán</StyledLink>}
                         {this.state.isLogin && this.state.userInfo.storeId && <StyledLink to={this.state.linkToMyStore}>Kênh người bán</StyledLink>}
                     </Center>
