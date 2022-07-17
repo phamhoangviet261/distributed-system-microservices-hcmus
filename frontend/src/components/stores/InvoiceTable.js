@@ -29,19 +29,20 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   Location.data.forEach(item => {
-    if (item.code == row.address.districtId){
-        row.address.district = item.name;
-        item.wards.forEach(item2 => {
-            if (item2.code == row.address.wardId){
-                row.address.ward = item2.name;
-            }
-        })
-    }
+    if (row.address){
+      if (item.code == row.address.districtId){
+          row.address.district = item.name;
+          item.wards.forEach(item2 => {
+              if (item2.code == row.address.wardId){
+                  row.address.ward = item2.name;
+              }
+          })
+      }}
   })
 
   const HandleUpdate = (id)=>{
     axios({
-      method: 'get',
+      method: 'post',
       url: `${myUrl}/invoices/invoices/updateStatus`,
       data: {
         invoiceId: id
@@ -55,6 +56,7 @@ function Row(props) {
       });
   }
 
+  if (row.user){
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -73,7 +75,7 @@ function Row(props) {
         <TableCell align="left">{row.phoneNumber}</TableCell>
         <TableCell align="left">{row.address.detail}, {row.address.ward}, {row.address.district}</TableCell>
         <TableCell align="right">{row.total}</TableCell>
-        <TableCell width={"150px"} align="right">{row.status} <UpgradeIcon style={{cursor: "pointer", color: "blue"}} onClick={()=>{HandleUpdate(row.id)}}/></TableCell>
+        <TableCell width={"150px"} align="right">{row.status} <UpgradeIcon style={{cursor: "pointer", color: "blue"}} onClick={()=>{HandleUpdate(row.id)}}/> {row.id}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -111,7 +113,8 @@ function Row(props) {
         </TableCell>
       </TableRow>
     </React.Fragment>
-  );
+  )}
+  else return <div></div>
 }
 
 export default function CollapsibleTable() {
