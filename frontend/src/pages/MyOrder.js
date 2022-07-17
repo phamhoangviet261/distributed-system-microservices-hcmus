@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation} from 'react-router-dom'
+import React, {useEffect, useState} from 'react';
+import {Link, useLocation} from 'react-router-dom';
 
 // const data = [{
 //     id: "001",
@@ -39,10 +39,14 @@ const StyledLink = styled(Link)`
     text-decoration: none;
     color: #000;
     border-bottom: 2px solid transparent;
-    &:hover{
-      /* border: 2px solid rgb(99,113,198); */
+    &:hover {
+        /* border: 2px solid rgb(99,113,198); */
     }
-    &:focus, &:hover, &:visited, &:link, &:active {
+    &:focus,
+    &:hover,
+    &:visited,
+    &:link,
+    &:active {
         text-decoration: none;
         color: #000;
     }
@@ -68,12 +72,12 @@ const Title = styled.p`
 `;
 
 const Order = styled.div`
-    display: flex;    
+    display: flex;
     justify-content: center;
     padding: 60px 10px;
-    
+
     width: 100%;
-    & > img{
+    & > img {
         width: 20%;
         border-radius: 50%;
     }
@@ -114,51 +118,49 @@ const OrderStatus = styled.div`
     font-size: 16px;
     font-weight: 700;
     line-height: 1.625em;
-    color: ${props => props.color};
+    color: ${(props) => props.color};
 `;
 
 const MyOrder = () => {
-    const [data, setdata] = useState([])
-    let API_URL = 'https://localhost:44328/api/Order/all/' + localStorage.getItem('user');
-    useEffect(() => {
-        // props.actFetchProductsRequest();  
-        let endpoint = ''
-        let method = 'GET'
-        let d = axios({
-        method,
-        url: `${API_URL}/${endpoint}`,
-        data: null
-        }).catch(err => {
-        console.log(err);
-        }).then(res => {
-            console.log(res.data)
-            setdata(res.data)
-        });
-    }, [])
+    const [data, setdata] = useState([]);
+    // let API_URL = 'https://localhost:44328/api/Order/all/' + localStorage.getItem('user');
+    // useEffect(() => {
+    //     let endpoint = '';
+    //     let method = 'GET';
+    //     let d = axios({
+    //         method,
+    //         url: `${API_URL}/${endpoint}`,
+    //         data: null
+    //     })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             setdata(res.data);
+    //         });
+    // }, []);
 
-    return <>
-    <Title>Orders History</Title>
-    <Container>
-        
-        {
-            data.map((item, index) => 
-            <StyledLink to={"/myorder/" + item.iD_Order}>
-                <Order
-                    key={index}
-                >
-                    <img src="https://cdn2.iconfinder.com/data/icons/social-flat-buttons-3/512/anonymous-512.png" alt="avatar" />
-                    <OrderInfor>
-                        <OrderID>ID: {item.iD_Order}</OrderID>
-                        <OrderDate>Date: {item.date_Order}</OrderDate>
-                        <OrderStatus color={item.status_Order == "1" ? "red" : "green"}>Status: {item.status_Order ==  1 ? "Preparing" : item.status_Order ==  2 ? "Shipping" : "Done"}</OrderStatus>
-                        <OrderTotal>Total: {item.total}</OrderTotal>
-                    </OrderInfor>
-                </Order>
-            </StyledLink>
-            )
-        }
-    </Container>
-    </>
-}
+    return (
+        <>
+            <Title>Orders History</Title>
+            <Container>
+                {data.map((item, index) => (
+                    <StyledLink to={'/myorder/' + item.iD_Order}>
+                        <Order key={index}>
+                            <img src="https://cdn2.iconfinder.com/data/icons/social-flat-buttons-3/512/anonymous-512.png" alt="avatar" />
+                            <OrderInfor>
+                                <OrderID>ID: {item.iD_Order}</OrderID>
+                                <OrderDate>Date: {item.date_Order}</OrderDate>
+                                <OrderStatus color={item.status_Order == '1' ? 'red' : 'green'}>Status: {item.status_Order == 1 ? 'Preparing' : item.status_Order == 2 ? 'Shipping' : 'Done'}</OrderStatus>
+                                <OrderTotal>Total: {item.total}</OrderTotal>
+                            </OrderInfor>
+                        </Order>
+                    </StyledLink>
+                ))}
+            </Container>
+        </>
+    );
+};
 
 export default MyOrder;

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
-import axios from 'axios';
 import CategorySection from '../components/CategorySection';
 import {productType} from '../mocks/category';
 import Products from '../components/Products';
@@ -113,21 +112,6 @@ const Category = (props) => {
     useEffect(() => {
         console.log('subCate: ', subCate);
     }, [subCate]);
-
-    // useEffect(() => {
-    //     let API_URL = `https://localhost:44352/api/subcategory/many/${cateID}`;
-    //     let endpoint = ''
-    //     let method = 'GET'
-    //     axios({
-    //     method,
-    //     url: `${API_URL}/${endpoint}`,
-    //     data: null
-    //     }).catch(err => {
-    //     console.log(err);
-    //     }).then(res => {
-    //         setCategories(res.data)
-    //     });
-    // }, [])
 
     return (
         <Container>
