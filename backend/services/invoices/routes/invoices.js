@@ -111,7 +111,7 @@ router.post('/updateStatus', async (req, res, next) => {
             return item;
         });
 
-        const i = await Invoice.findOneAndUpdate({id: invoiceId}, {history: newHistory});
+        const i = await Invoice.findOneAndUpdate({id: invoiceId}, {history: newHistory, status: nearestStatus.status});
 
         return res.status(200).json({data: i});
     } catch (errors) {
