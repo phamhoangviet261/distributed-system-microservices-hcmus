@@ -196,9 +196,13 @@ export const Products = (props) => {
         let API_URL;
         let isMounted = true;
         if (props.typeQuery === 'store') {
-            if (isMounted) setProducts(props.data);
+            if (isMounted) {
+                setProducts(props.data);
+                setproducts(props.data);
+                filterProductContext.updateListProduct(props.data);
+                filterProductContext.updateListProductDefault(props.data);
+            }
             console.log('data:', props.data);
-            if (isMounted) setproducts(props.data);
         } else {
             let method = 'GET';
             if (props.typeQuery === 'all') {
@@ -265,7 +269,7 @@ export const Products = (props) => {
                                                         Đánh giá: <Highlight>{item.rating}</Highlight>
                                                         <StarIcon style={{fontSize: '18px', transform: 'translateY(-1px)', color: '#dd9d0d', marginLeft: '2px'}}></StarIcon>
                                                     </ProductPrice>
-                                                    <StyledLink to={'/store/' + item.storeId}>
+                                                    <StyledLink to={'/store-view/' + item.storeId}>
                                                         <ProductPrice>
                                                             Cửa hàng: <Highlight style={{marginLeft: '-8px'}}>{item.storeName || 'Cửa hàng Danh'}</Highlight>
                                                         </ProductPrice>
