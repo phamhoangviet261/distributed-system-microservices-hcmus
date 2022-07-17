@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import UserComment from './UserComment';
 import StarIcon from '@mui/icons-material/Star';
+import Location from './store/location.json';
 
 const Container = styled.div`
     width: 100%;
@@ -11,6 +12,7 @@ const Container = styled.div`
 const Heading = styled.h3`
     padding-left: 10px;
     margin-bottom: 20px;
+    margin-top: 20px;
 `;
 
 const Wrapper = styled.div`
@@ -37,7 +39,7 @@ const FormGroup = styled.div`
 `;
 const Line = styled.div`
     border-bottom: 1px solid black;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 `;
 const StyledLink = styled(Link)`
     text-decoration: none;
@@ -51,7 +53,7 @@ const StyledLink = styled(Link)`
         padding-left: 12px;
     }
     & > span:hover {
-        color: #b2e5e5;
+        opacity: 0.5;
     }
     &:hover {
         /* border: 2px solid rgb(99,113,198); */
@@ -139,148 +141,64 @@ const SelectTag = styled.select`
     }
 `;
 
-const mockData = {
-    user: {
-        id: 'ACC7',
-        name: 'Pham Thi Thu Phuong'
-    },
-    address: {
-        districtId: 760,
-        wardId: 26740,
-        detail: 'Số 11, đường Hai Bà Trưng'
-    },
-    _id: '62cee1640ddd8a62d0027129',
-    id: 'INV0',
-    storeId: 'STORE0',
-    phoneNumber: '012345678',
-    products: [
-        {
-            productId: 'sp001',
-            quantity: 10
-        },
-        {
-            productId: 'sp002',
-            quantity: 1
-        },
-        {
-            productId: 'sp003',
-            quantity: 5
-        },
-        {
-            productId: 'sp001',
-            quantity: 10
-        },
-        {
-            productId: 'sp004',
-            quantity: 10
+function getAddress(detail, Did, Wid) {
+    let result = '';
+    Location.data.forEach((item) => {
+        if (item.code == Did) {
+            item.wards.forEach((item2) => {
+                if (item2.code == Wid) {
+                    console.log(detail + ', ' + item2.name + ', ' + item.name);
+                    result = `${detail}, ${item2.name}, ${item.name}`;
+                }
+            });
         }
-    ],
-    total: 4347000,
-    status: 'To Pay',
-    createdAt: '2022-07-13T15:14:44.579Z',
-    updatedAt: '2022-07-14T11:36:58.842Z',
-    __v: 0,
-    history: [
-        {
-            status: 'To Pay',
-            timestamp: '2022-07-14T11:35:29.104Z'
-        },
-        {
-            status: 'To Ship',
-            timestamp: '2022-07-14T11:36:06.534Z'
-        },
-        {
-            status: 'To Receive',
-            timestamp: '2022-07-14T11:36:58.840Z'
-        },
-        {
-            status: 'Completed',
-            timestamp: null
-        },
-        {
-            status: 'Cancelled',
-            timestamp: null
-        },
-        {
-            status: 'Return Refund',
-            timestamp: null
-        }
-    ]
-};
+    });
+    return result;
+}
 
 const Order = ({userID}) => {
     const [invoiceID, setInvoiceID] = useState('');
     const [invoice, setInvoice] = useState({});
     const [listInvoice, setListInvoice] = useState([]);
-    const [listDetailInvoice, setListDetailInvoice] = useState([]);
-    const [storeAddress, setStoreAddress] = useState('');
     const [customerAddress, setCustomerAddress] = useState('');
     const [cancelOrder, setCancelOrder] = useState(false);
     const [rating, setRating] = useState(5);
     const [showComment, setShowComment] = useState('');
 
     // call API get Hóa đơn
-    // useEffect(() => {
-    //     let API_URL = 'https://localhost:44352/api/invoice/customer';
-    //     // props.actFetchProductsRequest();
-    //     let method = 'POST'
-    //     let d = axios({
-    //     method,
-    //     url: API_URL,
-    //     data: {
-    //         "account_KH": userID,
-    //     }
-    //     }).catch(err => {
-    //     console.log(err);
-    //     }).then(res => {
-    //         console.log("user id", userID);
-    //         console.log(res.data)
-    //         setListInvoice(res.data)
-    //     });
-    // }, [])
+    useEffect(() => {
+        let userId = JSON.parse(localStorage.getItem('UDPTuser')).userId;
+        let API_URL = `http://localhost:5000/invoices/invoices/getInvoicesByAccountId/${userId}`;
+        let method = 'GET';
+        axios({
+            method,
+            url: API_URL,
+            data: null
+        })
+            .catch((err) => {
+                console.log(err);
+            })
+            .then((res) => {
+                if (res && res.data.data.length > 0) {
+                    console.log('data: ', res.data.data);
+                    setListInvoice(res.data.data);
+                    setInvoiceID(res.data.data[0].id);
+                }
+            });
+    }, []);
 
-    // // call API get Chi tiết Hóa đơn
-    // useEffect(() => {
-    //     let API_URL = 'https://localhost:44352/api/detailinvoice/many';
-    //     // props.actFetchProductsRequest();
-    //     let method = 'POST'
-    //     let d = axios({
-    //     method,
-    //     url: API_URL,
-    //     data: {
-    //         "maHD": invoiceID,
-    //     }
-    //     }).catch(err => {
-    //     console.log(err);
-    //     }).then(res => {
-    //         console.log("ListDetailInvoice",res.data)
-    //         setListDetailInvoice(res.data)
-    //     });
-    // }, [invoiceID])
-
-    // //set invoice when invoiceID change
-    // useEffect(() => {
-    //     let API_URL = 'https://localhost:44352/api/invoice/one';
-    //     // props.actFetchProductsRequest();
-    //     let method = 'POST'
-    //     let d = axios({
-    //     method,
-    //     url: API_URL,
-    //     data: {
-    //         "maHD": invoiceID,
-    //     }
-    //     }).catch(err => {
-    //     console.log(err);
-    //     }).then(res => {
-    //       if (res.data.length > 0){
-    //         console.log("order info:", res.data[0])
-    //         setInvoice(res.data[0])
-    //         setStoreAddress(res.data[0].diaChiCuaHang.diaChiChiTiet)
-    //         setCustomerAddress(res.data[0].diaChiKhachHang.diaChiChiTiet)
-    //       }
-
-    //     });
-    // },[invoiceID, cancelOrder])
+    useEffect(() => {
+        if (listInvoice && listInvoice.length > 0) {
+            let tempInvoice = listInvoice.filter((item) => item.id === invoiceID);
+            console.log('temp: ', tempInvoice);
+            if (tempInvoice.length > 0) {
+                setInvoice(tempInvoice[0]);
+                let address = getAddress(tempInvoice[0].address.detail, tempInvoice[0].address.districtId, tempInvoice[0].address.wardId);
+                console.log('address: ', address);
+                setCustomerAddress(address);
+            }
+        }
+    }, [invoiceID, cancelOrder]);
 
     const handleCancel = () => {
         let time = new Date().getFullYear() + '-' + (parseInt(new Date().getMonth()) + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
@@ -331,34 +249,38 @@ const Order = ({userID}) => {
                 </thead>
                 <tbody>
                     {listInvoice.map((item, index) => {
-                        if (item.maHD === invoiceID) {
+                        if (item.id === invoiceID) {
                             return (
                                 <tr
                                     onClick={() => {
-                                        setInvoiceID(item.maHD);
+                                        setInvoiceID(item.id);
                                     }}
                                     style={{height: '60px', borderBottom: 'solid 1px #d7d7d7', cursor: 'pointer', backgroundColor: '#4c4c4b', color: 'white', transition: 'all .2s linear'}}
                                     key={index}
                                 >
                                     <th style={{transform: 'translateX(10px)', transition: 'all .2s linear'}} scope="row">
-                                        {item.maHD}
+                                        {item.id}
                                     </th>
-                                    <td>{item.tongTien}</td>
-                                    <td>{item.ngayLap}</td>
+                                    <td>{item.total} VNĐ</td>
+                                    <td>
+                                        {item.createdAt.slice(12, 19)} {item.createdAt.slice(0, 10)}
+                                    </td>
                                 </tr>
                             );
                         } else {
                             return (
                                 <tr
                                     onClick={() => {
-                                        setInvoiceID(item.maHD);
+                                        setInvoiceID(item.id);
                                     }}
                                     style={{height: '60px', borderBottom: 'solid 1px #d7d7d7', cursor: 'pointer'}}
                                     key={index}
                                 >
-                                    <th scope="row">{item.maHD}</th>
-                                    <td>{item.tongTien}</td>
-                                    <td>{item.ngayLap}</td>
+                                    <th scope="row">{item.id}</th>
+                                    <td>{item.total} VNĐ</td>
+                                    <td>
+                                        {item.createdAt.slice(12, 19)} {item.createdAt.slice(0, 10)}{' '}
+                                    </td>
                                 </tr>
                             );
                         }
@@ -376,47 +298,38 @@ const Order = ({userID}) => {
                     <Wrapper>
                         <WrapperGrid>
                             <FormGroup>
-                                <StyledLink to={'/store/' + invoice.account_CH}>
+                                <StyledLink to={'/store-view/' + invoice.storeId}>
                                     <label>Tên cửa hàng:</label>
-                                    <span>{invoice.tenCH}</span>
+                                    <span>{invoice.storeId}</span>
                                 </StyledLink>
                             </FormGroup>
-                            <FormGroup>
-                                <StyledLink to={'/shipper/' + invoice.account_S}>
-                                    <label>Tên shipper:</label>
-                                    <span>{invoice.hoTenS}</span>
-                                </StyledLink>
-                            </FormGroup>
+
                             <FormGroup>
                                 <label>Tổng đơn hàng:</label>
-                                <span>{invoice.tongTien} VNĐ</span>
+                                <span>{invoice.total} VNĐ</span>
                             </FormGroup>
                             <FormGroup>
                                 <label>Phí ship:</label>
-                                <span>{invoice.phiShip} VNĐ</span>
+                                <span>20000 VNĐ</span>
                             </FormGroup>
                             <FormGroup>
                                 <label>Hình thức thanh toán:</label>
-                                <span>{invoice.tenTT}</span>
+                                <span>TT khi nhận hàng</span>
                             </FormGroup>
                             <FormGroup>
-                                <label>Trạng thái giao hàng:</label>
-                                {invoice.trangThai == 'Bị huỷ bỏ' ? (
-                                    <span style={{color: 'red'}}>{invoice.trangThai}</span>
-                                ) : invoice.trangThai == 'Chờ giao hàng' ? (
-                                    <span style={{color: '#21c3c3'}}>{invoice.trangThai}</span>
-                                ) : invoice.trangThai == 'Giao hàng thành công' ? (
-                                    <span style={{color: '#02e102'}}>{invoice.trangThai}</span>
+                                <label>Trạng thái ĐH:</label>
+                                {invoice.status == 'Cancelled' ? (
+                                    <span style={{color: 'red'}}>Đã huỷ</span>
+                                ) : invoice.status == 'To Pay' ? (
+                                    <span style={{color: '#C37421'}}>Chờ xác nhận</span>
+                                ) : invoice.status == 'Completed' ? (
+                                    <span style={{color: '#02e102'}}>Giao hàng thành công</span>
                                 ) : (
-                                    <span style={{color: 'blue'}}>{invoice.trangThai}</span>
+                                    <span style={{color: 'blue'}}>Đang giao hàng</span>
                                 )}
-                                {invoice.trangThai == 'Chờ giao hàng' ? <BtnCancel onClick={() => handleCancel()}>Hủy đơn</BtnCancel> : <></>}
+                                {invoice.status == 'To Pay' ? <BtnCancel onClick={() => handleCancel()}>Hủy đơn</BtnCancel> : <></>}
                             </FormGroup>
                         </WrapperGrid>
-                        <FormGroup>
-                            <label>Giao từ:</label>
-                            <span>{storeAddress}</span>
-                        </FormGroup>
                         <FormGroup>
                             <label>Giao đến:</label>
                             <span>{customerAddress}</span>
@@ -439,54 +352,56 @@ const Order = ({userID}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {listDetailInvoice.map((item, index) => (
-                        <>
-                            <tr style={{height: '60px', borderBottom: 'solid 1px #d7d7d7', cursor: 'pointer'}} key={index}>
-                                <th scope="row">{item.maSP}</th>
-                                <td>{item.tenSP}</td>
-                                <td>{item.soLuong}</td>
-                                <td>{item.giaSP}</td>
-                                {invoice.trangThai == 'Giao hàng thành công' ? (
-                                    <td>
-                                        {showComment == item.maSP ? (
-                                            <BtnRating style={{backgroundColor: '#ff8d8d'}} onClick={() => setShowComment('')}>
-                                                Hủy bỏ
-                                            </BtnRating>
-                                        ) : (
-                                            <BtnRating onClick={() => setShowComment(item.maSP)}>Đánh giá</BtnRating>
-                                        )}
-                                    </td>
+                    {invoice.productsDetail &&
+                        invoice.productsDetail.length > 0 &&
+                        invoice.productsDetail.map((item, index) => (
+                            <>
+                                <tr style={{height: '60px', borderBottom: 'solid 1px #d7d7d7', cursor: 'pointer'}} key={index}>
+                                    <th scope="row">{item.data.id}</th>
+                                    <td>{item.data.name}</td>
+                                    <td>{invoice.products[index].quantity}</td>
+                                    <td>{item.data.price} VNĐ</td>
+                                    {invoice.status == 'Completed' ? (
+                                        <td>
+                                            {showComment == item.id ? (
+                                                <BtnRating style={{backgroundColor: '#ff8d8d'}} onClick={() => setShowComment('')}>
+                                                    Hủy bỏ
+                                                </BtnRating>
+                                            ) : (
+                                                <BtnRating onClick={() => setShowComment(item.maSP)}>Đánh giá</BtnRating>
+                                            )}
+                                        </td>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </tr>
+                                {showComment == item.data.id ? (
+                                    <tr>
+                                        <th></th>
+                                        <td>
+                                            <UserComment productID={item.data.id} rating={rating}></UserComment>
+                                        </td>
+                                        <td></td>
+                                        <td style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '120px'}}>
+                                            <span>Chọn số sao rating </span>
+                                            <span>
+                                                {/* <InputRating onChange={(e) => setRating(e.target.value)} type="number" value = {rating} step="1" min="1" max="5"/> */}
+                                                <SelectTag onChange={(e) => setRating(e.target.value)}>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </SelectTag>
+                                                <StarIcon style={{color: '#dfbb6b', marginLeft: '4px'}}></StarIcon>
+                                            </span>
+                                        </td>
+                                    </tr>
                                 ) : (
                                     <></>
                                 )}
-                            </tr>
-                            {showComment == item.maSP ? (
-                                <tr>
-                                    <th></th>
-                                    <td>
-                                        <UserComment productID={item.maSP} rating={rating}></UserComment>
-                                    </td>
-                                    <td></td>
-                                    <td style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '120px'}}>
-                                        <span>Chọn số sao rating </span>
-                                        <span>
-                                            {/* <InputRating onChange={(e) => setRating(e.target.value)} type="number" value = {rating} step="1" min="1" max="5"/> */}
-                                            <SelectTag onChange={(e) => setRating(e.target.value)}>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </SelectTag>
-                                            <StarIcon style={{color: '#dfbb6b', marginLeft: '4px'}}></StarIcon>
-                                        </span>
-                                    </td>
-                                </tr>
-                            ) : (
-                                <></>
-                            )}
-                        </>
-                    ))}
+                            </>
+                        ))}
                 </tbody>
             </table>
         </>

@@ -97,6 +97,7 @@ const Login = () => {
                         typeAccount: res.data.user.typeAccount || 'Customer',
                         storeId: res.data.user.storeId,
                         storeName: res.data.store.data.name,
+                        address: res.data.user.address
                     };
                     console.log('hello: ', res.data);
                     loginContext.updateLogin(loginContext.isLogin);
@@ -107,8 +108,6 @@ const Login = () => {
             .catch(function (err) {
                 console.log(err);
             });
-        
-        
     };
 
     return (

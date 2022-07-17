@@ -20,6 +20,7 @@ import Register from './pages/Register';
 import Collection from './pages/Collection';
 import Checkout from './pages/Checkout';
 import StoreRegister from './components/store/register';
+import StoreView from './pages/StoreView';
 
 import './App.css';
 function App() {
@@ -34,12 +35,13 @@ function App() {
                     <Route path="/carts" exact component={Cart} />
                     <Route path="/product/:id" exact component={ItemProduct} />
                     <Route path="/about" exact component={About} />
-                    <Route path="/aboutme/:id" exact component={AboutMe} />
+                    <Route path="/about-me/:id" exact component={AboutMe} />
                     <Route path="/myorder" exact component={MyOrder} />
                     <Route path="/myorder/:id" exact component={AboutMe} />
                     <Route path="/store" exact component={Store} />
                     <Route path="/store/register" exact component={StoreRegister} />
                     <Route path="/store/:id" exact component={Store} />
+                    <Route path="/store-view/:id" exact component={StoreView} />
                     <Route path="/shipper/:id" exact component={Shipper} />
                     <Route path="/nearest/:id" exact component={NearestStore} />
                     <Route path="/checkout/:id" exact component={Checkout} />
