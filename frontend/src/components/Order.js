@@ -360,7 +360,7 @@ const Order = ({userID}) => {
                                     <th scope="row">{item.data.id}</th>
                                     <td>{item.data.name}</td>
                                     <td>{invoice.products[index].quantity}</td>
-                                    <td>{item.data.price} VNĐ</td>
+                                    <td>{item.data.price.toLocaleString('en').replace(',', ' ')}</td>
                                     {invoice.status == 'Completed' ? (
                                         <td>
                                             {showComment == item.id ? (

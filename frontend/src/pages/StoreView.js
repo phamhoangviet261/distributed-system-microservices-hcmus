@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {Link, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import Product from '../components/Products';
+import Location from '../components/store/location.json';
 
 const Container = styled.div`
     display: flex;
@@ -62,7 +63,25 @@ const ListProduct = styled.div`
     width: 60%;
 `;
 
+function getAddress(detail, Did, Wid) {
+    console.log(detail, Did, Wid);
+    let result = '';
+    Location.data.forEach((item) => {
+        if (item.code == Did) {
+            item.wards.forEach((item2) => {
+                if (item2.code == Wid) {
+                    console.log(detail + ', ' + item2.name + ', ' + item.name);
+                    result = `${detail}, ${item2.name}, ${item.name}`;
+                }
+            });
+        }
+    });
+    console.log('Dia chi: ', result);
+    return result;
+}
+
 const StoreView = () => {
+    let phoneNumber = JSON.parse(localStorage.getItem('UDPTuser')).phoneNumber;
     useEffect(() => {
         window.scrollTo(0, 0);
         document.getElementById('header').classList.add('changeHeaderColor');
@@ -81,28 +100,27 @@ const StoreView = () => {
     const [data, setData] = useState([]);
     const [listProduct, setListProduct] = useState([]);
     const [address, setAddress] = useState('');
-    // useEffect(() => {
-    //   let API_URL = 'http://localhost:8080/api/store/one';
-    //     // props.actFetchProductsRequest();
-    //     let endpoint = '';
-    //     let method = 'POST';
-    //     let d = axios({
-    //         method,
-    //         url: `${API_URL}/${endpoint}`,
-    //         data: {
-    //             accountID: storeID
-    //         }
-    //     })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    //         .then((res) => {
-    //             console.log('data:', res.data);
-    //             setData(res.data);
-    //             setListProduct(res.data.danhSachSanPham);
-    //             setAddress(res.data.diaChiCuaHang.diaChiChiTiet);
-    //         });
-    // }, []);
+    useEffect(() => {
+        let API_URL = `http://localhost:5000/products/stores/${storeID}`;
+        let method = 'GET';
+        axios({
+            method,
+            url: API_URL,
+            data: null
+        })
+            .catch((err) => {
+                console.log(err);
+            })
+            .then((res) => {
+                if (res) {
+                    let rs = res.data.data;
+                    console.log('data ne:', res.data.data);
+                    setData(rs);
+                    setListProduct(rs.productsDetail);
+                    setAddress(getAddress(rs.address.detail, rs.address.districtId, rs.address.wardId));
+                }
+            });
+    }, []);
 
     return (
         <Container>
@@ -112,27 +130,19 @@ const StoreView = () => {
             <StoreInfor>
                 <StoreInforItem>
                     <label>Mã cửa hàng:</label>
-                    <span>{data.accountID}</span>
+                    <span>{data.id}</span>
                 </StoreInforItem>
                 <StoreInforItem>
                     <label>Số điện thoại:</label>
-                    <span>{data.sdt}</span>
+                    <span>{phoneNumber}</span>
                 </StoreInforItem>
                 <StoreInforItem>
                     <label>Tên cửa hàng:</label>
-                    <span>{data.tenCH}</span>
+                    <span>{data.name}</span>
                 </StoreInforItem>
                 <StoreInforItem>
                     <label>E-mail:</label>
-                    <span>{data.email}</span>
-                </StoreInforItem>
-                <StoreInforItem>
-                    <label>Mã GPKD:</label>
-                    <span>{data.maGPKD}</span>
-                </StoreInforItem>
-                <StoreInforItem>
-                    <label>Mã CNATTP:</label>
-                    <span>{data.maCNATTP}</span>
+                    <span>{data?.email}</span>
                 </StoreInforItem>
                 <StoreInforItem>
                     <label>Địa chỉ:</label>
@@ -140,14 +150,16 @@ const StoreView = () => {
                 </StoreInforItem>
                 <StoreInforItem>
                     <label>Ngày tham gia:</label>
-                    <span>{data.ngayThamGia}</span>
+                    <span>{data.createdAt && data.createdAt.slice(0, 10)}</span>
                 </StoreInforItem>
             </StoreInfor>
 
             <h2 style={{marginBottom: '-20px', marginTop: '20px'}}>Danh sách sản phẩm</h2>
-            <ListProduct>
-                <Product key={listProduct} data={listProduct} typeQuery="store"></Product>
-            </ListProduct>
+            {listProduct && listProduct.length > 0 && (
+                <ListProduct>
+                    <Product key={listProduct} data={listProduct} typeQuery="store"></Product>
+                </ListProduct>
+            )}
         </Container>
     );
 };
